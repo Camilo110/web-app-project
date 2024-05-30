@@ -1,4 +1,8 @@
 :root {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -7,12 +11,17 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  
+  width: 100%;
+
+  
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -24,10 +33,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  display: flex;  
   min-width: 320px;
   min-height: 100vh;
+  width: 95%;
 }
 
 h1 {
@@ -65,4 +74,45 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+/* estilos para la clase modulo*/
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1.5em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #1a1a1a;
+  color: #fff;
+  text-align: start;
+  width: 12em;
+  height: 100%; /* modified */
+  
+}
+.modulo {
+  display: flex;
+  width: 9em;
+  flex-direction: row;
+  align-items: center;
+  justify-content: initial;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #1a1a1a;
+  color: #fff;
+  text-align: center;
+}
+.aside h1 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+
+.admin {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
 }
