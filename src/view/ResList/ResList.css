@@ -1,20 +1,36 @@
+.resList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.resList div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 
   .card {
     display: flex;
     align-items: center;
     background-color: #e9e9e9;
     border-radius: 8px;
-    padding: 10px;
-    width: auto;
+    padding: 5px 10px;
+    width: 32em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: black;
   }
 
   .card img {
+    cursor: pointer;
     border-radius: 8px;
     width: auto;
     height: auto;
-    margin-right: 20px;
   }
 
   .card-info {
@@ -43,20 +59,20 @@
     width: 50px;
   }
 
-  .especial {
+  .resList .especial {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
+    justify-content: space-around;
     width: 100%;
+    cursor: pointer;
   }
 
-  .actions {
+  .resList .actions {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: end;
     gap: 10px;
-    margin-top: 10px;
   }
 
   .actions button {
@@ -80,96 +96,3 @@
     background-color: #3b8bff;
   }
 
-  .resList {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-
-  .resList div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-
-.card img {
-  border-radius: 8px;
-  width: auto;
-  height: auto;
-  margin-right: 20px;
-}
-.card-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-grow: 1;
-}
-.card-info h2 {
-  margin: 0;
-  font-size: 1.5em;
-}
-.card-info p {
-  margin: 5px 0;
-}
-.card-info .id {
-  background-color: #ffec58;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-weight: bold;
-  text-align: center;
-  justify-content: center;
-  width: 50px;
-}
-.especial {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.actions {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: end;
-  gap: 10px;
-  margin-top: 10px;
-}
-.actions button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-}
-.actions .delete {
-  background-color: #ff4c4c;
-}
-.actions .edit {
-  background-color: #ffeb3b;
-  color: black;
-}
-.actions .view-more {
-  background-color: #3b8bff;
-}
-
-
-.resList{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-.resList div{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}

@@ -7,14 +7,33 @@ export function ResList(){
 
 
     const [inputValue, setInputValue] = useState('')
-    const [list, setList] = useState([])
+    const [resp, setResp] = useState([])
+    const [listRes, setListRes] = useState([])
+
 
     useEffect(() => {
-      getRes().then((res) => { setList(res) })
+      getRes().then((res) => { 
+        setResp(res)
+        setListRes(res)
+       })
     }, [])
 
-    const handleInputChange = (e) => {
-      setInputValue(e.target.value)
+    
+    const HandleAdd = () => {
+      console.log('add')
+      //redireccionar a la vista de edición
+    }
+
+    function filter(query) {
+      return resp.filter((res) => (
+        res.Numero.toString().includes(query) || res.Nombre.toLowerCase().includes(query.toLowerCase())
+      )
+      );
+    }
+
+    const handleInputChange = ({target:{value}}) => {
+      setInputValue(value)
+      value ? setListRes(filter(value)) : setListRes(resp)
     }
   
         
@@ -28,9 +47,9 @@ export function ResList(){
         placeholder="Ingrese el Id o el Nombre"
         value={inputValue}
         onChange={handleInputChange} />
-      <button> Agregar </button>
+      <button onClick={HandleAdd}> Agregar </button>
       </div>
-      {list.map((res) => (
+      {listRes.map((res) => (
         <ResItem key={res.Numero} res={res}/> )
       )}
       </div>
