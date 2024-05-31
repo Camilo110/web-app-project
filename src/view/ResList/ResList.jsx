@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { ResItem } from "./Components/ResItem"
 import { getRes } from "../../services/res"
 import './ResList.css'
+import { Modal } from "../../components/Modal"
 export function ResList(){
 
 
@@ -10,9 +11,15 @@ export function ResList(){
     const [resp, setResp] = useState([])
     const [listRes, setListRes] = useState([])
 
+    const [values, setValues] = useState({Nombre : '', Numero : 0, email : ''})
+
+   // console.log(typeof values.Numero)
+    
+    const fields = [{label: 'Nombre', type: 'text'}, {label: 'Numero', type: 'number'},]
 
     useEffect(() => {
       getRes().then((res) => { 
+        console.log('PELIGROO')
         setResp(res)
         setListRes(res)
        })
@@ -31,9 +38,17 @@ export function ResList(){
       );
     }
 
-    const handleInputChange = ({target:{value}}) => {
+    const handleInputChange = ({target:{value, }}) => {
       setInputValue(value)
       value ? setListRes(filter(value)) : setListRes(resp)
+    }
+
+    const ModalSubmit = () => {
+      console.log('submit')
+    }
+
+    const ModalChange = ({target:{value}}, name) => {
+      setValues({...values, [name]: value})
     }
   
         
@@ -48,6 +63,9 @@ export function ResList(){
         value={inputValue}
         onChange={handleInputChange} />
       <button onClick={HandleAdd}> Agregar </button>
+      <Modal Handlesubmit={ModalSubmit} fields={fields} values={values} HandleChange={ModalChange}>
+        <h3 className="text-black mb-3">Title</h3>
+      </Modal>
       </div>
       {listRes.map((res) => (
         <ResItem key={res.Numero} res={res}/> )
