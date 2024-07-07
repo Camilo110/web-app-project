@@ -1,0 +1,23 @@
+.SectionOne {
+  display: flex;
+  justify-content: space-between  ;
+  align-items: center;
+}
+.SectionOne div {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between  ;
+  align-items: center;
+}
+.listImg {
+  display: flex;
+  gap: 2px;
+  justify-content: start ;
+  align-items: center;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap : 20px;
+}

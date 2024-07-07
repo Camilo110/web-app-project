@@ -18,7 +18,6 @@ export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}}) {
   } 
 
   return ( 
-  <>
   <div className="card">
         <img onClick={HandleClick} src="https://fakeimg.pl/250x135" alt="Cow Image"/>
         <section className="card-info">
@@ -34,7 +33,6 @@ export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}}) {
                 <button onClick={HandleEdit} className="edit">✏️</button>
             </div>
         </section>
-    </div>
-  </> 
+  </div> 
   );
 }

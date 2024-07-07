@@ -1,12 +1,12 @@
 import './styles/App.css' 
 import { Aside } from "./components/Aside";
-import { ResList } from './view/ResList/ResList';
+import { ResIndividual } from './view/ResIndividual/ResIndividual';
 
 function App() {
   return (
     <div className="admin">
     <Aside/>
-    <ResList/>
+    <ResIndividual/>
     </div>
    );
 }

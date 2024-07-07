@@ -11,11 +11,11 @@ export function ResList(){
     const [resp, setResp] = useState([])
     const [listRes, setListRes] = useState([])
 
-    const [values, setValues] = useState({Nombre : '', Numero : 0, email : ''})
+    const [values, setValues] = useState({nombre: '', numero: 0})
 
    // console.log(typeof values.Numero)
     
-    const fields = [{label: 'Nombre', type: 'text'}, {label: 'Numero', type: 'number'},]
+    const fields = {label: 'Nombre', type: 'text'}
 
     useEffect(() => {
       getRes().then((res) => { 
@@ -47,9 +47,7 @@ export function ResList(){
       console.log('submit')
     }
 
-    const ModalChange = ({target:{value}}, name) => {
-      setValues({...values, [name]: value})
-    }
+    
   
         
     return (
@@ -63,9 +61,9 @@ export function ResList(){
         value={inputValue}
         onChange={handleInputChange} />
       <button onClick={HandleAdd}> Agregar </button>
-      <Modal Handlesubmit={ModalSubmit} fields={fields} values={values} HandleChange={ModalChange}>
+      {/* <Modal Handlesubmit={ModalSubmit} fields={fields} values={values} setValues={setValues}>
         <h3 className="text-black mb-3">Title</h3>
-      </Modal>
+      </Modal> */}
       </div>
       {listRes.map((res) => (
         <ResItem key={res.Numero} res={res}/> )
