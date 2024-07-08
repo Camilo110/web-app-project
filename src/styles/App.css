@@ -1,11 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .root {
   display:flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -63,10 +59,27 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+h1{
+  font-weight: 700;
+  font-size: 1.5em;
+  line-height: 1.5;
+  color: #000000;
+}
+h2{
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 1.5;
+  color: #000000;
+}
+h3{
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 1.5;
+  color: #000000;
+}
 
 
 /* estilos para la clase modulo*/
-
 .aside {
   display: flex;
   flex-direction: column;
@@ -78,7 +91,6 @@ button:focus-visible {
   color: #000000;
   text-align: start;
   width: 15em;
-  
 }
 .modulo {
   display: flex;

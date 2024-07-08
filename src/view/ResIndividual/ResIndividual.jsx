@@ -2,6 +2,22 @@ import './ResIndividual.css'
 import { useEffect } from "react"
 import { getResById } from "../../services/res"
 import { useState } from "react"
+import { TarjetaLinaje } from './Components/TarjetaLinaje'
+import PropTypes from 'prop-types'
+import { TarjetaRegistros } from './Components/TarjetaRegistros'
+
+const temporalData = [
+  {id: 1, nombre: 'juanito', familiaridad: 'Padre', urlImage: 'https://fakeimg.pl/180x120'},
+  {id: 2, nombre: 'Juanita', familiaridad: 'Madre', urlImage: 'https://fakeimg.pl/180x120'},
+]
+const temporalServicios = [
+  {ID: 1, Numero: 1, Tipo: 'Podologia', Fecha: '2021-10-12', Producto: 'Cuchilla', Veterinario: 'Juanito'},
+  {ID: 2, Numero: 1, Tipo: 'Podologia', Fecha: '2021-10-12', Producto: 'Cuchilla', Veterinario: 'Juanito'},
+  {ID: 3, Numero: 2, FechaInicio: '2021-10-12', FechaFin: '2021-10-12', Producto: 'Cuchilla'},
+  {ID: 4, Numero: 2, FechaInicio: '2021-10-12', FechaFin: '2021-10-12', Producto: 'Cuchilla'},
+  {ID: 5, Numero: 3, Fecha: '2021-10-12', TORO: 'Juanito', Inseminador: 'Albeiro'},
+  {ID: 36, Numero: 3, Fecha: '2021-10-12', TORO: 'Juanito', Inseminador: 'Albeiro'},
+]
 
 export function ResIndividual({id = 2}){
 
@@ -34,13 +50,13 @@ export function ResIndividual({id = 2}){
 
       <main>
       <div>
-        <img src="https://fakeimg.pl/450x350" alt="Cow Image"/>
+        <img src="https://fakeimg.pl/450x250" alt="Cow Image"/>
 
         <div className='listImg'>
-          <img src="https://fakeimg.pl/100x80" alt="Cow Image"/>
-          <img src="https://fakeimg.pl/100x80" alt="Cow Image"/>
-          <img src="https://fakeimg.pl/100x80" alt="Cow Image"/>
-          <img src="https://fakeimg.pl/100x80" alt="Cow Image"/>
+          <img src="https://fakeimg.pl/100x70" alt="Cow Image"/>
+          <img src="https://fakeimg.pl/100x70" alt="Cow Image"/>
+          <img src="https://fakeimg.pl/100x70" alt="Cow Image"/>
+          <img src="https://fakeimg.pl/100x70" alt="Cow Image"/>
         </div>
       </div>
 
@@ -69,8 +85,17 @@ export function ResIndividual({id = 2}){
 
       <div>
         <h3>Linaje</h3>
-        <div>
-          lista de tarjetas con los padres
+        <div className='Linaje'>
+          {
+            temporalData.map((item) => (
+              <TarjetaLinaje 
+                key={item.id} 
+                id={item.id} 
+                nombre={item.nombre} 
+                familiaridad={item.familiaridad} 
+                urlImage={item.urlImage} />
+            ))
+          }
         </div>
       </div>
 
@@ -78,18 +103,49 @@ export function ResIndividual({id = 2}){
       <div>
         <h3> Registros de Produccion</h3>
          <p>CUADRO CON ESTADISTAS DE PRODUCCION</p>
+         <img src='https://fakeimg.pl/600x200' alt="Grafico" />
       </div> }
 
       <div>
-        <p>ADD BUTTON COMPONENT</p>
-        <h3>Linaje</h3>
-        <div>
-          lista de tarjetas con los registros
+        <h3>Servicios Medicos</h3>
+        <p>Agregar +</p>
+        <div className='ListaRegistros'>
+          {
+            temporalServicios.map((item) => (
+              <TarjetaRegistros key={item.ID} body={item} />
+            ))
+          }
+        </div>
+      </div>
+      <div> 
+        <h3>Registros de Secado</h3>
+        <p>Agregar +</p>
+        <div className='ListaRegistros'>
+          {
+            temporalServicios.map((item) => (
+              <TarjetaRegistros key={item.ID} body={item} />
+            ))
+          }
+        </div>
+      </div>
+      <div >
+        <h3>Montas o Inseminaciones</h3>
+        <p>Agregar +</p>
+        <div className='ListaRegistros'>
+          {
+            temporalServicios.map((item) => (
+              <TarjetaRegistros key={item.ID} body={item} />
+            ))
+          }
         </div>
       </div>
 
 
       </div>
     )
+}
+
+ResIndividual.propTypes = {
+  id: PropTypes.number.isRequired,
 }
 

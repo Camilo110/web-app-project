@@ -3,10 +3,8 @@ import { ResItem } from "./Components/ResItem"
 import { getRes } from "../../services/res"
 import './ResList.css'
 import { Modal } from "../../components/Modal"
+
 export function ResList(){
-
-
-
     const [inputValue, setInputValue] = useState('')
     const [resp, setResp] = useState([])
     const [listRes, setListRes] = useState([])

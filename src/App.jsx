@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="admin">
     <Aside/>
-    <ResIndividual/>
+    <ResIndividual id={2}/>
     </div>
    );
 }
