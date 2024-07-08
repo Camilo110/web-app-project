@@ -1,7 +1,7 @@
 import { deleteRes } from "../../../services/res";
 
 // eslint-disable-next-line react/prop-types
-export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}}) {
+export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}, setOpenModal}) {
 
 
   const HandleClick = () => {
@@ -13,8 +13,7 @@ export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}}) {
   }
   
   const HandleEdit = () => {
-    console.log('edit')
-    //redireccionar a la vista de edición
+    setOpenModal(true)
   } 
 
   return ( 
