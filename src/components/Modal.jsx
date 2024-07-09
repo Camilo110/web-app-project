@@ -3,7 +3,9 @@ import {PropTypes} from 'prop-types'
 export const Modal = ({children, fields, values, Handlesubmit, setValues, setOpenModal}) => {
 
   const HandleChange = (e, name) => {
-    const {value} = e.target
+    let {value} = e.target
+    const type = e.target.type
+    if (type === 'number' && value) value = parseInt(value)
     setValues({...values, [name]: value})
   }
   const onExit = () => {
@@ -21,7 +23,7 @@ export const Modal = ({children, fields, values, Handlesubmit, setValues, setOpe
         {Object.keys(fields).map((key) => (
           <div className='field' key={key}>
             <label>{fields[key].label}</label>
-            <input type={fields[key].type} name="" value={values[key]} onChange={(e) => HandleChange(e,key)}/>
+            <input type={fields[key].type} name="" value={values[key]} onChange={(e) => HandleChange(e,key, fields[key].type)}/>
           </div>
         ))}
         </section>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react"
 import { ResItem } from "./Components/ResItem"
-import { getRes } from "../../services/res"
+import { createRes, getRes } from "../../services/res"
 import './ResList.css'
 import { Modal } from "../../components/Modal"
 
 const fields = {
-  ID: { label: 'ID', type: 'text', value: '' },
   Numero: { label: 'Número', type: 'number', value: 0 },
   Nombre: { label: 'Nombre', type: 'text', value: '' },
   Tipo: { label: 'Tipo', type: 'text', value: '' },
-  FechaNacimiento: { label: 'Fecha de Nacimiento', type: 'text', value: '' },
+  FechaNacimiento: { label: 'Fecha de Nacimiento', type: 'date', value: '' },
   Estado: { label: 'Estado', type: 'text', value: '' },
   Madre: { label: 'Madre', type: 'text', value: '' },
   Padre: { label: 'Padre', type: 'text', value: '' },
@@ -45,7 +44,7 @@ const emptyValues = {
 
 export function ResList(){
     const [inputValue, setInputValue] = useState('')
-    const [resp, setResp] = useState([])
+    const [response, setResponse] = useState([])
     const [listRes, setListRes] = useState([])
     const [createModal, setCreateModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
@@ -54,18 +53,19 @@ export function ResList(){
 
     useEffect(() => {
       getRes().then((res) => { 
-        setResp(res)
+        setResponse(res)
         setListRes(res)
        })
     }, [])
 
     
     const HandleAdd = () => {
-      setOpenModal(true);
+      setCreateModal(true);
     }
 
+
     function filter(query) {
-      return resp.filter((res) => (
+      return response.filter((res) => (
         res.Numero.toString().includes(query) || res.Nombre.toLowerCase().includes(query.toLowerCase())
       )
       );
@@ -73,11 +73,15 @@ export function ResList(){
 
     const handleInputChange = ({target:{value, }}) => {
       setInputValue(value)
-      value ? setListRes(filter(value)) : setListRes(resp)
+      value ? setListRes(filter(value)) : setListRes(response)
     }
 
     const ModalSubmit = () => {
       console.log('Submit', values)
+      createRes(values).then((resp) => {
+        console.log('Respuesta', resp)
+      })
+      setValues(emptyValues);
     }
 
     
@@ -90,7 +94,7 @@ export function ResList(){
         <div>
           <h3>Buscar</h3>
           <input 
-            type="text" 
+            type="search" 
             placeholder="Ingrese el Id o el Nombre"
             value={inputValue}
             onChange={handleInputChange} />
