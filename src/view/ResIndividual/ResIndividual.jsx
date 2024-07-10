@@ -3,9 +3,9 @@ import { useEffect } from "react"
 import { getResById } from "../../services/res"
 import { useState } from "react"
 import { TarjetaLinaje } from './Components/TarjetaLinaje'
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
-
+import { useParams}  from 'react-router-dom'
 const temporalData = [
   {id: 1, nombre: 'juanito', familiaridad: 'Padre', urlImage: 'https://fakeimg.pl/180x120'},
   {id: 2, nombre: 'Juanita', familiaridad: 'Madre', urlImage: 'https://fakeimg.pl/180x120'},
@@ -19,20 +19,34 @@ const temporalServicios = [
   {ID: 36, Numero: 3, Fecha: '2021-10-12', TORO: 'Juanito', Inseminador: 'Albeiro'},
 ]
 
-export function ResIndividual({id = 2}){
+export function ResIndividual(){
+
+  const id = parseInt(useParams().id);
+  console.log(id)
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const [res, setRes] = useState({})
 
   useEffect(() => {
     getResById(id).then((res) => {
       setRes(res)
+      
     })
+    setIsLoading(false)
   }, [])  
 
     //TODO metodo para mostrar linaje
+    console.log(res)
 
     return (
+      
       <div>
+        {
+        isLoading? <p>Cargando...</p> : 
+
+      <div>
+              
       <p>volver a la lista</p>
 
       <div className='SectionOne'>
@@ -139,13 +153,14 @@ export function ResIndividual({id = 2}){
           }
         </div>
       </div>
-
+      </div>
+      }
 
       </div>
     )
 }
 
-ResIndividual.propTypes = {
-  id: PropTypes.number.isRequired,
-}
+// ResIndividual.propTypes = {
+//   id: PropTypes.number.isRequired,
+// }
 

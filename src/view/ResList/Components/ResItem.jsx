@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 import { deleteRes } from "../../../services/res";
 
 // eslint-disable-next-line react/prop-types
-export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}, setOpenModal}) {
+export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}, setOpenModal}) {
 
 
   const HandleClick = () => {
@@ -9,7 +10,7 @@ export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}, setOpenModal})
     //redireccionar a la vista individual
   }
   const HandleDelete = () => {
-    deleteRes(ID);
+    deleteRes(id);
   }
   
   const HandleEdit = () => {
@@ -22,7 +23,7 @@ export function ResItem({res : {ID, Numero, Nombre,NumeroPartos}, setOpenModal})
         <section className="card-info">
           <div onClick={HandleClick} className="especial">
             <h2>{Nombre}</h2>
-            <div className="id">{Numero}</div>
+            <Link to={`/res/${Numero}`} className="id"> {Numero} </Link>
           </div>
             <p>N° Partos: {NumeroPartos}</p>
             <p>Promedio leche (diaria): 19 lts</p>

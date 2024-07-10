@@ -1,13 +1,22 @@
 import {PropTypes} from 'prop-types'
+import { useState } from 'react'
 
-export const Modal = ({children, fields, values, Handlesubmit, setValues, setOpenModal}) => {
+export const Modal = ({children, fields, values: values2, Handlesubmit, setValues : aux, setOpenModal}) => {
+
+  const [valuesUpdate, setValuesUpdate] = useState({})
+  const [values, setValues] = useState(values2)
 
   const HandleChange = (e, name) => {
     let {value} = e.target
     const type = e.target.type
+
     if (type === 'number' && value) value = parseInt(value)
+    
+    setValuesUpdate({...valuesUpdate, [name]: value})
     setValues({...values, [name]: value})
+    aux({...values, [name]: value})
   }
+
   const onExit = () => {
     setOpenModal(false)
   }
@@ -23,12 +32,12 @@ export const Modal = ({children, fields, values, Handlesubmit, setValues, setOpe
         {Object.keys(fields).map((key) => (
           <div className='field' key={key}>
             <label>{fields[key].label}</label>
-            <input type={fields[key].type} name="" value={values[key]} onChange={(e) => HandleChange(e,key, fields[key].type)}/>
+            <input type={fields[key].type} value={values[key] || ''} onChange={(e) => HandleChange(e,key)}/>
           </div>
         ))}
         </section>
         <p  className="submit">
-          <button onClick={Handlesubmit}>Submit</button>
+          <button onClick={(e) => Handlesubmit(values.ID, valuesUpdate)}>Submit</button>
         </p>
       </section>
     </article>
@@ -40,9 +49,9 @@ Modal.propTypes = {
   values: PropTypes.object.isRequired,
   fields: PropTypes.objectOf(
     PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
+      label: PropTypes.string,
+      type: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     })
   ).isRequired,
   Handlesubmit: PropTypes.func,

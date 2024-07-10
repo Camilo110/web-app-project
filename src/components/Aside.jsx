@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import viteIcon from '../assets/img/vite.svg';
 
 const modules = [
   {
     icon: viteIcon,
-    title: 'Animales'
+    title: 'Animales',
+    link: '/listares'
   },
   {
     icon: viteIcon,
@@ -37,11 +39,11 @@ export function Aside() {
     <div className='aside'>
       <h1>PROGRANADERO</h1>
       
-      {modules.map(({icon, title}) => (
+      {modules.map(({icon, title, link}) => (
         <button onClick={() => handleModule(title)} key={title} aria-label={title} >
           <div className="modulo">
             <img src={icon} alt={title} /> 
-            <h3>{title}</h3>
+            <Link to={link || '*'}>{title}</Link>
           </div>
         </button>
       ))}
