@@ -46,13 +46,16 @@
 
   .card-info p {
     margin: 5px 0;
+    color:rgba(0, 0, 0, 0.87);
+    font-weight: 400;
   }
 
   .card-info .id {
     background-color: #ffec58;
     padding: 5px 10px;
     border-radius: 4px;
-    font-weight: bold;
+    font-weight: 700;
+    color: black;
     text-align: center;
     justify-content: center;
     width: 50px;
@@ -60,10 +63,14 @@
 
   .resList .especial {
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: space-around;
     width: 100%;
     cursor: pointer;
+  }
+
+  .resList .link {
+    width: 100%;
   }
 
   .resList .actions {

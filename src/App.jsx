@@ -10,6 +10,7 @@ function App() {
     <Aside/>
 
       <Routes>
+        <Route path="/" element={<ResList/>} />
         <Route path="/listares" element={<ResList/>} />
         <Route path="/res/:id" element={<ResIndividual/>}/>
       </Routes>

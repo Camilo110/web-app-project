@@ -1,45 +1,27 @@
 import { useEffect, useState } from "react"
 import { ResItem } from "./Components/ResItem"
-import { createRes, getRes, updateRes } from "../../services/res"
+import { createRes, getRes} from "../../services/res"
 import './ResList.css'
 import { Modal } from "../../components/Modal"
 
 const fields = {
   Numero: { label: 'Número', type: 'number', value: 0 },
   Nombre: { label: 'Nombre', type: 'text', value: '' },
-  Tipo: { label: 'Tipo', type: 'text', value: '' },
-  FechaNacimiento: { label: 'Fecha de Nacimiento', type: 'text', value: '' },
-  Estado: { label: 'Estado', type: 'text', value: '' },
-  Madre: { label: 'Madre', type: 'text', value: '' },
-  Padre: { label: 'Padre', type: 'text', value: '' },
+  Tipo: { label: 'Tipo', type: 'select', value: ['Leche', 'Carne', 'Doble Proposito'] },
+  FechaNacimiento: { label: 'Fecha de Nacimiento', type: 'date', value: '' },
+  Estado: { label: 'Estado', type: 'select', value: ['Activa', 'Vendida', 'Muerte']},
+  Madre: { label: 'Madre', type: 'select', value: [''] },
+  Padre: { label: 'Padre', type: 'select', value: [''] },
   PesoActual: { label: 'Peso Actual', type: 'number', value: 0 },
   PesoNacimiento: { label: 'Peso de Nacimiento', type: 'number', value: 0},
-  Sexo: { label: 'Sexo', type: 'text', value: '' },
+  Sexo: { label: 'Sexo', type: 'select', value: ['F','M'] },
   Raza: { label: 'Raza', type: 'text', value: '' },
   NumeroPartos: { label: 'Número de Partos', type: 'number', value: 0 },
   RegistroICA: { label: 'Registro ICA', type: 'text', value: '' },
   Observaciones: { label: 'Observaciones', type: 'text', value: '' },
-  FincaID: { label: 'Finca ID', type: 'text', value: '' }
+  FincaID: { label: 'Finca ID', type: 'select', value: [''] }
 };
 
-const emptyValues = {
-  ID: "",
-  Numero: 0,
-  Nombre: "",
-  Tipo: "",
-  FechaNacimiento: "",
-  Estado: "",
-  Madre: "",
-  Padre: "",
-  PesoActual: 0,
-  PesoNacimiento: 0,
-  Sexo: "",
-  Raza: "",
-  NumeroPartos: 0,
-  RegistroICA: "",
-  Observaciones: "",
-  FincaID: ""
-};
 
 
 export function ResList(){
@@ -47,9 +29,8 @@ export function ResList(){
     const [response, setResponse] = useState([])
     const [listRes, setListRes] = useState([])
     const [createModal, setCreateModal] = useState(false);
-    const [editModal, setEditModal] = useState(false);
 
-    const [values, setValues] = useState(emptyValues);
+
 
     useEffect(() => {
       getRes().then((res) => { 
@@ -76,23 +57,12 @@ export function ResList(){
       value ? setListRes(filter(value)) : setListRes(response)
     }
 
-    const ModalSubmitCreate = () => {
+    const ModalSubmitCreate = (values) => {
       console.log('Submit', values)
       createRes(values).then((resp) => {
         console.log('Respuesta', resp)
       })
-      setValues(emptyValues);
     }
-
-    const ModalSubmitEdit = (idRes, body) => {
-      updateRes(idRes, body).then((resp) => {
-        console.log('Respuesta Update', resp)
-      })
-    }
-      
-
-    
-  
         
     return (
       <div className="resList">
@@ -106,18 +76,16 @@ export function ResList(){
             value={inputValue}
             onChange={handleInputChange} />
           <button onClick={HandleAdd}> Agregar </button>
-          {createModal &&
-          <Modal Handlesubmit={ModalSubmitCreate} fields={fields} values={values} setValues={setValues} setOpenModal={setCreateModal}>
+          
+        {createModal &&
+          <Modal Handlesubmit={ModalSubmitCreate} fields={fields} setOpenModal={setCreateModal}>
             <h3>Registrar Nacimiento o Nueva Res</h3>
           </Modal>}
         </div>
 
-        {listRes.map((res) => ( <ResItem key={res.Numero} res={res} setOpenModal={setEditModal}/>))}
+        {listRes.map((res) => ( <ResItem key={res.Numero} res={res}/>))}
 
-        {editModal &&
-          <Modal Handlesubmit={ModalSubmitEdit} fields={fields} values={listRes[0]} setValues={setValues} setOpenModal={setEditModal}>
-            <h3>Registrar Nacimiento o Nueva Res</h3>
-          </Modal>}
+        
       </div>
     )
 }

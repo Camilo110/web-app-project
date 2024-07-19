@@ -1,10 +1,10 @@
 import {PropTypes} from 'prop-types'
 import { useState } from 'react'
 
-export const Modal = ({children, fields, values: values2, Handlesubmit, setValues : aux, setOpenModal}) => {
+export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal}) => {
 
   const [valuesUpdate, setValuesUpdate] = useState({})
-  const [values, setValues] = useState(values2)
+  const [values, setValues] = useState(data.ID ? {...data, FechaNacimiento : data.FechaNacimiento.split('T')[0]} : data)
 
   const HandleChange = (e, name) => {
     let {value} = e.target
@@ -12,9 +12,9 @@ export const Modal = ({children, fields, values: values2, Handlesubmit, setValue
 
     if (type === 'number' && value) value = parseInt(value)
     
+    console.log(name , value, "MODALLLLL")
     setValuesUpdate({...valuesUpdate, [name]: value})
     setValues({...values, [name]: value})
-    aux({...values, [name]: value})
   }
 
   const onExit = () => {
@@ -30,6 +30,18 @@ export const Modal = ({children, fields, values: values2, Handlesubmit, setValue
         </div>
         <section className="Fields">
         {Object.keys(fields).map((key) => (
+          fields[key].type === 'select' 
+          ? 
+          <div className='field' key={key}>
+            <label>{fields[key].label}</label>
+            <select  value={values[key] || ''} onChange={(e) => HandleChange(e,key)}>
+              <option value='' disabled>Elegir</option>
+              {fields[key].value.map((option) => (
+                <option key={option.ID || option} value={option.ID || option}>{option.value || option}</option>
+              ))}
+            </select>
+          </div> 
+          :
           <div className='field' key={key}>
             <label>{fields[key].label}</label>
             <input type={fields[key].type} value={values[key] || ''} onChange={(e) => HandleChange(e,key)}/>
@@ -37,7 +49,7 @@ export const Modal = ({children, fields, values: values2, Handlesubmit, setValue
         ))}
         </section>
         <p  className="submit">
-          <button onClick={(e) => Handlesubmit(values.ID, valuesUpdate)}>Submit</button>
+          <button onClick={() => Handlesubmit(valuesUpdate, values.ID)}>Submit</button>
         </p>
       </section>
     </article>
@@ -46,15 +58,14 @@ export const Modal = ({children, fields, values: values2, Handlesubmit, setValue
 
 Modal.propTypes = {
   children: PropTypes.node,
-  values: PropTypes.object.isRequired,
+  data: PropTypes.object,
   fields: PropTypes.objectOf(
     PropTypes.shape({
       label: PropTypes.string,
       type: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]),
     })
   ).isRequired,
   Handlesubmit: PropTypes.func,
-  setValues: PropTypes.func,
   setOpenModal: PropTypes.func,
 }
