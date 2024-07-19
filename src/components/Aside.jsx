@@ -5,27 +5,32 @@ const modules = [
   {
     icon: viteIcon,
     title: 'Animales',
-    link: '/listares'
+    link: '/res'
   },
   {
     icon: viteIcon,
-    title: 'Produccion'
+    title: 'Produccion',
+    link: '/produccion'
   },
   {
     icon: viteIcon,
-    title: 'Reproduccion'
+    title: 'Reproduccion',
+    link: '/reproduccion'
   },
   {
     icon: viteIcon,
-    title: 'Servicios'
+    title: 'Servicios',
+    link: '/servicios'
   },
   {
     icon: viteIcon,
-    title: 'Secado'
+    title: 'Secado',
+    link: '/secado'
   },
   {
     icon: viteIcon,
-    title: 'Alimentacion'
+    title: 'Alimentacion',
+    link: '/alimentacion'
   }
 ];
 

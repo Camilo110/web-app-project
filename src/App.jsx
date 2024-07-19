@@ -1,7 +1,12 @@
 import './styles/App.css' 
 import {Routes, Route} from 'react-router-dom'
 import { Aside } from "./components/Aside";
-import { ResList } from './view/ResList/ResList';
+import { Res } from './pages/Res';
+import { Produccion } from './pages/Produccion';
+import {Reproduccion} from './pages/Reproduccion';
+import {Servicios} from './pages/Servicios';
+import {Secado} from './pages/Secado';
+import {Alimentacion} from './pages/Alimentacion';
 import { ResIndividual } from './view/ResIndividual/ResIndividual';
 
 function App() {
@@ -10,9 +15,17 @@ function App() {
     <Aside/>
 
       <Routes>
-        <Route path="/" element={<ResList/>} />
-        <Route path="/listares" element={<ResList/>} />
+        <Route path="/" element={<Res/>} />
+        <Route path="/res" element={<Res/>} />
         <Route path="/res/:id" element={<ResIndividual/>}/>
+        <Route path='produccion' element={<Produccion/>}/>
+        <Route path='reproduccion' element={<Reproduccion/>}/>
+        <Route path='servicios' element={<Servicios/>}/>
+        <Route path='secado' element={<Secado/>}/>
+        <Route path='alimentacion' element={<Alimentacion/>}/>
+
+
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
       
     </div>

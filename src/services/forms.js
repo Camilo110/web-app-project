@@ -11,3 +11,11 @@ export const getResModal = async () => {
 
   return {fincas, madres, padres}
  }
+
+ export const getProduccionModal = async () => {
+  const response= await fetch('http://localhost:4000/res');
+  const {body: reses} = await response.json();
+  const res = reses.map(({ID, Nombre}) => ({ID, value: Nombre}))
+
+  return res
+ }
