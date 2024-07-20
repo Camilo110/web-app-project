@@ -1,0 +1,39 @@
+
+.produccion {
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr;
+}
+
+.Formulario {
+  display: flex;
+  flex-direction: column;
+}
+
+.produccion img{
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+.registroItem{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.infoRegistro{
+  display: flex;
+  flex-direction: column;
+
+}
+.field{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.submit{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
