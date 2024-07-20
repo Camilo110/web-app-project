@@ -48,7 +48,7 @@ export function Aside() {
         <button onClick={() => handleModule(title)} key={title} aria-label={title} >
           <div className="modulo">
             <img src={icon} alt={title} /> 
-            <Link to={link || '*'}>{title}</Link>
+            <Link to={link || '*'}> <h2>{title}</h2></Link>
           </div>
         </button>
       ))}

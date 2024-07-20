@@ -4,40 +4,84 @@ import { getProduccionModal } from "../services/forms";
 import { CreateProduccionIndividual, getProduccion } from "../services/produccion";
 import { useEffect, useState } from "react";
 
-const campos = {
+const fields = {
   Fecha: { label: 'Fecha', type: 'date', value: '' },
   Tipo: { label: 'Tipo', type: 'select', value: ['Leche', 'Carne'] },
   Cantidad: { label: 'Cantidad', type: 'number', value: 0 },
-  ResID: { label: 'Res', type: 'select', value: [''] }
+  ResID: { label: 'Res', type: 'text', value: [] }
 }
 
 
 export const Produccion = () => {
-  const [openModal, setOpenModal] = useState(false);  
-  const [fields, setFields] = useState(campos);
+  const [openModal, setOpenModal] = useState(false);
   const [registros, setRegistros] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [values, setValues] = useState({})
+  const [isLoading1, setIsLoading1] = useState(true)
+  const [isLoading2, setIsLoading2] = useState(true)
+  const [values, setValues] = useState({ResID: []})
+  const [listRes, setListRes] = useState([])
+  const [filterRes, setFilterRes] = useState([])
+  const [inputValue, setInputValue] = useState('')
 
   useEffect(() => {
     getProduccion().then((resp) => {
       setRegistros(resp)
+      setIsLoading2(false)
     })
     getProduccionModal().then((res) => {
-      setFields({...fields, ResID: { label: 'Res', type: 'select', value: res}})
-      setIsLoading(false)
+      setListRes(res)
+      setFilterRes(res)
+      setIsLoading1(false)
       })
   }, [])
+
+  function filter(query) {
+    return listRes.filter((res) => (
+      res.Numero.toString().includes(query) || res.Nombre.toLowerCase().includes(query.toLowerCase())
+    )
+    );
+  }
+
+  const handleInputChange = ({target:{value}}) => {
+    setInputValue(value)
+    value ? setFilterRes(filter(value)) : setFilterRes(listRes)
+  }
   
   const HandleChange = (e, key) => {
-    
     let value = e.target.value
     const type = e.target.type
-
     if (type === 'number' && value) value = parseInt(value)
-
     setValues({...values, [key]: value})
   }
+
+  //HCER EL EMTODO PARA SELECCIONAR DESDE EL INPUT
+  const OnChangeSelectRes = (ID) => {
+    let OldResID = values.ResID
+    let oldListRes = listRes
+    oldListRes.map((res) => {
+      if (res.ID === ID) {
+        res.selected = !res.selected
+        if (res.selected){
+          OldResID.push(res.Numero)
+        }else{
+          OldResID = OldResID.filter((num) => num !== res.Numero)
+        }
+      }})
+
+    setListRes(oldListRes)    
+    setValues({...values, ResID: OldResID})
+  }
+  
+  const getName = (ID) => {
+    let name = ''
+    listRes.map((res) => {
+      if (res.ID === ID) {
+        name = res.Nombre
+      }
+    })
+    return name
+  }
+      
+
   const Submit = (values) => {
     CreateProduccionIndividual(values).then((resp) => {
       console.log('Respuesta', resp)
@@ -56,30 +100,57 @@ export const Produccion = () => {
 
         <section>
           <h2>Seleccionar</h2>
-          <input type="text" placeholder="Buscar" />
-          <div>
-            <input type="checkbox" />
-            <label>Leche</label>
-          </div>
+          <input type="text" placeholder="Buscar" value={inputValue} onChange={handleInputChange} />
+          <table>
+            <thead>
+              <tr>
+                <th> </th>
+                <th>Nombre</th>
+                <th>Numero</th>
+              </tr>
+            </thead>
+          
+          
+          { isLoading1 
+          ? 
+          <tbody>
+            <tr>
+              <td>
+                Cargando...
+              </td>
+              </tr>
+          </tbody>
+          :
+          <tbody>
+          {filterRes.map((res) =>(
+              <tr key={res.ID} onClick={() => {OnChangeSelectRes(res.ID)}}>
+                <td>
+                 <input type="checkbox" checked={res.selected} readOnly/>
+                </td>
+                <td>
+                 <label>{res.Nombre}</label>
+                </td>
+                <td>
+                  <label>{res.Numero}</label>
+                </td>
+              </tr>))
+          } 
+          </tbody>  
+          }
+          
+          
+        </table>
         </section>
 
         <section className='Formulario'>
           <h2>Registrar Producción</h2>
 
-        { isLoading 
-          ? 
-          <h3>Cargando...</h3>
-          :
+        
           <div className='field'>
-            <label> Id o Nombre del Animal</label>
-            <select  value={values.ResID || ''} onChange={(e) => HandleChange(e,'ResID')}>
-              <option value='' disabled>Elegir</option>
-              {fields.ResID.value.map((option) => (
-                <option key={option.value} value={option.ID}>{option.value}</option>
-              ))}
-            </select>
+            <label> Número o Nombre del Animal(es)</label>
+            <input type="text" value={values.ResID} disabled onChange={(e) => HandleChange(e,'ResID')} />
           </div>
-        }
+        
 
           <div className='field'> 
             <label>Tipo</label>
@@ -97,7 +168,7 @@ export const Produccion = () => {
 
           <div className='field'>
             <label>Cantidad</label>
-            <input type="number" value={values.Cantida} onChange={(e) => HandleChange(e,'Cantidad')}/>
+            <input type="number" value={values.Cantidad} onChange={(e) => HandleChange(e,'Cantidad')}/>
           </div>
 
           <div className='field'>
@@ -118,7 +189,7 @@ export const Produccion = () => {
             <img src='https://fakeimg.pl/60x70/' alt='imagen' />
             <div className='infoRegistro'>
               <span className='resgistroP'>Cantidad</span>
-              <span> Fecha</span>
+              <span>Fecha</span>
               <span>Nombre de Res</span>
             </div>
           </div>
@@ -134,7 +205,7 @@ export const Produccion = () => {
 
       <button onClick={HandleAdd}> Agregar </button>
 
-      {isLoading
+      {isLoading2
         ? 
         <h3>Cargando...</h3>
         :
@@ -154,7 +225,7 @@ export const Produccion = () => {
                 <td>{registro.Fecha}</td>
                 <td>{registro.Tipo}</td>
                 <td>{registro.Cantidad}</td>
-                <td>{registro.ResID}</td>
+                <td>{getName(registro.ResID)}</td>
                 <td>
                   <span onClick={()=>console.log("first")}>Editar </span>
                   <span>Eliminar</span>
