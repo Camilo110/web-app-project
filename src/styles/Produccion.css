@@ -1,7 +1,7 @@
 
 .produccion {
   display: grid;
-  grid-template-columns: 1fr 3fr 3fr;
+  grid-template-columns: 3fr 4fr 4fr;
 }
 
 .Formulario {
@@ -9,16 +9,50 @@
   flex-direction: column;
 }
 
+.Formulario h2 {
+  text-align:center
+}
+
+.Seleccionar{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  height: 22rem;
+}
+.Seleccionar h2 {
+  text-align:center
+}
+
+.Seleccionar table{
+  padding: 0rem 1rem;
+  width: 100%;
+}
 .produccion img{
   aspect-ratio: 4/3;
   object-fit: cover;
+}
+
+.registroList{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  height: 22rem;
+}
+
+.listScroll{
+  overflow-y: scroll;
 }
 
 .registroItem{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  gap: 10px;
+  padding: 0rem 1rem;
+  gap: 0.5rem;
 }
 
 .infoRegistro{
@@ -34,6 +68,6 @@
 .submit{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   margin-top: 5px;
 }

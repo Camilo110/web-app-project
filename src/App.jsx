@@ -2,7 +2,7 @@ import './styles/App.css'
 import {Routes, Route} from 'react-router-dom'
 import { Aside } from "./components/Aside";
 import { Res } from './pages/Res';
-import { Produccion } from './pages/Produccion';
+import { ProduccionPage } from './pages/ProduccionPage';
 import {Reproduccion} from './pages/Reproduccion';
 import {Servicios} from './pages/Servicios';
 import {Secado} from './pages/Secado';
@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<Res/>} />
         <Route path="/res" element={<Res/>} />
         <Route path="/res/:id" element={<ResIndividual/>}/>
-        <Route path='produccion' element={<Produccion/>}/>
+        <Route path='produccion' element={<ProduccionPage/>}/>
         <Route path='reproduccion' element={<Reproduccion/>}/>
         <Route path='servicios' element={<Servicios/>}/>
         <Route path='secado' element={<Secado/>}/>
