@@ -17,7 +17,7 @@ const fields = {
 const Today = () => {
 const date = new Date();
 date.setHours(date.getHours() - 5);
-return (date.toISOString().split('T')[0]);
+return (date.toISOString());
 }
 
 
@@ -26,7 +26,7 @@ export const Produccion = () => {
   const [registros, setRegistros] = useState([])
   const [isLoading1, setIsLoading1] = useState(true)
   const [isLoading2, setIsLoading2] = useState(true)
-  const [values, setValues] = useState({ Fecha: Today(), ResID: [] })
+  const [values, setValues] = useState({ Fecha: Today(), ResID: [], Cantidad: 0})
   const [listRes, setListRes] = useState([])
   const [filterRes, setFilterRes] = useState([])
   const [inputValue, setInputValue] = useState('')
@@ -59,23 +59,28 @@ export const Produccion = () => {
     let value = e.target.value
     const type = e.target.type
     if (type === 'number' && value) value = parseInt(value)
+    if (type === 'datetime-local' && value) {
+      value = new Date(value).toISOString()
+      console.log(value)
+    }
     setValues({ ...values, [key]: value })
   }
 
-  // TODO 
-  // METODO PARA SELECCIONAR DESDE EL INPUT
+  /* TO DO 
+   *  METODO PARA SELECCIONAR DESDE EL INPUT */
 
 
   const OnChangeSelectRes = (ID) => {
     let OldResID = values.ResID
     let oldListRes = listRes
+
     oldListRes.map((res) => {
       if (res.ID === ID) {
         res.selected = !res.selected
         if (res.selected) {
-          OldResID.push(res.Numero)
+          OldResID.push(res.ID)
         } else {
-          OldResID = OldResID.filter((num) => num !== res.Numero)
+          OldResID = OldResID.filter((id) => id !== res.ID)
         }
       }
     })
@@ -181,7 +186,7 @@ export const Produccion = () => {
 
           <div className='field'>
             <label>Fecha</label>
-            <input type="date" value={values.Fecha || ''} onChange={(e) => HandleChange(e, 'Fecha')} />
+            <input type="datetime-local" value={values.Fecha.split('Z')[0]} onChange={(e) => HandleChange(e, 'Fecha')} />
           </div>
 
           <div className='field'>
@@ -224,7 +229,8 @@ export const Produccion = () => {
                keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} 
                data={registros}
                onEdit={HandleAdd}
-               onDelete={HandleDelete}/>
+               onDelete={HandleDelete}
+        />
       }
 
       {openModal &&
