@@ -14,12 +14,19 @@ const fields = {
 }
 
 
+const Today = () => {
+const date = new Date();
+date.setHours(date.getHours() - 5);
+return (date.toISOString().split('T')[0]);
+}
+
+
 export const Produccion = () => {
   const [openModal, setOpenModal] = useState(false);
   const [registros, setRegistros] = useState([])
   const [isLoading1, setIsLoading1] = useState(true)
   const [isLoading2, setIsLoading2] = useState(true)
-  const [values, setValues] = useState({ ResID: [] })
+  const [values, setValues] = useState({ Fecha: Today(), ResID: [] })
   const [listRes, setListRes] = useState([])
   const [filterRes, setFilterRes] = useState([])
   const [inputValue, setInputValue] = useState('')
@@ -96,6 +103,10 @@ export const Produccion = () => {
 
   const HandleAdd = () => {
     setOpenModal(true);
+  }
+
+  const HandleDelete = (ID) => {
+    console.log(ID)
   }
   return (
     <div>
@@ -202,21 +213,18 @@ export const Produccion = () => {
 
         </section>
       </main>
-          
-
-
-
-
-
-
-
+  
       <button onClick={HandleAdd}> Agregar </button>
 
       {isLoading2
         ?
         <h3>Cargando...</h3>
         :
-        <Table HeaderList={['Fecha', 'Tipo', 'Cantidad', 'Res']} keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} data={registros} />
+        <Table HeaderList={['Fecha', 'Tipo', 'Cantidad', 'Res']} 
+               keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} 
+               data={registros}
+               onEdit={HandleAdd}
+               onDelete={HandleDelete}/>
       }
 
       {openModal &&
