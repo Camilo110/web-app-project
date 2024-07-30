@@ -1,7 +1,7 @@
 import '../../styles/Produccion.css'
 import { Modal } from "../../components/Modal";
 import { getProduccionModal } from "../../services/forms";
-import { CreateProduccionIndividual, getProduccion } from "../../services/produccion";
+import { CreateProduccionIndividual, getProduccion, EditProduccionIndividual, DeleteProduccionIndividual} from "../../services/produccion";
 import { useEffect, useState } from "react";
 import { ItemRegistro } from './Components/ItemRegistro';
 import { Table } from '../../components/Table';
@@ -30,6 +30,7 @@ export const Produccion = () => {
   const [listRes, setListRes] = useState([])
   const [filterRes, setFilterRes] = useState([])
   const [inputValue, setInputValue] = useState('')
+  const [dataModal, setDataModal] = useState({})
 
   useEffect(() => {
     getProduccion().then((resp) => {
@@ -106,12 +107,26 @@ export const Produccion = () => {
     })
   }
 
-  const HandleAdd = () => {
+  const SubmitEdit = (values, id) => {
+    EditProduccionIndividual(values, id).then((resp) => {
+      console.log('Respuesta', resp)
+    })
+  }
+
+  const HandleEdit = (id) => {
+    registros.map((registro) => {
+      if (registro.ID === id) {
+        setDataModal({...registro, Fecha: registro.Fecha.split('T')[0]})
+      }
+    })
+
     setOpenModal(true);
   }
 
-  const HandleDelete = (ID) => {
-    console.log(ID)
+  const HandleDelete = (id) => {
+    DeleteProduccionIndividual(id).then((resp) => {
+      console.log('Respuesta', resp)
+    })
   }
   return (
     <div>
@@ -219,7 +234,7 @@ export const Produccion = () => {
         </section>
       </main>
   
-      <button onClick={HandleAdd}> Agregar </button>
+      <button onClick={HandleEdit}> Agregar </button>
 
       {isLoading2
         ?
@@ -228,14 +243,14 @@ export const Produccion = () => {
         <Table HeaderList={['Fecha', 'Tipo', 'Cantidad', 'Res']} 
                keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} 
                data={registros}
-               onEdit={HandleAdd}
+               onEdit={HandleEdit}
                onDelete={HandleDelete}
         />
       }
 
       {openModal &&
-        <Modal Handlesubmit={Submit} fields={fields} setOpenModal={setOpenModal}>
-          <h3>Registrar Produccion</h3>
+        <Modal Handlesubmit={SubmitEdit} fields={fields} data={dataModal} setOpenModal={setOpenModal}>
+          <h3>Editar Produccion</h3>
         </Modal>
       }
     </div>

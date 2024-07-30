@@ -78,3 +78,7 @@
   gap: 10px;
   margin-top: 10px;
 }
+
+.Paginacion span{
+  cursor: pointer;
+}

@@ -4,7 +4,7 @@ import { useState } from 'react'
 export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal}) => {
 
   const [valuesUpdate, setValuesUpdate] = useState({})
-  const [values, setValues] = useState(data.ID ? {...data, FechaNacimiento : data.FechaNacimiento.split('T')[0]} : data)
+  const [values, setValues] = useState(data)
 
   const HandleChange = (e, name) => {
     let {value} = e.target
