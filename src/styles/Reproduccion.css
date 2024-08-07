@@ -1,0 +1,34 @@
+.raiz {
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+  align-content: center;
+  gap: 20px;
+}
+
+.Footer{
+  margin-top: 22px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+}
+.Footer button{
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--primary-color);
+}
+
+.gestacion, .inseminacion {
+  display: flex;
+  flex-direction: column;
+}
+
+.gestacion .cards, .inseminacion .cards {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  overflow-x: scroll;
+}

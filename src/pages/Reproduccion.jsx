@@ -1,5 +1,7 @@
-export const Reproduccion = () => {
+import { Reproduccion } from "../view/Reproduccion/Reproduccion"
+
+export const ReproduccionPage = () => {
   return (
-    <div>Reproduccion</div>
+    <Reproduccion />
   )
 }
