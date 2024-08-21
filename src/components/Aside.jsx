@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const modules = [
   {
@@ -44,38 +44,57 @@ export function Aside() {
     console.log(title);
   }; */
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
-  return (
-    <aside >
-      <div className="toggle">
-          <div className="logo">
-              <img src="src/assets/img/logo.png" alt="logo" />
-              <h1>ProGanadero</h1>
-          </div>
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
 
-          
-      <label className="close" htmlFor="check">
-              <span className="material-icons-sharp">
-                  close
-              </span>
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <div>
+       {isMobile && isOpen && (
+        <label className="close" htmlFor="check" onClick={toggle}>
+          <span className="material-icons-sharp">
+            menu
+          </span>
+        </label>
+      )}
+      <aside style={{ display: isOpen ? 'none' : 'block' }}>
+        <div className="toggle">
+          <div className="logo">
+            <img src="src/assets/img/logo.png" alt="logo" />
+            <h1>ProGanadero</h1>
+          </div>
+          {!isOpen && (
+          <label className="close" htmlFor="check" onClick={toggle}>
+            <span className="material-icons-sharp">
+              close
+            </span>
           </label>
-          
-              <input type="checkbox" className="check" name="nn" id="check" />
-      </div>
-      
-      <div className="sidebar">
-        {modules.map(({icon, title, link}) => (
-          <a href={link} key={title}>
-            <span className="material-icons-sharp">{icon}</span>
-            <h3>{title}</h3>
-          </a>
-        ))}
-      </div>
-    </aside>
+        )}
+        </div>
+        <div className="sidebar">
+          {modules.map(({icon, title, link}) => (
+            <a href={link} key={title}>
+              <span className="material-icons-sharp">{icon}</span>
+              <h3>{title}</h3>
+            </a>
+          ))}
+        </div>
+      </aside>
+    </div>
   );
 }
