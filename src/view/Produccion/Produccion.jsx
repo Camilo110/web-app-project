@@ -234,8 +234,6 @@ export const Produccion = () => {
         </section>
       </main>
   
-      <button onClick={HandleEdit}> Agregar </button>
-
       {isLoading2
         ?
         <h3>Cargando...</h3>
