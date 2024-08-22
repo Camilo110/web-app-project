@@ -6,6 +6,7 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
   const [valuesUpdate, setValuesUpdate] = useState({})
   const [values, setValues] = useState(data)
 
+
   const HandleChange = (e, name) => {
     let {value} = e.target
     const type = e.target.type
@@ -24,30 +25,39 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
   return (
     <article className="Modal">
       <section className=" Modal-content">
+
         <button onClick={onExit} className="exit">X</button>
+
         <div className="Title">
           {children}
         </div>
+
         <section className="Fields">
-        {Object.keys(fields).map((key) => (
-          fields[key].type === 'select' 
-          ? 
-          <div className='field' key={key}>
-            <label>{fields[key].label}</label>
-            <select  value={values[key] || ''} onChange={(e) => HandleChange(e,key)}>
-              <option value='' disabled>Elegir</option>
-              {fields[key].value.map((option) => (
-                <option key={option.ID || option} value={option.ID || option}>{option.value || option}</option>
-              ))}
-            </select>
-          </div> 
-          :
-          <div className='field' key={key}>
-            <label>{fields[key].label}</label>
-            <input type={fields[key].type} value={values[key] || ''} onChange={(e) => HandleChange(e,key)}/>
-          </div>
-        ))}
+          {Object.keys(fields).map((key) => (
+
+            fields[key].type === 'select' 
+            ? 
+
+            <div className='field' key={key}>
+              <label>{fields[key].label}</label>
+              <select  value={values[key] || ''} onChange={(e) => HandleChange(e,key)}>
+                <option value='' disabled>Elegir</option>
+                {fields[key].value.map((option) => (
+                  <option key={option.ID || option} value={option.ID || option}>{option.value || option}</option>
+                ))}
+              </select>
+            </div> 
+
+            :
+
+            <div className='field' key={key}>
+              <label>{fields[key].label}</label>
+              <input type={fields[key].type} value={values[key] || ''} onChange={(e) => HandleChange(e,key)}/>
+            </div>
+
+          ))}
         </section>
+
         <p  className="submit">
           <button onClick={() => Handlesubmit(valuesUpdate, values.ID)}>Submit</button>
         </p>

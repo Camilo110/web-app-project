@@ -8,10 +8,10 @@ export const getFinca = async () => {
 
 
 export const getFincaById = async (id) => {
-const listRes = await getRes();
-const res = listRes.find((res) => res.Numero === id);
-console.log(res, 'RESS')
-return res;
+const listFinca = await getFinca();
+const finca = listFinca.find((finca) => finca.Numero === id);
+console.log(finca, 'FINCA')
+return finca;
 }
 
 export const updateFinca = async (id, bodys) => {
