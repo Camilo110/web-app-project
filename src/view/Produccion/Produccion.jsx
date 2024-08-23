@@ -1,7 +1,7 @@
 import '../../styles/Produccion.css'
 import { Modal } from "../../components/Modal";
 import { getProduccionModal } from "../../services/forms";
-import { CreateProduccionIndividual, getProduccion } from "../../services/produccion";
+import { CreateProduccionIndividual, getProduccion, EditProduccionIndividual, DeleteProduccionIndividual} from "../../services/produccion";
 import { useEffect, useState } from "react";
 import { ItemRegistro } from './Components/ItemRegistro';
 import { Table } from '../../components/Table';
@@ -14,15 +14,23 @@ const fields = {
 }
 
 
+const Today = () => {
+const date = new Date();
+date.setHours(date.getHours() - 5);
+return (date.toISOString());
+}
+
+
 export const Produccion = () => {
   const [openModal, setOpenModal] = useState(false);
   const [registros, setRegistros] = useState([])
   const [isLoading1, setIsLoading1] = useState(true)
   const [isLoading2, setIsLoading2] = useState(true)
-  const [values, setValues] = useState({ ResID: [] })
+  const [values, setValues] = useState({ Fecha: Today(), ResID: [], Cantidad: 0})
   const [listRes, setListRes] = useState([])
   const [filterRes, setFilterRes] = useState([])
   const [inputValue, setInputValue] = useState('')
+  const [dataModal, setDataModal] = useState({})
 
   useEffect(() => {
     getProduccion().then((resp) => {
@@ -52,23 +60,28 @@ export const Produccion = () => {
     let value = e.target.value
     const type = e.target.type
     if (type === 'number' && value) value = parseInt(value)
+    if (type === 'datetime-local' && value) {
+      value = new Date(value).toISOString()
+      console.log(value)
+    }
     setValues({ ...values, [key]: value })
   }
 
-  // TODO 
-  // METODO PARA SELECCIONAR DESDE EL INPUT
+  /* TO DO 
+   *  METODO PARA SELECCIONAR DESDE EL INPUT */
 
 
   const OnChangeSelectRes = (ID) => {
     let OldResID = values.ResID
     let oldListRes = listRes
+
     oldListRes.map((res) => {
       if (res.ID === ID) {
         res.selected = !res.selected
         if (res.selected) {
-          OldResID.push(res.Numero)
+          OldResID.push(res.ID)
         } else {
-          OldResID = OldResID.filter((num) => num !== res.Numero)
+          OldResID = OldResID.filter((id) => id !== res.ID)
         }
       }
     })
@@ -94,8 +107,26 @@ export const Produccion = () => {
     })
   }
 
-  const HandleAdd = () => {
+  const SubmitEdit = (values, id) => {
+    EditProduccionIndividual(values, id).then((resp) => {
+      console.log('Respuesta', resp)
+    })
+  }
+
+  const HandleEdit = (id) => {
+    registros.map((registro) => {
+      if (registro.ID === id) {
+        setDataModal({...registro, Fecha: registro.Fecha.split('T')[0]})
+      }
+    })
+
     setOpenModal(true);
+  }
+
+  const HandleDelete = (id) => {
+    DeleteProduccionIndividual(id).then((resp) => {
+      console.log('Respuesta', resp)
+    })
   }
   return (
     <div>
@@ -170,7 +201,7 @@ export const Produccion = () => {
 
           <div className='field'>
             <label>Fecha</label>
-            <input type="date" value={values.Fecha || ''} onChange={(e) => HandleChange(e, 'Fecha')} />
+            <input type="datetime-local" value={values.Fecha.split('Z')[0]} onChange={(e) => HandleChange(e, 'Fecha')} />
           </div>
 
           <div className='field'>
@@ -202,26 +233,22 @@ export const Produccion = () => {
 
         </section>
       </main>
-          
-
-
-
-
-
-
-
-      <button onClick={HandleAdd}> Agregar </button>
-
+  
       {isLoading2
         ?
         <h3>Cargando...</h3>
         :
-        <Table HeaderList={['Fecha', 'Tipo', 'Cantidad', 'Res']} keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} data={registros} />
+        <Table HeaderList={['Fecha', 'Tipo', 'Cantidad', 'Res']} 
+               keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} 
+               data={registros}
+               onEdit={HandleEdit}
+               onDelete={HandleDelete}
+        />
       }
 
       {openModal &&
-        <Modal Handlesubmit={Submit} fields={fields} setOpenModal={setOpenModal}>
-          <h3>Registrar Produccion</h3>
+        <Modal Handlesubmit={SubmitEdit} fields={fields} data={dataModal} setOpenModal={setOpenModal}>
+          <h3>Editar Produccion</h3>
         </Modal>
       }
     </div>

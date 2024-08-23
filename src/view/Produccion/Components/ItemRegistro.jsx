@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 
 export const ItemRegistro = ({Cantidad, Fecha, Tipo, Nombre}) => { 
   return (
@@ -10,4 +11,11 @@ export const ItemRegistro = ({Cantidad, Fecha, Tipo, Nombre}) => {
       </div>
     </div>
   )
+}
+
+ItemRegistro.propTypes = {
+  Cantidad: PropTypes.string,
+  Fecha: PropTypes.string,
+  Tipo: PropTypes.string,
+  Nombre: PropTypes.string
 }

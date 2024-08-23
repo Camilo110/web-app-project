@@ -1,0 +1,23 @@
+
+.Title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+
+
+}
+.ServiciosMain{
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.FiltroServicios{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+
+}
