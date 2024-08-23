@@ -1,5 +1,6 @@
 import {PropTypes} from 'prop-types'
 import { useState } from 'react'
+import '../styles/Modal.css'
 
 export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal}) => {
 
@@ -28,17 +29,17 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
 
         <button onClick={onExit} className="exit">X</button>
 
-        <div className="Title">
+        <div className="title-modal">
           {children}
         </div>
 
-        <section className="Fields">
+        <section className="Fields-modal">
           {Object.keys(fields).map((key) => (
 
             fields[key].type === 'select' 
             ? 
 
-            <div className='field' key={key}>
+            <div className='field-modal' key={key}>
               <label>{fields[key].label}</label>
               <select  value={values[key] || ''} onChange={(e) => HandleChange(e,key)}>
                 <option value='' disabled>Elegir</option>

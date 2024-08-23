@@ -81,7 +81,7 @@ export function ResList() {
     <div className="resList">
       <h1> Listado de Animales </h1>
 
-      <div>
+      <div className="resList-top">
         <h3>Buscar</h3>
         <input
           type="search"
