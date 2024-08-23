@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { ResItem } from "./Components/ResItem"
 import { createRes, getRes } from "../../services/res"
 import { getResModal } from "../../services/forms"
-import './ResList.css'
+import '../../styles/ResList.css'
 import { Modal } from "../../components/Modal"
 
 const campos = {
