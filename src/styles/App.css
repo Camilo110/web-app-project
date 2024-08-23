@@ -109,12 +109,16 @@ b{
   width: 96%;
   margin: 0 auto;
   gap: 1.8rem;
-  grid-template-columns: 14rem auto 23rem;
+  grid-template-columns: minmax(0, 255px) 3fr;
 }
 
 aside{
   height: 100vh;
   display: block;
+}
+
+.asideMain{
+  
 }
 
 aside .toggle{
@@ -135,6 +139,11 @@ aside .toggle .logo img{
 }
 
 aside .toggle .close{
+  padding-right: 1rem;
+  display: none;
+}
+
+.asideMain .open {
   padding-right: 1rem;
   display: none;
 }
@@ -336,7 +345,7 @@ button:focus-visible {
 @media screen and (max-width: 1200px) {
   .container{
       width: 95%;
-      grid-template-columns: 7rem auto 23rem;
+      grid-template-columns: minmax(0, 120px) 3fr;
   }
 
   aside .logo h2{
@@ -354,37 +363,6 @@ button:focus-visible {
   aside .sidebar a:last-child{
       position: relative;
       margin-top: 1.8rem;
-  }
-
-  main .analyse{
-      grid-template-columns: 1fr;
-      gap: 0;
-  }
-
-  main .new-users .user-list .user{
-      flex-basis: 40%;
-  }
-
-  main .recent-orders {
-      width: 94%;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      margin: 2rem 0 0 0.8rem;
-  }
-
-  main .recent-orders table{
-      width: 83vw;
-  }
-
-  main table thead tr th:last-child,
-  main table thead tr th:first-child{
-      display: none;
-  }
-
-  main table tbody tr td:last-child,
-  main table tbody tr td:first-child{
-      display: none;
   }
 
 }
@@ -449,27 +427,23 @@ button:focus-visible {
   aside .toggle .close{
       display: inline-block;
       cursor: pointer;
+      margin-top: 0.4rem;
+      margin-left: 0.2rem;
   }
 
+  .asideMain .open{
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 1.2rem;
+    margin-left: 0.2rem;
+}
+
   main{
-      margin-top: 8rem;
+      
       padding: 0 1rem;
   }
 
-  main .new-users .user-list .user{
-      flex-basis: 35%;
-  }
-
-  main .recent-orders{
-      position: relative;
-      margin: 3rem 0 0 0;
-      width: 100%;
-  }
-
-  main .recent-orders table{
-      width: 100%;
-      margin: 0;
-  }
+  
 }
 
 

@@ -64,10 +64,10 @@ export function Aside() {
   }, []);
 
   return (
-    <div>
+    <div className="asideMain">
        {isMobile && isOpen && (
-        <label className="close" htmlFor="check" onClick={toggle}>
-          <span className="material-icons-sharp">
+        <label className="open" htmlFor="check" onClick={toggle}>
+          <span className="material-icons-sharp" style={{ fontSize: '36px' }}>
             menu
           </span>
         </label>

@@ -17,9 +17,9 @@
 }
 
 main {
-  display: grid;
+  display: flex;
   grid-template-columns: auto auto;
-  justify-content: start;
+  justify-content: center;
   gap : 20px;
 }
 
