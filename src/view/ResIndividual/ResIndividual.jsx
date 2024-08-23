@@ -1,4 +1,4 @@
-import './ResIndividual.css'
+import '../../styles/ResIndividual.css'
 import { useEffect } from "react"
 import { getResById } from "../../services/res"
 import { useState } from "react"

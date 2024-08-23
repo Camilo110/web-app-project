@@ -1,4 +1,4 @@
-import './Servicios.css'
+import '../../styles/Servicios.css'
 import { useEffect, useState } from "react"
 import { Modal } from "../../components/Modal"
 import { Table } from "../../components/Table"
