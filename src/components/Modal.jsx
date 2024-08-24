@@ -59,7 +59,7 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
           ))}
         </section>
 
-        <p  className="submit">
+        <p  className="submit-modal">
           <button onClick={() => Handlesubmit(valuesUpdate, values.ID)}>Submit</button>
         </p>
       </section>
