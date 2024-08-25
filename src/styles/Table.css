@@ -1,0 +1,65 @@
+/* Table.css */
+
+
+.Title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+table {
+  background-color: var(--color-white);
+}
+
+.Title h1 {
+  margin: 0;
+}
+
+.Title button {
+  padding: 0.5em 1em;
+}
+
+.ServiciosMain {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.FiltroServicios {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}
+
+.FiltroServicios h3 {
+  margin: 0;
+}
+
+.FiltroServicios input {
+  width: 200px;
+  padding: 0.5em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.Paginacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}

@@ -16,12 +16,12 @@
   align-items: center;
 }
 
-main {
+/* main {
   display: flex;
   grid-template-columns: auto auto;
   justify-content: center;
   gap : 20px;
-}
+} */
 
 .TarjetaLinaje .info{
   display: flex;

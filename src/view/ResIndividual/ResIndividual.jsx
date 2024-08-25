@@ -97,9 +97,9 @@ export function ResIndividual() {
                 </div>
               }
               <div>
-                  <img src={`http://localhost:4000/imagen/img/${images.URL}`} alt="Cow Image" />
-                
-
+                {images &&                 
+                  <img src={`http://localhost:4000/imagen/img/${images.URL}`} alt="Cow Image" />                
+                }
                 <div className='listImg'>
                   <img src="https://fakeimg.pl/100x70" alt="Cow Image" />
                   <img src="https://fakeimg.pl/100x70" alt="Cow Image" />

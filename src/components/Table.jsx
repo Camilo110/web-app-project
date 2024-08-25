@@ -1,5 +1,6 @@
 import { useState } from "react"
 import PropTypes from 'prop-types'
+import '../styles/Table.css'
 
 export const Table = ({ HeaderList, keyList, data, onEdit, onDelete }) => {
 

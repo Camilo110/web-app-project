@@ -1,28 +1,27 @@
+.Servicios {
+  margin-top: 5rem;
+}
 
 .Title{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-
-
 }
+
 .ServiciosMain{
   display: flex;
   flex-direction: column;
-
-
-}
-
-.ImagenPrueba{
-  width: 100px;
-  height: 100px;
+  margin-top: 1rem;
 }
 
 .FiltroServicios{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+}
 
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 767px) {
 }
