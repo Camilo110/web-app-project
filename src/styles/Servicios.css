@@ -14,6 +14,11 @@
 
 }
 
+.ImagenPrueba{
+  width: 100px;
+  height: 100px;
+}
+
 .FiltroServicios{
   display: flex;
   justify-content: space-between;

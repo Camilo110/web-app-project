@@ -40,6 +40,8 @@ export const Servicios = () => {
   return (
     <section className="Servicios">
 
+      <img className='ImagenPrueba' src="http://localhost:4000/imagen/img/images-1724533798541-352917294" alt="vaca" />
+
       <div className='Title'>
         <h1> Servicios </h1>
         <button onClick={() => setOpenModalCreate(true)}> Agregar </button>

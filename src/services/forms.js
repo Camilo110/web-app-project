@@ -1,6 +1,7 @@
 
 export const getResModal = async () => {
   const resp= await fetch('http://localhost:4000/finca');
+  console.log("CUIDADO")
   const {body} = await resp.json();
   const fincas = body.map(({ID, Nombre}) => ({ID, value: Nombre}));
 
