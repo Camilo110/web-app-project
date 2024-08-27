@@ -65,7 +65,7 @@ export function ResList() {
     );
   }
 
-  const handleInputChange = ({ target: { value, } }) => {
+  const handleInputChange = ({ target: { value } }) => {
     setInputValue(value)
     value ? setListRes(filter(value)) : setListRes(response)
   }
