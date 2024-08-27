@@ -23,32 +23,51 @@ const campos = {
   FincaID: { label: 'Finca ID', type: 'select', value: [''] }
 };
 
+
+const camposDelete = {
+  Fecha: { label: 'Fecha de Muerte', type: 'date', value: '' },
+  Causa: { label: 'Causa', type: 'select', value: ['Muerte']},
+  Observaciones: { label: 'Observaciones', type: 'text', value: '' }
+};
+
 // eslint-disable-next-line react/prop-types
 export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
-
+  
+  const [DeleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [fields, setFields] = useState(campos)
   const [values, setValues] = useState({})
 
   useEffect(() => {
-      getResModal().then(({fincas, madres, padres}) => {
-        setFields({...fields, 
-                    FincaID: { label: 'Finca', type: 'select', value: fincas},
-                    Madre: { label: 'Madre', type: 'select', value: madres},
-                    Padre: { label: 'Padre', type: 'select', value: padres}})
-      })
     }, [])
   
   
   const HandleEdit = () => {
-    getResById(Numero).then((res) => {
-      setValues(res) 
-      setEditModal(true);
+    getResModal().then(({fincas, madres, padres}) => {
+      setFields(
+        {...fields, 
+          FincaID: { label: 'Finca', type: 'select', value: fincas},
+          Madre: { label: 'Madre', type: 'select', value: madres},
+          Padre: { label: 'Padre', type: 'select', value: padres}}
+        )
+      getResById(Numero).then((res) => {
+        setValues(res) 
+        setEditModal(true);
+      })
     })
   }
 
   const HandleDelete = () => {
-    deleteRes(id);
+    setDeleteModal(true)
+  }
+
+  const ModalSubmitDelete = (body) => {
+    deleteRes(id).then((resp) => {
+      if (resp.status === 200) {
+        console.log('Res eliminada', body)
+      }
+      console.log('Respuesta Delete', resp)
+    })
   }
   
   const ModalSubmitEdit = (body ,idRes ) => {
@@ -56,17 +75,18 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
       console.log('Respuesta Update', resp)
     })
   }
+  
 
   return ( 
   <div className="card">
         
-        <Link to={`/res/${Numero}`}>
-          <img  src="https://fakeimg.pl/250x135" alt="Cow Image"/>
+        <Link to={`/res/${id}`}>
+          <img  style={{width:'300px', height:'180px'}} src={`http://localhost:4000/imagen/id/${id}`} alt="Cow Image"/>
         </Link>
        
 
         <section className="card-info">
-        <Link to={`/res/${Numero}`} className="link">  
+        <Link to={`/res/${id}`} className="link">  
 
           <div className="especial">
               <h2>{Nombre}</h2>
@@ -88,6 +108,11 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
           <Modal Handlesubmit={ModalSubmitEdit} fields={fields} data={values} setOpenModal={setEditModal}>
             <h3>Editar Res</h3>
           </Modal>}
+        
+        {DeleteModal &&
+        <Modal Handlesubmit={ModalSubmitDelete} fields={camposDelete} setOpenModal={setDeleteModal}>
+          <h3>Eliminar Res</h3>
+        </Modal>}
   </div> 
   );
 }

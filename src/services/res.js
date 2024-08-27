@@ -8,10 +8,17 @@ return body;
 
 
 export const getResById = async (id) => {
-  const listRes = await getRes();
-  const res = listRes.find((res) => res.Numero === id);
-  console.log(res, 'RESS')
-  return res;
+  const res = await fetch(`http://localhost:4000/res/${id}`);
+  const {body} = await res.json();
+  return body;
+}
+
+export const getHijos = async (id) => {
+  const ListHijos = await fetch(`http://localhost:4000/res/hijos/${id}`);
+  if (ListHijos.status === 200) {
+    const {body} = await ListHijos.json();
+    return body;
+  }
 }
 
 export const updateRes = async (id, bodys) => {

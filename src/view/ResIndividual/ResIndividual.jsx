@@ -1,6 +1,6 @@
 import '../../styles/ResIndividual.css'
 import { useEffect } from "react"
-import { getResById } from "../../services/res"
+import { getHijos, getResById } from "../../services/res"
 import { getImages, uploadImage } from '../../services/images'
 import { useState } from "react"
 import { TarjetaLinaje } from './Components/TarjetaLinaje'
@@ -22,27 +22,51 @@ const temporalServicios = [
 
 export function ResIndividual() {
 
-  const id = parseInt(useParams().id);
+  const {id} = useParams();
 
   const [isLoading, setIsLoading] = useState(true)
-
   const [upload, setUpload] = useState(false)
-
   const [res, setRes] = useState({})
-
-  const [imageSelect, setImageSelect] = useState('')
+  const [linaje, setLinaje] = useState({})
   const [images, setImages] = useState([])
+  const [imageSelect, setImageSelect] = useState('')
 
-  useEffect(() => {
-    getImages(res.ID).then((resp) => {
-      setImages(resp[0])
-      console.log(resp[0])
-    })
-    getResById(id).then((res) => {
-      setRes(res)
-    })
-    setIsLoading(false)
+  useEffect(() => {      
+    getAllData()
   }, [])
+
+  const getAllData = async () => {
+    let listLinaje = []
+
+    const resp = await getResById(id)
+    setRes(resp)
+
+    const images = await getImages(id)
+    setImages(images.slice(0, 3))
+
+    console.log(resp)
+
+    if(resp.Padre) {
+      const padre = await getResById(resp.Padre)
+      console.log('first')
+      listLinaje.push({ id: padre.ID, nombre: padre.Nombre, familiaridad: 'Padre'})
+    }
+
+    if(resp.Madre) {
+      console.log('second')
+      const madre = await getResById(resp.Madre)
+      listLinaje.push({ id: madre.ID, nombre: madre.Nombre, familiaridad: 'Madre'})
+    }
+
+    const hijos = await getHijos(id)
+    if(hijos){
+      hijos.forEach(hijo => {
+        listLinaje.push({id: hijo.ID, nombre: hijo.Nombre, familiaridad: 'Hijo'})
+      })
+    }
+    setLinaje(listLinaje)
+    setIsLoading(false)
+  }
 
   const uploadChange = (e) => {
     console.log(e.target.files)
@@ -50,22 +74,19 @@ export function ResIndividual() {
   }
 
   const handleUpload = async () => {
-    
-    const resp = await uploadImage(res.ID, imageSelect)
-    console.log(resp + 'Imagen subida')
+    if (imageSelect) {
+      const resp = await uploadImage(res.ID, imageSelect)
+      if (resp == 'OK') {
+        setUpload(false)
+        setImageSelect('')
+      }
+      return
+    }
+    console.log('VACIO')
   }
 
-  //TODO metodo para mostrar linaje
-  console.log(res)
-
   return (
-
-
-
-    <div>
-
-      
-
+    <div> 
       {
         isLoading ? <p>Cargando...</p> :
 
@@ -84,11 +105,12 @@ export function ResIndividual() {
                 <p>editar</p>
                 <p onClick={() => setUpload(true)}
                   style={{ cursor: 'pointer' }}
-                  >tomar foto</p>
+                  >Subir foto</p>
               </div>
+
             </div>
 
-            <main>
+            <main  className='res-individual-main'>
               {upload &&
                 <div>
                   <h3>Subir Imagen</h3>
@@ -96,23 +118,30 @@ export function ResIndividual() {
                   <button onClick={handleUpload}>Subir</button>
                 </div>
               }
+                              
               <div>
-                {images &&                 
-                  <img src={`http://localhost:4000/imagen/img/${images.URL}`} alt="Cow Image" />                
-                }
+                <img 
+                  style={{width:'480px', height: '300px'}}
+                  src={`http://localhost:4000/imagen/id/${id}`} 
+                  alt="Cow Image" /> 
+
                 <div className='listImg'>
-                  <img src="https://fakeimg.pl/100x70" alt="Cow Image" />
-                  <img src="https://fakeimg.pl/100x70" alt="Cow Image" />
-                  <img src="https://fakeimg.pl/100x70" alt="Cow Image" />
-                  <img src="https://fakeimg.pl/100x70" alt="Cow Image" />
+                  {images?.map((item) => (
+                    <img 
+                      style={{width:'180px', height: '100px'}} 
+                      key={item.ID} 
+                      src={`http://localhost:4000/imagen/img/${item.URL}`} 
+                      alt="Cow Image" />
+                  ))}
                 </div>
               </div>
+            
 
               {res.Sexo === 'F' ?
                 <div>
                   <p>Promedio de leche diaria: NUM</p>
                   <p>Número de partos: {res.NumeroPartos} </p>
-                  <p>Ubicación: LOTE 2</p>
+                  <p>Ubicación: {res.FincaID}</p>
                   <p>Estado: {res.Estado}</p>
                   <p>Peso al Nacer: {res.PesoNacimiento} Kg</p>
                   <p>Peso Actual: {res.PesoActual} Kg</p>
@@ -120,7 +149,7 @@ export function ResIndividual() {
                 :
                 <div>
                   <p>Cantidad de Hijos: NUM</p>
-                  <p>Ubicación: LOTE 2</p>
+                  <p>Ubicación: {res.FincaID} </p>
                   <p>Edad: {res.FechaNacimiento} </p>
                   <p>Estado: {res.Estado}</p>
                   <p>Peso al Nacer: {res.PesoNacimiento} Kg</p>
@@ -132,17 +161,20 @@ export function ResIndividual() {
 
 
             <div>
-              <h3>Linaje</h3>
+              <h2>Linaje</h2>
               <div className='Linaje'>
                 {
-                  temporalData.map((item) => (
+                  linaje.length > 0
+                  ?
+                  linaje.map((item) => (
                     <TarjetaLinaje
                       key={item.id}
                       id={item.id}
                       nombre={item.nombre}
-                      familiaridad={item.familiaridad}
-                      urlImage={item.urlImage} />
+                      familiaridad={item.familiaridad}/>
                   ))
+                  : 
+                  <h3>No hay  registros de linaje</h3>
                 }
               </div>
             </div>
