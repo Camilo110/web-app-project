@@ -1,13 +1,19 @@
 import PropTypes from 'prop-types'
-export function TarjetaLinaje ({id, nombre, familiaridad, urlImage = "https://fakeimg.pl/180x140" }) {
+import { Link } from 'react-router-dom'
+export function TarjetaLinaje ({id, nombre, familiaridad }) {
   return (
     <div className="TarjetaLinaje">
       <div>
         <p>familiaridad {familiaridad}</p>
-        <img src={urlImage} alt="Cow Image"/>
+        <img 
+        style={{width:'180px', height:'100px'}}
+          src={`http://localhost:4000/imagen/id/${id}`} 
+          alt="Cow Image"/>
         <div className='info'>
-          <h2>{nombre}</h2>
-          <p>id{id}</p>
+          <Link to={`/res/${id}`} className="link">
+            <h2>{nombre}</h2>
+            <p>id: {id}</p>
+          </Link>
         </div>
       </div>
     </div>
@@ -15,9 +21,8 @@ export function TarjetaLinaje ({id, nombre, familiaridad, urlImage = "https://fa
 }
 
 TarjetaLinaje.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   nombre: PropTypes.string.isRequired,
-  familiaridad: PropTypes.string.isRequired,
-  urlImage: PropTypes.string,
+  familiaridad: PropTypes.string.isRequired
 }
 
