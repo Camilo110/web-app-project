@@ -14,7 +14,7 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete }) => {
   }
 
   const onChangeLimit = (op) => {
-    const addInf = limit.inf + numRows > data.length ? limit.inf : limit.inf + numRows
+    const addInf = (limit.inf + numRows >= data.length) ? limit.inf : limit.inf + numRows
     const addSup = Math.min((limit.sup + numRows), data.length)
 
     const minusInf = Math.max((limit.inf - numRows), 0)
