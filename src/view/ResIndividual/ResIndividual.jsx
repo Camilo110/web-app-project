@@ -7,10 +7,7 @@ import { TarjetaLinaje } from './Components/TarjetaLinaje'
 //import PropTypes from 'prop-types'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
 import { useParams } from 'react-router-dom'
-const temporalData = [
-  { id: 1, nombre: 'juanito', familiaridad: 'Padre', urlImage: 'https://fakeimg.pl/180x120' },
-  { id: 2, nombre: 'Juanita', familiaridad: 'Madre', urlImage: 'https://fakeimg.pl/180x120' },
-]
+
 const temporalServicios = [
   { ID: 1, Numero: 1, Tipo: 'Podologia', Fecha: '2021-10-12', Producto: 'Cuchilla', Veterinario: 'Juanito' },
   { ID: 2, Numero: 1, Tipo: 'Podologia', Fecha: '2021-10-12', Producto: 'Cuchilla', Veterinario: 'Juanito' },
@@ -182,7 +179,7 @@ export function ResIndividual() {
             {res.Sexo === 'F' &&
               <div>
                 <h3> Registros de Produccion</h3>
-                <p>CUADRO CON ESTADISTAS DE PRODUCCION</p>
+                <p>Coming Soon</p>
                 <img src='https://fakeimg.pl/600x200' alt="Grafico" />
               </div>}
 
