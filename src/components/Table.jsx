@@ -19,6 +19,7 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete }) => {
 
     const minusInf = Math.max((limit.inf - numRows), 0)
     const minusSup = minusInf + numRows
+    
     if (op === '+') {
       setLimit({ inf: addInf, sup: addSup })
     } else {
@@ -26,8 +27,24 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete }) => {
     }
   }
 
+  const paginacion = () => {
+    return (
+      <div className="Paginacion">
+        <span onClick={() => onChangeLimit('-')}>{'<<'}</span>
+
+        <select value={numRows} onChange={onChangeRows}>
+          <option value={10}>10</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
+        </select>
+
+        <span onClick={() => onChangeLimit('+')}>{'>>'} </span>
+      </div>
+    )}
+
   return (
     <div>
+      {paginacion()}
       <table>
 
         <thead>
@@ -55,17 +72,7 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete }) => {
 
       </table>
 
-      <div className="Paginacion">
-        <span onClick={() => onChangeLimit('-')}>{'<<'}</span>
-
-        <select value={numRows} onChange={onChangeRows}>
-          <option value={10}>10</option>
-          <option value={25}>25</option>
-          <option value={50}>50</option>
-        </select>
-
-        <span onClick={() => onChangeLimit('+')}>{'>>'} </span>
-      </div>
+      {paginacion()}
 
     </div>
   )

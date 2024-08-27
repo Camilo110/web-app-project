@@ -7,15 +7,8 @@ import { TarjetaLinaje } from './Components/TarjetaLinaje'
 //import PropTypes from 'prop-types'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
 import { useParams } from 'react-router-dom'
+import { getServicio } from '../../services/servicio'
 
-const temporalServicios = [
-  { ID: 1, Numero: 1, Tipo: 'Podologia', Fecha: '2021-10-12', Producto: 'Cuchilla', Veterinario: 'Juanito' },
-  { ID: 2, Numero: 1, Tipo: 'Podologia', Fecha: '2021-10-12', Producto: 'Cuchilla', Veterinario: 'Juanito' },
-  { ID: 3, Numero: 2, FechaInicio: '2021-10-12', FechaFin: '2021-10-12', Producto: 'Cuchilla' },
-  { ID: 4, Numero: 2, FechaInicio: '2021-10-12', FechaFin: '2021-10-12', Producto: 'Cuchilla' },
-  { ID: 5, Numero: 3, Fecha: '2021-10-12', TORO: 'Juanito', Inseminador: 'Albeiro' },
-  { ID: 36, Numero: 3, Fecha: '2021-10-12', TORO: 'Juanito', Inseminador: 'Albeiro' },
-]
 
 export function ResIndividual() {
 
@@ -27,10 +20,13 @@ export function ResIndividual() {
   const [linaje, setLinaje] = useState({})
   const [images, setImages] = useState([])
   const [imageSelect, setImageSelect] = useState('')
+  const [servicios, setServicios] = useState([])
+  const [secados, setSecados] = useState([])
+  const [inseminaciones, setInseminaciones] = useState([])
 
   useEffect(() => {      
     getAllData()
-  }, [])
+  }, [id])
 
   const getAllData = async () => {
     let listLinaje = []
@@ -46,27 +42,38 @@ export function ResIndividual() {
     if(resp.Padre) {
       const padre = await getResById(resp.Padre)
       console.log('first')
-      listLinaje.push({ id: padre.ID, nombre: padre.Nombre, familiaridad: 'Padre'})
+      listLinaje.push({ id: padre.ID, nombre: padre.Nombre, Numero: padre.Numero, familiaridad: 'Padre'})
     }
 
     if(resp.Madre) {
       console.log('second')
       const madre = await getResById(resp.Madre)
-      listLinaje.push({ id: madre.ID, nombre: madre.Nombre, familiaridad: 'Madre'})
+      listLinaje.push({ id: madre.ID, nombre: madre.Nombre, Numero: madre.Numero, familiaridad: 'Madre'})
     }
 
     const hijos = await getHijos(id)
     if(hijos){
       hijos.forEach(hijo => {
-        listLinaje.push({id: hijo.ID, nombre: hijo.Nombre, familiaridad: 'Hijo'})
+        listLinaje.push({id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero,  familiaridad: 'Hijo'})
       })
     }
     setLinaje(listLinaje)
+
+    const AllServicios = await getServicio()
+
+    const servicios = AllServicios.filter(servicio => servicio.Tipo != 'Secado' && servicio.Tipo != 'Inseminacion')
+    setServicios(servicios)
+
+    const secado = AllServicios.filter(servicio => servicio.Tipo === 'Secado')
+    setSecados(secado)
+
+    const inseminacion = AllServicios.filter(servicio => servicio.Tipo === 'Inseminacion')
+    setInseminaciones(inseminacion)
+
     setIsLoading(false)
   }
 
   const uploadChange = (e) => {
-    console.log(e.target.files)
     setImageSelect(e.target.files[0])
   }
 
@@ -83,7 +90,7 @@ export function ResIndividual() {
   }
 
   return (
-    <div> 
+    <div className='res-individual'> 
       {
         isLoading ? <p>Cargando...</p> :
 
@@ -157,9 +164,9 @@ export function ResIndividual() {
 
 
 
-            <div>
+            <div className='Linaje'>
               <h2>Linaje</h2>
-              <div className='Linaje'>
+              <div className='ListaRegistros'>
                 {
                   linaje.length > 0
                   ?
@@ -167,6 +174,7 @@ export function ResIndividual() {
                     <TarjetaLinaje
                       key={item.id}
                       id={item.id}
+                      numero = {item.Numero}
                       nombre={item.nombre}
                       familiaridad={item.familiaridad}/>
                   ))
@@ -181,15 +189,16 @@ export function ResIndividual() {
                 <h3> Registros de Produccion</h3>
                 <p>Coming Soon</p>
                 <img src='https://fakeimg.pl/600x200' alt="Grafico" />
-              </div>}
+              </div>
+            }
 
             <div>
               <h3>Servicios Medicos</h3>
               <p>Agregar +</p>
               <div className='ListaRegistros'>
-                {
-                  temporalServicios.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} />
+                { servicios.length > 0 &&
+                  servicios.map((item) => (
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={()=>(console.log('Delete'))} onEdit={()=>(console.log('Edit'))}/>
                   ))
                 }
               </div>
@@ -198,8 +207,8 @@ export function ResIndividual() {
               <h3>Registros de Secado</h3>
               <p>Agregar +</p>
               <div className='ListaRegistros'>
-                {
-                  temporalServicios.map((item) => (
+                { secados.length > 0 &&
+                  secados.map((item) => (
                     <TarjetaRegistros key={item.ID} body={item} />
                   ))
                 }
@@ -209,8 +218,8 @@ export function ResIndividual() {
               <h3>Montas o Inseminaciones</h3>
               <p>Agregar +</p>
               <div className='ListaRegistros'>
-                {
-                  temporalServicios.map((item) => (
+                { inseminaciones.length > 0 &&
+                  inseminaciones.map((item) => (
                     <TarjetaRegistros key={item.ID} body={item} />
                   ))
                 }

@@ -1,11 +1,6 @@
 import PropTypes from 'prop-types'
 
-export function TarjetaRegistros({body: {ID, Numero, ...body}}) {
-
-
-  const deleteRegistro = (id) => {
-    console.log('Delete Registro', id)
-  }
+export function TarjetaRegistros({body: {ID, Numero, ...body}, onDelete, onEdit}) {
 
   return (
     <div className='TarjetaRegistro'>
@@ -15,8 +10,8 @@ export function TarjetaRegistros({body: {ID, Numero, ...body}}) {
         <p key={key}>{key}: {body[key]}</p>
       ))}
 
-      <button onClick={() => deleteRegistro(ID)}>Borrar</button>
-      <button>Editar</button>
+      <button onClick={() => onDelete(ID)}>Borrar</button>
+      <button onClick={() => onEdit(ID)}>Editar</button>
       
     </div>
   )
@@ -24,5 +19,7 @@ export function TarjetaRegistros({body: {ID, Numero, ...body}}) {
 
 TarjetaRegistros.propTypes = {
   body: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired
 }
 

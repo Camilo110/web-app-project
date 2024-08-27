@@ -16,6 +16,15 @@
   align-items: center;
 }
 
+.res-individual{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
 .res-individual-main {
   display: flex;
   grid-template-columns: auto auto;
@@ -29,13 +38,18 @@
   justify-content: space-around;
 }
 
+
 .Linaje{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: start;
   gap: 5px;
-
+  width: 90%;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
+
 .TarjetaRegistro{
   margin: 2px;
   padding: 5px;

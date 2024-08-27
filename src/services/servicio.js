@@ -9,12 +9,11 @@ export const getServicioById = async (id) => {
   const resp = await fetch (`http://localhost:4000/servicio/${id}`);
   const { body } = await resp.json();
   const servicio = body[0];
-  const Fecha = servicio.Fecha.split('T')[0];
-  servicio.Fecha = Fecha;
   return servicio;
 }
 
 export const updateServicio = async (id, body) => {
+  console.log('body', body)
   const resp = await fetch(`http://localhost:4000/servicio/${id}`, {
     method: 'PUT',
     headers: {
