@@ -8,6 +8,7 @@ import { TarjetaLinaje } from './Components/TarjetaLinaje'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
 import { useParams } from 'react-router-dom'
 import { getServicio } from '../../services/servicio'
+import { UploadFile } from '../../components/UploadFile'
 
 
 export function ResIndividual() {
@@ -15,14 +16,15 @@ export function ResIndividual() {
   const {id} = useParams();
 
   const [isLoading, setIsLoading] = useState(true)
-  const [upload, setUpload] = useState(false)
   const [res, setRes] = useState({})
   const [linaje, setLinaje] = useState({})
   const [images, setImages] = useState([])
-  const [imageSelect, setImageSelect] = useState('')
   const [servicios, setServicios] = useState([])
   const [secados, setSecados] = useState([])
   const [inseminaciones, setInseminaciones] = useState([])
+  const [imageMain, setImageMain] = useState('')
+
+  const [ModalUpload, setModalUpload] = useState(false)
 
   useEffect(() => {      
     getAllData()
@@ -35,18 +37,16 @@ export function ResIndividual() {
     setRes(resp)
 
     const images = await getImages(id)
-    setImages(images.slice(0, 3))
+    setImages(images)
 
-    console.log(resp)
+    setImageMain(images[0].URL)
 
     if(resp.Padre) {
       const padre = await getResById(resp.Padre)
-      console.log('first')
       listLinaje.push({ id: padre.ID, nombre: padre.Nombre, Numero: padre.Numero, familiaridad: 'Padre'})
     }
 
     if(resp.Madre) {
-      console.log('second')
       const madre = await getResById(resp.Madre)
       listLinaje.push({ id: madre.ID, nombre: madre.Nombre, Numero: madre.Numero, familiaridad: 'Madre'})
     }
@@ -73,21 +73,11 @@ export function ResIndividual() {
     setIsLoading(false)
   }
 
-  const uploadChange = (e) => {
-    setImageSelect(e.target.files[0])
-  }
-
-  const handleUpload = async () => {
-    if (imageSelect) {
-      const resp = await uploadImage(res.ID, imageSelect)
-      if (resp == 'OK') {
-        setUpload(false)
-        setImageSelect('')
-      }
-      return
+  const handleUpload = async (imageSelect) => {
+    const resp = await uploadImage(res.ID, imageSelect)
+    if (resp == 'OK') return 'OK'
+    return 'Error'
     }
-    console.log('VACIO')
-  }
 
   return (
     <div className='res-individual'> 
@@ -107,35 +97,30 @@ export function ResIndividual() {
               <div>
                 <p>borrar</p>
                 <p>editar</p>
-                <p onClick={() => setUpload(true)}
+                <p onClick={() => setModalUpload(true)}
                   style={{ cursor: 'pointer' }}
                   >Subir foto</p>
               </div>
 
             </div>
 
-            <main  className='res-individual-main'>
-              {upload &&
-                <div>
-                  <h3>Subir Imagen</h3>
-                  <input type="file" onChange={uploadChange}/>
-                  <button onClick={handleUpload}>Subir</button>
-                </div>
-              }
+            <main  className='res-individual-main'>            
                               
               <div>
                 <img 
                   style={{width:'480px', height: '300px'}}
-                  src={`http://localhost:4000/imagen/id/${id}`} 
+                  src={`http://localhost:4000/imagen/img/${imageMain}`} 
                   alt="Cow Image" /> 
 
                 <div className='listImg'>
                   {images?.map((item) => (
                     <img 
-                      style={{width:'180px', height: '100px'}} 
+                      style={{width:'180px', height: '100px', cursor: 'pointer'}} 
                       key={item.ID} 
                       src={`http://localhost:4000/imagen/img/${item.URL}`} 
-                      alt="Cow Image" />
+                      alt="Cow Image"
+                      onClick={() => setImageMain(item.URL)} 
+                      />
                   ))}
                 </div>
               </div>
@@ -172,7 +157,7 @@ export function ResIndividual() {
                   ?
                   linaje.map((item) => (
                     <TarjetaLinaje
-                      key={item.id}
+                      key={`${item.familiaridad}-${item.id}`}
                       id={item.id}
                       numero = {item.Numero}
                       nombre={item.nombre}
@@ -209,7 +194,7 @@ export function ResIndividual() {
               <div className='ListaRegistros'>
                 { secados.length > 0 &&
                   secados.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} />
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={()=>(console.log('Delete'))} onEdit={()=>(console.log('Edit'))} />
                   ))
                 }
               </div>
@@ -220,7 +205,7 @@ export function ResIndividual() {
               <div className='ListaRegistros'>
                 { inseminaciones.length > 0 &&
                   inseminaciones.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} />
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={()=>(console.log('Delete'))} onEdit={()=>(console.log('Edit'))}/>
                   ))
                 }
               </div>
@@ -228,7 +213,12 @@ export function ResIndividual() {
           </div>
       }
 
+      {ModalUpload &&
+        <UploadFile onUpload={handleUpload} setModal={setModalUpload} />
+      }
+
     </div>
+
   )
 }
 

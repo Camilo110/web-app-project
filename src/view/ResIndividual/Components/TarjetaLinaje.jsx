@@ -23,7 +23,7 @@ export function TarjetaLinaje ({id, nombre,numero, familiaridad }) {
 TarjetaLinaje.propTypes = {
   id: PropTypes.string.isRequired,
   nombre: PropTypes.string.isRequired,
-  numero: PropTypes.string.isRequired,
+  numero: PropTypes.number.isRequired,
   familiaridad: PropTypes.string.isRequired
 }
 

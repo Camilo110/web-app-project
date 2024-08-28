@@ -50,7 +50,7 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
           Madre: { label: 'Madre', type: 'select', value: madres},
           Padre: { label: 'Padre', type: 'select', value: padres}}
         )
-      getResById(Numero).then((res) => {
+      getResById(id).then((res) => {
         setValues(res) 
         setEditModal(true);
       })
