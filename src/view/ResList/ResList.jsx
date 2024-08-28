@@ -48,6 +48,7 @@ export function ResList() {
         Padre: { label: 'Padre', type: 'select', value: padres }
       })
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

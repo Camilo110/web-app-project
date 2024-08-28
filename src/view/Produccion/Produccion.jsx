@@ -17,24 +17,31 @@ const fields = {
 const Today = () => {
 const date = new Date();
 date.setHours(date.getHours() - 5);
-return (date.toISOString());
+return (date.toISOString().split('T')[0]);
 }
 
 
 export const Produccion = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [registros, setRegistros] = useState([])
+  const [dataModal, setDataModal] = useState({})
+
   const [isLoading1, setIsLoading1] = useState(true)
   const [isLoading2, setIsLoading2] = useState(true)
-  const [values, setValues] = useState({ Fecha: Today(), ResID: [], Cantidad: 0})
+
+  const [values, setValues] = useState({ Fecha: Today(), ResID: [], Cantidad: 0, Tipo: 'Leche'})
+  
   const [listRes, setListRes] = useState([])
   const [filterRes, setFilterRes] = useState([])
   const [inputValue, setInputValue] = useState('')
-  const [dataModal, setDataModal] = useState({})
+  
+  const [registros, setRegistros] = useState([])
+  const [filterRegistros, setFilterRegistros] = useState([])
+  const [inputRegistro, setInputRegistro] = useState('')
 
   useEffect(() => {
     getProduccion().then((resp) => {
       setRegistros(resp)
+      setFilterRegistros(resp)
       setIsLoading2(false)
     })
     getProduccionModal().then((res) => {
@@ -44,38 +51,38 @@ export const Produccion = () => {
     })
   }, [])
 
-  function filter(query) {
-    return listRes.filter((res) => (
-      res.Numero.toString().includes(query) || res.Nombre.toLowerCase().includes(query.toLowerCase())
-    )
-    );
+  function filter(list, query, listOfKeys) {
+    return list.filter((item) => (
+      listOfKeys.some((key) => item[key].toString().toLowerCase().includes(query.toLowerCase()))
+    ));
   }
 
-  const handleInputChange = ({ target: { value } }) => {
+  const handleInputChangeRes = ({ target: { value } }) => {
     setInputValue(value)
-    value ? setFilterRes(filter(value)) : setFilterRes(listRes)
+    value ? setFilterRes(filter(listRes, value, ['Numero', 'Nombre'])) : setFilterRes(listRes)
+  }
+
+  const handleInputChangeRegistro = ({ target: { value } }) => {
+    setInputRegistro(value)
+    value ? setFilterRegistros(filter(registros, value, ['Fecha', 'Tipo'])) : setFilterRegistros(registros)
   }
 
   const HandleChange = (e, key) => {
     let value = e.target.value
     const type = e.target.type
+
+    console.log(values)
+
+    value === 'Leche' ? setFilterRes(filter(listRes, 'F', ['Sexo'])) : setFilterRes(listRes)
+    
     if (type === 'number' && value) value = parseInt(value)
-    if (type === 'datetime-local' && value) {
-      value = new Date(value).toISOString()
-      console.log(value)
-    }
     setValues({ ...values, [key]: value })
   }
 
-  /* TO DO 
-   *  METODO PARA SELECCIONAR DESDE EL INPUT */
-
-
   const OnChangeSelectRes = (ID) => {
     let OldResID = values.ResID
-    let oldListRes = listRes
-
-    oldListRes.map((res) => {
+    
+    listRes.map((res) => {
       if (res.ID === ID) {
         res.selected = !res.selected
         if (res.selected) {
@@ -86,15 +93,16 @@ export const Produccion = () => {
       }
     })
 
-    setListRes(oldListRes)
     setValues({ ...values, ResID: OldResID })
   }
 
+  //Seria mejor esto en el Back
   const getName = (ID) => {
     let name = ''
     listRes.map((res) => {
       if (res.ID === ID) {
         name = res.Nombre
+        return name
       }
     })
     return name
@@ -116,10 +124,9 @@ export const Produccion = () => {
   const HandleEdit = (id) => {
     registros.map((registro) => {
       if (registro.ID === id) {
-        setDataModal({...registro, Fecha: registro.Fecha.split('T')[0]})
+        setDataModal({...registro})
       }
     })
-
     setOpenModal(true);
   }
 
@@ -137,7 +144,7 @@ export const Produccion = () => {
 
         <section className='Seleccionar'>
           <h2>Seleccionar</h2>
-          <input type="text" placeholder="Buscar" value={inputValue} onChange={handleInputChange} />
+          <input type="text" placeholder="Buscar" value={inputValue} onChange={handleInputChangeRes} />
           <div className='listScroll'>
           <table>
             <thead>
@@ -201,17 +208,12 @@ export const Produccion = () => {
 
           <div className='field'>
             <label>Fecha</label>
-            <input type="datetime-local" value={values.Fecha.split('Z')[0]} onChange={(e) => HandleChange(e, 'Fecha')} />
+            <input type="date" value={values.Fecha} onChange={(e) => HandleChange(e, 'Fecha')} />
           </div>
 
           <div className='field'>
             <label>Cantidad</label>
             <input type="number" value={values.Cantidad} onChange={(e) => HandleChange(e, 'Cantidad')} />
-          </div>
-
-          <div className='field'>
-            <label> Observaciones</label>
-            <textarea></textarea>
           </div>
 
           <div className='submit'>
@@ -221,11 +223,16 @@ export const Produccion = () => {
 
         <section className='registroList'>
           <h2>Registros</h2>
-          <input type="text" placeholder="Buscar Registros" />
+          <input type="text" onChange={handleInputChangeRegistro} value={inputRegistro} placeholder="Buscar Registros" />
           <div className='listScroll'>
             {
-              registros.map((registro) => (
-                <ItemRegistro key={registro.ID} Cantidad={registro.Cantidad} Fecha={registro.Fecha} Tipo={registro.Tipo} Nombre={getName(registro.ResID)} />
+              filterRegistros.map((registro) => (
+                <ItemRegistro 
+                  key={registro.ID} 
+                  Cantidad={registro.Cantidad} 
+                  Fecha={registro.Fecha} 
+                  Tipo={registro.Tipo} 
+                  Nombre={getName(registro.ResID)} />
               ))
             }
           </div>

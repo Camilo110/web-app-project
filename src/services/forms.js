@@ -16,7 +16,7 @@ export const getResModal = async () => {
  export const getProduccionModal = async () => {
   const response= await fetch('http://localhost:4000/res');
   const {body: reses} = await response.json();
-  const res = reses.map(({ID, Numero, Nombre}) => ({ID, Numero, Nombre, selected: false}))
+  const res = reses.map(({ID, Numero, Nombre, Sexo}) => ({ID, Numero, Nombre, Sexo, selected: false}))
 
   return res
  }
