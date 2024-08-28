@@ -16,7 +16,7 @@ export const getResById = async (id) => {
 export const getHijos = async (id) => {
   const ListHijos = await fetch(`http://localhost:4000/res/hijos/${id}`);
   if (ListHijos.status === 200) {
-    const {body} = await ListHijos.json();
+    const {body} = await ListHijos.json();  
     return body;
   }
 }

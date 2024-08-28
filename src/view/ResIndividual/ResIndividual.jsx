@@ -1,7 +1,7 @@
 import '../../styles/ResIndividual.css'
 import { useEffect } from "react"
 import { getHijos, getResById } from "../../services/res"
-import { getImages, uploadImage } from '../../services/images'
+import { deleteImage, getImages, uploadImage } from '../../services/images'
 import { useState } from "react"
 import { TarjetaLinaje } from './Components/TarjetaLinaje'
 //import PropTypes from 'prop-types'
@@ -22,7 +22,7 @@ export function ResIndividual() {
   const [servicios, setServicios] = useState([])
   const [secados, setSecados] = useState([])
   const [inseminaciones, setInseminaciones] = useState([])
-  const [imageMain, setImageMain] = useState('')
+  const [imageMain, setImageMain] = useState({})
 
   const [ModalUpload, setModalUpload] = useState(false)
 
@@ -39,7 +39,7 @@ export function ResIndividual() {
     const images = await getImages(id)
     setImages(images)
 
-    setImageMain(images[0].URL)
+    setImageMain(images[0])
 
     if(resp.Padre) {
       const padre = await getResById(resp.Padre)
@@ -73,6 +73,17 @@ export function ResIndividual() {
     setIsLoading(false)
   }
 
+  const onDeleteImage = async () => {
+    const resp = await deleteImage(imageMain.ID)
+    if (resp == 'OK') {
+      const images = await getImages(id)
+      setImages(images)
+      setImageMain(images[0])
+    }
+    
+  }
+
+
   const handleUpload = async (imageSelect) => {
     const resp = await uploadImage(res.ID, imageSelect)
     if (resp == 'OK') return 'OK'
@@ -92,6 +103,7 @@ export function ResIndividual() {
               <div>
                 <p>{res.Numero}</p>
                 <h2>{res.Nombre}</h2>
+                <p style={{cursor: 'pointer'}} onClick={()=> onDeleteImage()}>Eliminar Foto Seleccionada</p>
               </div>
 
               <div>
@@ -109,7 +121,7 @@ export function ResIndividual() {
               <div>
                 <img 
                   style={{width:'480px', height: '300px'}}
-                  src={`http://localhost:4000/imagen/img/${imageMain}`} 
+                  src={`http://localhost:4000/imagen/img/${imageMain.URL}`} 
                   alt="Cow Image" /> 
 
                 <div className='listImg'>
@@ -119,7 +131,7 @@ export function ResIndividual() {
                       key={item.ID} 
                       src={`http://localhost:4000/imagen/img/${item.URL}`} 
                       alt="Cow Image"
-                      onClick={() => setImageMain(item.URL)} 
+                      onClick={() => setImageMain(item)} 
                       />
                   ))}
                 </div>
