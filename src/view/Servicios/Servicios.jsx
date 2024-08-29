@@ -35,6 +35,20 @@ export const Servicios = () => {
     })
   }
 
+  const SubmitUpdate = async (values, idservicio) => {
+    const resp = await updateServicio(idservicio, values)
+    console.log(resp)
+    setOpenModalEdit(false)
+  }
+
+  const SubmitCreate = async (valuesCreate, id) => {
+    console.log(valuesCreate, 'values')
+    const resp = await createServicio(valuesCreate)
+    console.log(resp,'------', id)
+    setOpenModalCreate(false)
+  }
+
+
 
 
   return (
@@ -47,27 +61,15 @@ export const Servicios = () => {
 
       <main className='ServiciosMain'>
 
-        <div className='FiltroServicios'>
-          <h3> 
-            Filtro 
-            <span>Fecha</span> 
-            <span> Nombre</span>
-            <span>Tipo</span>
-          </h3>
-
-          <input type="text" placeholder="Buscar..."/>
-        </div>
-
-
         {
           isLoading
           ?
           <h3> Cargando... </h3>
           :
           <Table
-          HeaderList={['ID', 'Tipo',  'Fecha',  'Veterinario']} //, 'Producto', '# Res'
+          HeaderList={['Numero', 'Tipo',  'Fecha',  'Veterinario']} //, 'Producto', '# Res'
           data={ servicios }
-          keyList={ ['ID', 'Tipo', 'Fecha', 'Veterinario']}
+          keyList={ ['Numero', 'Tipo', 'Fecha', 'Veterinario']}
           onDelete={deleteServicio}
           onEdit={onEdit}
         />
@@ -83,7 +85,7 @@ export const Servicios = () => {
         setOpenModal={setOpenModalEdit}
         data={data}
         fields={fields}
-        Handlesubmit={updateServicio}>
+        Handlesubmit={SubmitUpdate}>
           <h3>  Editar Servicio</h3>
         </Modal>
       }
@@ -93,12 +95,11 @@ export const Servicios = () => {
        <Modal
         setOpenModal={setOpenModalCreate}
         fields={fields}
-        Handlesubmit={createServicio}>
+        Handlesubmit={SubmitCreate}>
           <h3>  Crear Servicio</h3>
         </Modal>
 
       }
-
 
     </section>
   )

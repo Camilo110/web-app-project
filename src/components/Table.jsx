@@ -51,7 +51,7 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
     }
 
     const filterDate = (value) => {
-      const dataFilter = datos.filter((registro) => registro[fieldFilter].toLowerCase().includes(value.toLowerCase()))
+      const dataFilter = datos.filter((registro) => registro[fieldFilter].toString().toLowerCase().includes(value.toString().toLowerCase()))
       return dataFilter
     }
 
