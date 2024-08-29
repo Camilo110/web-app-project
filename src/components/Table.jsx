@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import PropTypes from 'prop-types'
 import '../styles/Table.css'
 
@@ -55,20 +55,33 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
       return dataFilter
     }
 
+    const reference = useRef();
+
     const selectFieldFilter = (e) => {
       const value = e.target.innerText
       setFieldFilter(value)
       console.log('Campo', value)
+      reference.current.select(); 
     }
+
+     
 
 
   return (
     <div>
 
-      <h2> Filtrar por: <span>{fieldFilter ? fieldFilter : "Seleccion el Header de la columna por la que desea filtrar"}</span> </h2>
-      <input type="text" placeholder="" onChange={onChangeFilter}/>
+      <div className="table-search"> 
+        <h3>Filtrar: </h3>
+        <input 
+          ref={reference}
+          type="text" 
+          placeholder="" 
+          onChange={onChangeFilter}
+        />
+        <span style={{color: 'red'}}>{fieldFilter ? fieldFilter : "Click en Titulo de la columna que desea buscar"}</span>
+      </div>
 
-      {paginacion()}
+        {paginacion()}
 
       <table>
 

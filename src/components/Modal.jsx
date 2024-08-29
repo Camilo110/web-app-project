@@ -7,7 +7,6 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
   const [valuesUpdate, setValuesUpdate] = useState({})
   const [values, setValues] = useState(data)
 
-
   const HandleChange = (e, name) => {
     let {value} = e.target
     const type = e.target.type
@@ -37,6 +36,7 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
           {Object.keys(fields).map((key) => (
 
             fields[key].type === 'select' 
+
             ? 
 
             <div className='field-modal' key={key}>

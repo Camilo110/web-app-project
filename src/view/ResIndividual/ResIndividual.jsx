@@ -7,8 +7,9 @@ import { TarjetaLinaje } from './Components/TarjetaLinaje'
 //import PropTypes from 'prop-types'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
 import { useParams } from 'react-router-dom'
-import { getServicio } from '../../services/servicio'
+import { createServicio, getServicioById, getServicioByIdRes, updateServicio, deleteServicio } from '../../services/servicio'
 import { UploadFile } from '../../components/UploadFile'
+import { Modal } from '../../components/Modal'
 
 
 export function ResIndividual() {
@@ -25,6 +26,11 @@ export function ResIndividual() {
   const [imageMain, setImageMain] = useState({})
 
   const [ModalUpload, setModalUpload] = useState(false)
+
+  const [openModalEdit, setOpenModalEdit] = useState(false)
+  const [openModalCreate, setOpenModalCreate] = useState(false)
+
+  const [data, setData] = useState([])
 
   useEffect(() => {      
     getAllData()
@@ -59,7 +65,7 @@ export function ResIndividual() {
     }
     setLinaje(listLinaje)
 
-    const AllServicios = await getServicio()
+    const AllServicios = await getServicioByIdRes(id)
 
     const servicios = AllServicios.filter(servicio => servicio.Tipo != 'Secado' && servicio.Tipo != 'Inseminacion')
     setServicios(servicios)
@@ -81,6 +87,38 @@ export function ResIndividual() {
       setImageMain(images[0])
     }
     
+  }
+
+  const campos = {
+    Tipo: { label: 'Tipo', type: 'text', value: '' },
+    Fecha: { label: 'Fecha', type: 'date', value: '' },
+    Veterinario: { label: 'Veterinario', type: 'text', value: '' },
+    Observaciones: { label: 'Observaciones', type: 'textarea', value: '' },
+    ResID: { label: 'Nombre Res', type: 'select', value: [{ID: res.ID, value: res.Nombre}] }
+  }
+
+
+  const onEdit = async (id) => {
+    const resp = await getServicioById(id)
+    setData(resp)
+    setOpenModalEdit(true)
+  }
+
+  const onCreate = async () => {
+    setOpenModalCreate(true)
+  }
+
+  const SubmitUpdate = async (values, idservicio) => {
+    const resp = await updateServicio(idservicio, values)
+    console.log(resp)
+    setOpenModalEdit(false)
+  }
+
+  const SubmitCreate = async (valuesCreate) => {
+    console.log(valuesCreate, 'values')
+    const resp = await createServicio(valuesCreate)
+    console.log(resp,'------')
+    setOpenModalCreate(false)
   }
 
 
@@ -109,9 +147,17 @@ export function ResIndividual() {
               <div>
                 <p>borrar</p>
                 <p>editar</p>
-                <p onClick={() => setModalUpload(true)}
+                <p 
+                  onClick={() => setModalUpload(true)}
                   style={{ cursor: 'pointer' }}
-                  >Subir foto</p>
+                  >Subir foto
+                </p>
+                <p
+                  style={{ cursor: 'pointer' }}
+                  onClick={onCreate}
+                >
+                  Agregar Servicio
+                </p>
               </div>
 
             </div>
@@ -195,29 +241,31 @@ export function ResIndividual() {
               <div className='ListaRegistros'>
                 { servicios.length > 0 &&
                   servicios.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} onDelete={()=>(console.log('Delete'))} onEdit={()=>(console.log('Edit'))}/>
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={deleteServicio} onEdit={onEdit}/>
                   ))
                 }
               </div>
             </div>
-            <div>
-              <h3>Registros de Secado</h3>
-              <p>Agregar +</p>
-              <div className='ListaRegistros'>
-                { secados.length > 0 &&
-                  secados.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} onDelete={()=>(console.log('Delete'))} onEdit={()=>(console.log('Edit'))} />
-                  ))
-                }
-              </div>
+            {res.Sexo === 'F' &&
+              <div>
+                <h3>Registros de Secado</h3>
+                <p>Agregar +</p>
+                <div className='ListaRegistros'>
+                  { secados.length > 0 &&
+                    secados.map((item) => (
+                      <TarjetaRegistros key={item.ID} body={item} onDelete={deleteServicio} onEdit={onEdit} />
+                    ))
+                  }
+                </div>
             </div>
+            }
             <div >
-              <h3>Montas o Inseminaciones</h3>
+              <h3>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h3>
               <p>Agregar +</p>
               <div className='ListaRegistros'>
                 { inseminaciones.length > 0 &&
                   inseminaciones.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} onDelete={()=>(console.log('Delete'))} onEdit={()=>(console.log('Edit'))}/>
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={deleteServicio} onEdit={onEdit}/>
                   ))
                 }
               </div>
@@ -227,6 +275,30 @@ export function ResIndividual() {
 
       {ModalUpload &&
         <UploadFile onUpload={handleUpload} setModal={setModalUpload} />
+      }
+
+      {openModalEdit
+        &&
+        <Modal
+          setOpenModal={setOpenModalEdit}
+          data={data}
+          fields={campos}
+          Handlesubmit={SubmitUpdate}
+          >
+          <h3>  Editar Servicio</h3>
+        </Modal>
+      }
+
+      {openModalCreate
+       &&
+       <Modal
+        setOpenModal={setOpenModalCreate}
+        fields={campos}
+        Handlesubmit={SubmitCreate}
+        >
+        <h3>  Crear Servicio</h3>
+      </Modal>
+
       }
 
     </>

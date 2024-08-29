@@ -39,10 +39,6 @@ const modules = [
 ];
 
 export function Aside() {
-  /* const handleModule = (title) => {
-    //redireccionar en el router como /{title}
-    console.log(title);
-  }; */
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isOpen, setIsOpen] = useState(false);

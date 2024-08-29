@@ -61,5 +61,13 @@ th {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1em;
+}
+
+.table-search {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 2rem;
 }

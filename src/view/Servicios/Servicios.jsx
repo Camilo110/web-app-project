@@ -3,12 +3,14 @@ import { useEffect, useState } from "react"
 import { Modal } from "../../components/Modal"
 import { Table } from "../../components/Table"
 import { createServicio, getServicio, getServicioById, updateServicio, deleteServicio } from "../../services/servicio"
+import { getServiciosModal } from '../../services/forms'
 
 const fields = {
   Tipo: { label: 'Tipo', type: 'text', value: '' },
   Fecha: { label: 'Fecha', type: 'date', value: '' },
   Veterinario: { label: 'Veterinario', type: 'text', value: '' },
-  Observaciones: { label: 'Observaciones', type: 'textarea', value: '' }
+  Observaciones: { label: 'Observaciones', type: 'textarea', value: '' },
+  ResID: { label: 'Nombre Res', type: 'select', value: [''] }
 }
 
 export const Servicios = () => {
@@ -17,6 +19,7 @@ export const Servicios = () => {
   const [openModalCreate, setOpenModalCreate] = useState(false)
 
   const [data, setData] = useState([])
+  const [campos, setCampos] = useState(fields)
 
   const [servicios, setServicios] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -28,11 +31,18 @@ export const Servicios = () => {
     })
   }, [])
 
-  const onEdit = (id) => {
-    getServicioById(id).then((resp) => {
-      setData(resp)
-      setOpenModalEdit(true)
-    })
+  const onEdit = async (id) => {
+    const resp = await getServicioById(id)
+    setData(resp)
+    const reses= await getServiciosModal()
+    setCampos({...fields, ResID: { label: 'Nombre Res', type: 'select', value: reses}})
+    setOpenModalEdit(true)
+  }
+
+  const onCreate = async () => {
+    const reses= await getServiciosModal()
+    setCampos({...fields, ResID: { label: 'Nombre Res', type: 'select', value: reses}})
+    setOpenModalCreate(true)
   }
 
   const SubmitUpdate = async (values, idservicio) => {
@@ -41,10 +51,10 @@ export const Servicios = () => {
     setOpenModalEdit(false)
   }
 
-  const SubmitCreate = async (valuesCreate, id) => {
+  const SubmitCreate = async (valuesCreate) => {
     console.log(valuesCreate, 'values')
     const resp = await createServicio(valuesCreate)
-    console.log(resp,'------', id)
+    console.log(resp,'------')
     setOpenModalCreate(false)
   }
 
@@ -56,7 +66,7 @@ export const Servicios = () => {
 
       <div className='Title'>
         <h1> Servicios </h1>
-        <button onClick={() => setOpenModalCreate(true)}> Agregar </button>
+        <button onClick={onCreate}> Agregar </button>
       </div>
 
       <main className='ServiciosMain'>
@@ -84,7 +94,7 @@ export const Servicios = () => {
        <Modal
         setOpenModal={setOpenModalEdit}
         data={data}
-        fields={fields}
+        fields={campos}
         Handlesubmit={SubmitUpdate}>
           <h3>  Editar Servicio</h3>
         </Modal>
@@ -94,7 +104,7 @@ export const Servicios = () => {
        &&
        <Modal
         setOpenModal={setOpenModalCreate}
-        fields={fields}
+        fields={campos}
         Handlesubmit={SubmitCreate}>
           <h3>  Crear Servicio</h3>
         </Modal>

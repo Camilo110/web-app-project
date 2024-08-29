@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 
-export function TarjetaRegistros({body: {ID, Numero, ...body}, onDelete, onEdit}) {
+// eslint-disable-next-line no-unused-vars
+export function TarjetaRegistros({body: {ID, Numero, ResID, ...body}, onDelete, onEdit}) {
 
   return (
     <div className='TarjetaRegistro'>

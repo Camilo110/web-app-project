@@ -12,6 +12,12 @@ export const getServicioById = async (id) => {
   return servicio;
 }
 
+export const getServicioByIdRes = async (id) => {
+  const resp = await getServicio();
+  const servicio = resp.filter(servicio => servicio.ResID === id);
+  return servicio;
+}
+
 export const updateServicio = async (id, body) => {
   console.log('body', body)
   const resp = await fetch(`http://localhost:4000/servicio/${id}`, {
