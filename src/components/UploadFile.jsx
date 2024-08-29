@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import './../styles/ModalUpload.css';
 export const UploadFile = ({onUpload, setModal}) => {
   
-  const [fileSelect, setFileSelect] = useState('')
+  const [fileSelect, setFileSelect] = useState([])
 
   const uploadChange = (e) => {
-    setFileSelect(e.target.files[0])
+    setFileSelect(e.target.files)
   }
 
   const onExit = () => {
@@ -31,10 +31,12 @@ export const UploadFile = ({onUpload, setModal}) => {
 
   return (
     <div className="Modal-upload">
-      <h3>Subir Imagen</h3>
-      <button onClick={onExit}>X</button>
-      <input type="file" onChange={uploadChange} />
-      <button onClick={handleUpload}>Subir</button>
+      <div className='content-upload'>
+        <h1>Subir Imagen</h1>
+        <button onClick={onExit} className="exit">X</button>
+        <input type="file" multiple onChange={uploadChange} />
+        <button onClick={handleUpload}>Subir</button>
+      </div>
     </div>
   )
 }

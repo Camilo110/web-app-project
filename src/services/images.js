@@ -5,9 +5,11 @@ export const getImages = async (id) => {
 }
 
 
-export const uploadImage = async (id, image) => {
+export const uploadImage = async (id, files, key) => {
   const formData = new FormData()
-  formData.append('images', image)
+  for (let i = 0; i < files.length; i++) {
+      formData.append(key, files[i])
+  }
   formData.append('resID', id)
 
   const response = await fetch('http://localhost:4000/imagen', {

@@ -11,3 +11,23 @@
   background-color: transparent;
   backdrop-filter: blur(5px);  
 }
+.content-upload{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; 
+  width: auto;
+  height: auto;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.content-upload .exit{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}

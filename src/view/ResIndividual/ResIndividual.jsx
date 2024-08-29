@@ -85,7 +85,7 @@ export function ResIndividual() {
 
 
   const handleUpload = async (imageSelect) => {
-    const resp = await uploadImage(res.ID, imageSelect)
+    const resp = await uploadImage(res.ID, imageSelect, 'images')
     if (resp == 'OK') return 'OK'
     return 'Error'
     }
