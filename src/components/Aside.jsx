@@ -64,7 +64,7 @@ export function Aside() {
   }, []);
 
   return (
-    <div className="asideMain">
+    <>
        {isMobile && isOpen && (
         <label className="open" htmlFor="check" onClick={toggle}>
           <span className="material-icons-sharp" style={{ fontSize: '36px' }}>
@@ -95,6 +95,6 @@ export function Aside() {
           ))}
         </div>
       </aside>
-    </div>
+    </>
   );
 }

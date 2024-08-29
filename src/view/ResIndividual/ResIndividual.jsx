@@ -91,11 +91,11 @@ export function ResIndividual() {
     }
 
   return (
-    <div className='res-individual'> 
-      {
-        isLoading ? <p>Cargando...</p> :
-
-          <div>
+    
+    <> 
+    {
+      isLoading ? <p>Cargando...</p> :
+          <div className='res-individual'>
 
             <p>volver a la lista</p>
 
@@ -229,7 +229,7 @@ export function ResIndividual() {
         <UploadFile onUpload={handleUpload} setModal={setModalUpload} />
       }
 
-    </div>
+    </>
 
   )
 }
