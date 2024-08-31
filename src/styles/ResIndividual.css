@@ -1,6 +1,7 @@
 .SectionOne {
   display: flex;
-  justify-content: space-between  ;
+  justify-content: start;
+  gap: 30px;
   align-items: center;
 }
 .SectionOne div {
@@ -12,8 +13,10 @@
 .listImg {
   display: flex;
   gap: 2px;
+  width: 480px;
   justify-content: start ;
   align-items: center;
+  overflow-x: scroll;
 }
 
 .res-individual{
@@ -22,7 +25,12 @@
   justify-content: start;
   gap: 10px;
   padding: 10px;
+  /**
+   * 
+   * CAMBIAR ESTE WIDTH PARA ALGO MÁS FLEXIBLE, POR COMODIDA LO DEJO ASÍ.
+   */
   width: 100%;
+  max-width: 800px; 
 }
 
 .res-individual-main {
@@ -44,7 +52,6 @@
   flex-direction: column;
   justify-content: start;
   gap: 5px;
-  width: 90%;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -77,6 +84,6 @@
   flex-direction: row;
   justify-content: start;
   gap: 5px;
-  width: 90%;
+  width: 100%;
   overflow-x: scroll;
 }

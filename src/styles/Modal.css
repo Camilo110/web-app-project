@@ -33,7 +33,7 @@
   right: 10px;
   cursor: pointer;
 }
-.Fields-modal{
+.Modal-content .Fields-modal{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
@@ -41,11 +41,12 @@
   align-items: start;
   justify-content: start;
 }
-.field-modal{
+.Modal-content .Fields-modal .field-modal{
   display: flex;
   flex-direction: column;
   width: 100%;
   justify-content: space-between;
+  align-items: stretch;
   gap: 5px;
 }
 

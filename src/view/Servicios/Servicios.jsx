@@ -95,7 +95,10 @@ export const Servicios = () => {
         setOpenModal={setOpenModalEdit}
         data={data}
         fields={campos}
-        Handlesubmit={SubmitUpdate}>
+        Handlesubmit={SubmitUpdate}
+        columns={2}
+        >
+          
           <h3>  Editar Servicio</h3>
         </Modal>
       }
@@ -105,7 +108,9 @@ export const Servicios = () => {
        <Modal
         setOpenModal={setOpenModalCreate}
         fields={campos}
-        Handlesubmit={SubmitCreate}>
+        Handlesubmit={SubmitCreate}
+        columns={2}
+        >
           <h3>  Crear Servicio</h3>
         </Modal>
 

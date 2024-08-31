@@ -93,8 +93,7 @@ export function ResIndividual() {
     Tipo: { label: 'Tipo', type: 'text', value: '' },
     Fecha: { label: 'Fecha', type: 'date', value: '' },
     Veterinario: { label: 'Veterinario', type: 'text', value: '' },
-    Observaciones: { label: 'Observaciones', type: 'textarea', value: '' },
-    ResID: { label: 'Nombre Res', type: 'select', value: [{ID: res.ID, value: res.Nombre}] }
+    Observaciones: { label: 'Observaciones', type: 'textarea', value: '' }
   }
 
 
@@ -109,14 +108,14 @@ export function ResIndividual() {
   }
 
   const SubmitUpdate = async (values, idservicio) => {
-    const resp = await updateServicio(idservicio, values)
+    const resp = await updateServicio(idservicio, {...values, ResID: res.ID})
     console.log(resp)
     setOpenModalEdit(false)
   }
 
   const SubmitCreate = async (valuesCreate) => {
     console.log(valuesCreate, 'values')
-    const resp = await createServicio(valuesCreate)
+    const resp = await createServicio({...valuesCreate, ResID: res.ID})
     console.log(resp,'------')
     setOpenModalCreate(false)
   }
@@ -284,8 +283,9 @@ export function ResIndividual() {
           data={data}
           fields={campos}
           Handlesubmit={SubmitUpdate}
+          columns={2}
           >
-          <h3>  Editar Servicio</h3>
+          <h3>  Editar Servicio de {res.Nombre}</h3>
         </Modal>
       }
 
@@ -295,8 +295,9 @@ export function ResIndividual() {
         setOpenModal={setOpenModalCreate}
         fields={campos}
         Handlesubmit={SubmitCreate}
+        columns={2}
         >
-        <h3>  Crear Servicio</h3>
+        <h3>  Crear Servicio para {res.Nombre}</h3>
       </Modal>
 
       }
