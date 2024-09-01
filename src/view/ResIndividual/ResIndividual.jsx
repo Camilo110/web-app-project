@@ -138,13 +138,16 @@ export function ResIndividual() {
             <p>volver a la lista</p>
 
             <div className='SectionOne'>
-              <div>
-                <p>{res.Numero}</p>
-                <h2>{res.Nombre}</h2>
+              <div className='LineOne'>
+                <div>
+                  <p>{res.Numero}</p>
+                  <h2>{res.Nombre}</h2>
+                </div>
+                
                 <p style={{cursor: 'pointer'}} onClick={()=> onDeleteImage()}>Eliminar Foto Seleccionada</p>
               </div>
 
-              <div>
+              <div className='opciones'>
                 <p>borrar</p>
                 <p>editar</p>
                 <p 
@@ -164,16 +167,16 @@ export function ResIndividual() {
 
             <main  className='res-individual-main'>            
                               
-              <div>
-                <img 
-                  style={{width:'480px', height: '300px'}}
+              <div className='galeria'>
+                <img className='imagenPrincipal'
+                  /* style={{width:'480px', height: '300px'}} */
                   src={`http://localhost:4000/imagen/img/${imageMain.URL}`} 
                   alt="Cow Image" /> 
 
                 <div className='listImg'>
                   {images?.map((item) => (
                     <img 
-                      style={{width:'180px', height: '100px', cursor: 'pointer'}} 
+                      /* style={{width:'180px', height: '100px', cursor: 'pointer'}}  */
                       key={item.ID} 
                       src={`http://localhost:4000/imagen/img/${item.URL}`} 
                       alt="Cow Image"

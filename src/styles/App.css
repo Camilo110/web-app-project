@@ -109,14 +109,16 @@ b{
   width: 96%;
   margin: 0 auto;
   gap: 1.2rem;
-  grid-template-columns: 200px 3fr;
+  grid-template-columns: 230px 3fr;
 }
 
 main {
   display: flex;
   justify-content: center;
   gap : 20px;
-  margin-top:rem;
+  margin-top: 1rem; 
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 aside{

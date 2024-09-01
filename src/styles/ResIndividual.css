@@ -1,25 +1,36 @@
 .SectionOne {
   display: flex;
-  justify-content: space-between  ;
-  align-items: center;
+  max-width: 100%;
+  justify-content: space-between;
+  gap: 10px;
 }
+
 .SectionOne div {
   display: flex;
   gap: 10px;
-  justify-content: space-between  ;
+  justify-content: space-between ;
   align-items: center;
 }
+
 .listImg {
   display: flex;
-  gap: 2px;
-  justify-content: start ;
-  align-items: center;
+  flex-direction: row;
+  justify-content: start;
+  gap: 5px;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.listImg img {
+  max-width: 180px;
+  max-height: 100px;
 }
 
 .res-individual{
   display: flex;
   flex-direction: column;
   justify-content: start;
+  margin-top: 1.3rem;
   gap: 10px;
   padding: 10px;
   width: 100%;
@@ -27,10 +38,27 @@
 
 .res-individual-main {
   display: flex;
-  grid-template-columns: auto auto;
   justify-content: start;
-  gap : 20px;
+  gap: 1.5rem;
+  margin: 1rem 0;
 }
+
+.galeria{
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  gap: 1.2rem;
+}
+
+.res-individual-main .imagenPrincipal{
+  max-width: 480px;
+  max-height: 300px;
+}
+
+.res-individual-main img{
+  max-width: '480px';
+  height: '300px';
+} 
 
 .TarjetaLinaje .info{
   display: flex;
@@ -44,7 +72,7 @@
   flex-direction: column;
   justify-content: start;
   gap: 5px;
-  width: 90%;
+  width: 100%;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -57,15 +85,18 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.ListaRegistros::-webkit-scrollbar {
+.ListaRegistros::-webkit-scrollbar,
+.ListImg::-webkit-scrollbar {
   width: 100%;               /* width of the entire scrollbar */
 }
 
-.ListaRegistros::-webkit-scrollbar-track {
+.ListaRegistros::-webkit-scrollbar-track,
+.ListImg::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.068);        /* color of the tracking area */
 }
 
-.ListaRegistros::-webkit-scrollbar-thumb {
+.ListaRegistros::-webkit-scrollbar-thumb,
+.ListImg::-webkit-scrollbar-thumb {
   background-color: rgba(227, 225, 225, 0.6);;    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 2px solid rgba(0, 0, 0, 0.068);;  /* creates padding around scroll thumb */
@@ -77,6 +108,28 @@
   flex-direction: row;
   justify-content: start;
   gap: 5px;
-  width: 90%;
+  width: 100%;
   overflow-x: scroll;
+}
+
+
+@media screen and (max-width: 768px){
+  .res-individual-main{
+    flex-direction: column;
+  }
+  
+  .SectionOne{
+    flex-direction: column;
+    
+  }
+  .SectionOne div{
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+  }
+
+  .SectionOne .LineOne{
+    display: flex;
+    justify-content: space-between;    
+  }
 }
