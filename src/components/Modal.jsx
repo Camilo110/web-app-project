@@ -2,7 +2,7 @@ import {PropTypes} from 'prop-types'
 import { useState } from 'react'
 import '../styles/Modal.css'
 
-export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal}) => {
+export const Modal = ({children, fields, columns = 3, data = {}, Handlesubmit, setOpenModal}) => {
 
   const [valuesUpdate, setValuesUpdate] = useState({})
   const [values, setValues] = useState(data)
@@ -32,7 +32,7 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
           {children}
         </div>
 
-        <section className="Fields-modal">
+        <section className="Fields-modal" style={{ gridTemplateColumns: `${'1fr '.repeat(columns)}`}}>
           {Object.keys(fields).map((key) => (
 
             fields[key].type === 'select' 
@@ -51,7 +51,7 @@ export const Modal = ({children, fields, data = {}, Handlesubmit, setOpenModal})
 
             :
 
-            <div className='field' key={key}>
+            <div className='field-modal' key={key}>
               <label>{fields[key].label}</label>
               <input type={fields[key].type} value={values[key] || ''} onChange={(e) => HandleChange(e,key)}/>
             </div>

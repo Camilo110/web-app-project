@@ -93,8 +93,7 @@ export function ResIndividual() {
     Tipo: { label: 'Tipo', type: 'text', value: '' },
     Fecha: { label: 'Fecha', type: 'date', value: '' },
     Veterinario: { label: 'Veterinario', type: 'text', value: '' },
-    Observaciones: { label: 'Observaciones', type: 'textarea', value: '' },
-    ResID: { label: 'Nombre Res', type: 'select', value: [{ID: res.ID, value: res.Nombre}] }
+    Observaciones: { label: 'Observaciones', type: 'textarea', value: '' }
   }
 
 
@@ -109,14 +108,14 @@ export function ResIndividual() {
   }
 
   const SubmitUpdate = async (values, idservicio) => {
-    const resp = await updateServicio(idservicio, values)
+    const resp = await updateServicio(idservicio, {...values, ResID: res.ID})
     console.log(resp)
     setOpenModalEdit(false)
   }
 
   const SubmitCreate = async (valuesCreate) => {
     console.log(valuesCreate, 'values')
-    const resp = await createServicio(valuesCreate)
+    const resp = await createServicio({...valuesCreate, ResID: res.ID})
     console.log(resp,'------')
     setOpenModalCreate(false)
   }
@@ -234,7 +233,7 @@ export function ResIndividual() {
               <div>
                 <h3> Registros de Produccion</h3>
                 <p>Coming Soon</p>
-                <img src='https://fakeimg.pl/600x200' alt="Grafico" />
+                <img src='https://fakeimg.pl/500x200' alt="Grafico" />
               </div>
             }
 
@@ -249,6 +248,7 @@ export function ResIndividual() {
                 }
               </div>
             </div>
+
             {res.Sexo === 'F' &&
               <div>
                 <h3>Registros de Secado</h3>
@@ -262,6 +262,7 @@ export function ResIndividual() {
                 </div>
             </div>
             }
+            
             <div >
               <h3>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h3>
               <p>Agregar +</p>
@@ -287,8 +288,9 @@ export function ResIndividual() {
           data={data}
           fields={campos}
           Handlesubmit={SubmitUpdate}
+          columns={2}
           >
-          <h3>  Editar Servicio</h3>
+          <h3>  Editar Servicio de {res.Nombre}</h3>
         </Modal>
       }
 
@@ -298,8 +300,9 @@ export function ResIndividual() {
         setOpenModal={setOpenModalCreate}
         fields={campos}
         Handlesubmit={SubmitCreate}
+        columns={2}
         >
-        <h3>  Crear Servicio</h3>
+        <h3>  Crear Servicio para {res.Nombre}</h3>
       </Modal>
 
       }

@@ -31,3 +31,34 @@
   right: 10px;
   cursor: pointer;
 }
+
+.add-insumos{
+  border-color: black;
+  border: groove;
+  border-radius: 6px;
+  padding: 4px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.add-products .fields{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+.add-products .fields input{
+  width: 100px;
+  padding: 5px;
+  border-radius: 6px;
+  border: groove;
+}
+.input{
+  width: 300  px;
+  padding: 5px;
+  border-radius: 6px;
+  border: groove;
+}
