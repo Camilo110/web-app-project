@@ -230,7 +230,7 @@ export function ResIndividual() {
               <div>
                 <h3> Registros de Produccion</h3>
                 <p>Coming Soon</p>
-                <img src='https://fakeimg.pl/600x200' alt="Grafico" />
+                <img src='https://fakeimg.pl/500x200' alt="Grafico" />
               </div>
             }
 
@@ -245,6 +245,7 @@ export function ResIndividual() {
                 }
               </div>
             </div>
+
             {res.Sexo === 'F' &&
               <div>
                 <h3>Registros de Secado</h3>
@@ -258,6 +259,7 @@ export function ResIndividual() {
                 </div>
             </div>
             }
+            
             <div >
               <h3>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h3>
               <p>Agregar +</p>

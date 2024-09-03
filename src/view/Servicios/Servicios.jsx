@@ -2,6 +2,7 @@ import '../../styles/Servicios.css'
 import { useEffect, useState } from "react"
 import { Modal } from "../../components/Modal"
 import { Table } from "../../components/Table"
+import { ModalServicios } from "../../components/ModalServicios"
 import { createServicio, getServicio, getServicioById, updateServicio, deleteServicio } from "../../services/servicio"
 import { getServiciosModal } from '../../services/forms'
 
@@ -23,6 +24,8 @@ export const Servicios = () => {
 
   const [servicios, setServicios] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+
+  const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     getServicio().then((resp) => {
@@ -89,6 +92,12 @@ export const Servicios = () => {
 
       </main>
 
+      {
+        openModalCreate &&
+        <ModalServicios setOpenModal={setOpenModalCreate} />
+      }
+
+
       {openModalEdit
        &&
        <Modal
@@ -103,10 +112,10 @@ export const Servicios = () => {
         </Modal>
       }
 
-      {openModalCreate
+      {openModal
        &&
        <Modal
-        setOpenModal={setOpenModalCreate}
+        setOpenModal={setOpenModal}
         fields={campos}
         Handlesubmit={SubmitCreate}
         columns={2}

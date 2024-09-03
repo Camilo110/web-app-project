@@ -1,14 +1,18 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import PropTypes from 'prop-types'
 import '../styles/Table.css'
 
-export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) => {
+export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true, paginar = true}) => {
 
   const [numRows, setNumRows] = useState(10)
   const [limit, setLimit] = useState({ inf: 0, sup: 10 })
-  const [data, setData] = useState(datos)
-  const [fieldFilter, setFieldFilter] = useState('')
+  const [datos, setDatos] = useState([])
+  const [fieldFilter, setFieldFilter] = useState({text: '', value: ''})
 
+  useEffect (() => {
+    setDatos(data)
+  }, [data])
+  
   const onChangeRows = (e) => {
     const value = parseInt(e.target.value)
     setNumRows(value)
@@ -16,9 +20,9 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
   }
 
   const onChangeLimit = (op) => {
-    const addInf = (limit.inf + numRows >= data.length) ? limit.inf : limit.inf + numRows
-    const addSup = Math.min((limit.sup + numRows), data.length)
-
+    const addInf = (limit.inf + numRows >= datos.length) ? limit.inf : limit.inf + numRows
+    const addSup = Math.max(Math.min((limit.sup + numRows), datos.length), numRows)
+    
     const minusInf = Math.max((limit.inf - numRows), 0)
     const minusSup = minusInf + numRows
     
@@ -28,7 +32,7 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
       setLimit({ inf: minusInf, sup: minusSup })
     }
   }
-
+  
   const paginacion = () => {
     return (
       <div className="Paginacion">
@@ -46,21 +50,20 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
 
     const onChangeFilter = (e) => {
       const value = e.target.value
-      value ? setData(filterDate(value)) : setData(datos)
-      console.log(data)
+      value ? setDatos(filterDate(value)) : setDatos(data)
     }
-
+    
     const filterDate = (value) => {
-      const dataFilter = datos.filter((registro) => registro[fieldFilter].toString().toLowerCase().includes(value.toString().toLowerCase()))
+      const dataFilter = datos.filter((registro) => registro[fieldFilter.value].toString().toLowerCase().includes(value.toString().toLowerCase()))
       return dataFilter
     }
 
     const reference = useRef();
 
     const selectFieldFilter = (e) => {
-      const value = e.target.innerText
-      setFieldFilter(value)
-      console.log('Campo', value)
+      const value = e
+      const {ariaLabel, innerText} = value.target
+      setFieldFilter({text: `Buscando por ${innerText}`, value: ariaLabel})
       reference.current.select(); 
     }
 
@@ -78,30 +81,32 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
           placeholder="" 
           onChange={onChangeFilter}
         />
-        <span style={{color: 'red'}}>{fieldFilter ? fieldFilter : "Click en Titulo de la columna que desea buscar"}</span>
+        <span style={{color: 'red'}}>{fieldFilter.text}</span>
       </div>
 
-        {paginacion()}
+        {paginar && paginacion()}
 
       <table>
 
         <thead>
           <tr>
-            {HeaderList.map((header) => (
-              <th key={header} onClick={selectFieldFilter}>{header}</th>
+            {HeaderList.map((header, index) => (
+              <th key={header} aria-label={keyList[index]} onClick={selectFieldFilter}>{header}</th>
             ))}
             <th>Acciones</th>
           </tr>
         </thead>
 
         <tbody>
-          {data.slice(limit.inf, limit.sup).map((registro) => (
-            <tr key={registro.ID}>
+          {datos.slice(limit.inf, limit.sup).map((registro, index) => (
+            <tr key={`${registro.ID}${index}`}>
               {keyList.map((key) => (
                 <td key={key}>{registro[key]}</td>
               ))}
               <td>
-                <span onClick={() => onEdit(registro.ID)}>Editar </span>
+                {edit &&
+                  <span onClick={() => onEdit(registro.ID)}>Editar </span>
+                }
                 <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
               </td>
             </tr>
@@ -110,7 +115,7 @@ export const Table = ({ HeaderList, keyList, data : datos, onEdit, onDelete}) =>
 
       </table>
 
-      {paginacion()}
+      {paginar && paginacion()}
 
     </div>
   )
@@ -120,8 +125,10 @@ Table.propTypes = {
   HeaderList: PropTypes.array.isRequired,
   keyList: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
   onDelete: PropTypes.func.isRequired,
+  edit: PropTypes.bool,
+  paginar : PropTypes.bool
 }
 
 
