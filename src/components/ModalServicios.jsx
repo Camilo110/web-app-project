@@ -4,6 +4,7 @@ import '../styles/ModalServicios.css'
 import { getInsumo } from '../services/Insumo'
 import { getServiciosModal } from '../services/forms'
 import PropTypes from 'prop-types'
+import { createServicio } from '../services/servicio'
 
 
 export const ModalServicios= ({setOpenModal}) => {
@@ -78,12 +79,19 @@ export const ModalServicios= ({setOpenModal}) => {
     const {value} = e.target
     setValues({...values, [key]: value})
   }
-  const onSubmit = () => {
+
+  const onSubmit = async () => {
+    let listInsumos = []
+    selectedInsumo.map((insumo) => {
+      listInsumos.push({InsumoID: insumo.ID, Cantidad: insumo.Cantidad})
+    })
+
+    const resp = await createServicio({...values, listInsumos})
+    console.log(resp)
+
     setOpenModal(false)
-    console.log(values, selectedInsumo)
   }
   
-
   return (
     <div className='Modal'>
       <div className='Modal-content'>

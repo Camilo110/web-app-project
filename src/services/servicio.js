@@ -8,7 +8,7 @@ export const getServicio = async () => {
 export const getServicioById = async (id) => {
   const resp = await fetch (`http://localhost:4000/servicio/${id}`);
   const { body } = await resp.json();
-  const servicio = body[0];
+  const servicio = body;
   return servicio;
 }
 

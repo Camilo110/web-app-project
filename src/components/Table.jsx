@@ -50,11 +50,11 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
 
     const onChangeFilter = (e) => {
       const value = e.target.value
-      value ? setDatos(filterDate(value)) : setDatos(data)
+      value ? setDatos(filterDate(value)) : setDatos(data) 
     }
     
     const filterDate = (value) => {
-      const dataFilter = datos.filter((registro) => registro[fieldFilter.value].toString().toLowerCase().includes(value.toString().toLowerCase()))
+      const dataFilter = data.filter((registro) => registro[fieldFilter.value].toString().toLowerCase().includes(value.toString().toLowerCase()))
       return dataFilter
     }
 
