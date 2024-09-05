@@ -13,9 +13,27 @@ export const getServicioById = async (id) => {
 }
 
 export const getServicioByIdRes = async (id) => {
-  const resp = await getServicio();
-  const servicio = resp.filter(servicio => servicio.ResID === id);
-  return servicio;
+  const resp = await fetch (`http://localhost:4000/servicio/res/${id}`);
+  if (resp.status === 200) {
+    const { body } = await resp.json();
+    return body;
+  }
+}
+
+export const getServicioWithInseminacionByIdRes = async (id) => {
+  const resp = await fetch (`http://localhost:4000/servicio/res/InseminacionOmonta/${id}`);
+  if (resp.status === 200) {
+    const { body } = await resp.json();
+    return body;
+  }
+}
+
+export const getSecadoByIdRes = async (id) => {
+  const resp = await fetch (`http://localhost:4000/servicio/res/secado/${id}`);
+  if (resp.status === 200){
+    const { body } = await resp.json();
+    return body;
+  }
 }
 
 export const updateServicio = async (id, body) => {

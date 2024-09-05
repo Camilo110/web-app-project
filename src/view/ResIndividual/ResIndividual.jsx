@@ -7,7 +7,7 @@ import { TarjetaLinaje } from './Components/TarjetaLinaje'
 //import PropTypes from 'prop-types'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
 import { useParams } from 'react-router-dom'
-import { createServicio, getServicioById, getServicioByIdRes, updateServicio, deleteServicio } from '../../services/servicio'
+import { createServicio, getServicioById, getServicioByIdRes, updateServicio, deleteServicio, getServicioWithInseminacionByIdRes, getSecadoByIdRes } from '../../services/servicio'
 import { UploadFile } from '../../components/UploadFile'
 import { Modal } from '../../components/Modal'
 
@@ -18,11 +18,13 @@ export function ResIndividual() {
 
   const [isLoading, setIsLoading] = useState(true)
   const [res, setRes] = useState({})
-  const [linaje, setLinaje] = useState({})
   const [images, setImages] = useState([])
+  
+  const [linaje, setLinaje] = useState({})
   const [servicios, setServicios] = useState([])
   const [secados, setSecados] = useState([])
   const [inseminaciones, setInseminaciones] = useState([])
+
   const [imageMain, setImageMain] = useState({})
 
   const [ModalUpload, setModalUpload] = useState(false)
@@ -65,15 +67,13 @@ export function ResIndividual() {
     }
     setLinaje(listLinaje)
 
-    const AllServicios = await getServicioByIdRes(id)
-
-    const servicios = AllServicios.filter(servicio => servicio.Tipo != 'Secado' && servicio.Tipo != 'Inseminacion')
+    const servicios = await getServicioByIdRes(id)
     setServicios(servicios)
 
-    const secado = AllServicios.filter(servicio => servicio.Tipo === 'Secado')
+    const secado = await getSecadoByIdRes(id)
     setSecados(secado)
 
-    const inseminacion = AllServicios.filter(servicio => servicio.Tipo === 'Inseminacion')
+    const inseminacion = await getServicioWithInseminacionByIdRes(id)
     setInseminaciones(inseminacion)
 
     setIsLoading(false)
@@ -241,7 +241,7 @@ export function ResIndividual() {
               <h3>Servicios Medicos</h3>
               <p>Agregar +</p>
               <div className='ListaRegistros'>
-                { servicios.length > 0 &&
+                { servicios &&
                   servicios.map((item) => (
                     <TarjetaRegistros key={item.ID} body={item} onDelete={deleteServicio} onEdit={onEdit}/>
                   ))
@@ -254,7 +254,7 @@ export function ResIndividual() {
                 <h3>Registros de Secado</h3>
                 <p>Agregar +</p>
                 <div className='ListaRegistros'>
-                  { secados.length > 0 &&
+                  { secados &&
                     secados.map((item) => (
                       <TarjetaRegistros key={item.ID} body={item} onDelete={deleteServicio} onEdit={onEdit} />
                     ))
@@ -267,7 +267,7 @@ export function ResIndividual() {
               <h3>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h3>
               <p>Agregar +</p>
               <div className='ListaRegistros'>
-                { inseminaciones.length > 0 &&
+                { inseminaciones &&
                   inseminaciones.map((item) => (
                     <TarjetaRegistros key={item.ID} body={item} onDelete={deleteServicio} onEdit={onEdit}/>
                   ))
