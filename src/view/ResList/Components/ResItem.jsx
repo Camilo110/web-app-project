@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { deleteRes, updateRes, getResById } from "../../../services/res";
+import { updateRes, getResById } from "../../../services/res";
 import { getResModal } from "../../../services/forms";
 import { Modal } from "../../../components/Modal"
 import { useEffect, useState } from "react";
+import { createMuerte } from "../../../services/muerte";
 
 
 const campos = {
@@ -31,7 +32,7 @@ const camposDelete = {
 };
 
 // eslint-disable-next-line react/prop-types
-export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
+export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}, fetchRes}) {
   
   const [DeleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -42,38 +43,46 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
     }, [])
   
   
-  const HandleEdit = () => {
-    getResModal().then(({fincas, madres, padres}) => {
-      setFields(
+  const HandleEdit = async () => {
+    const {fincas, madres, padres} = await getResModal()
+    setFields(
         {...fields, 
           FincaID: { label: 'Finca', type: 'select', value: fincas},
           Madre: { label: 'Madre', type: 'select', value: madres},
           Padre: { label: 'Padre', type: 'select', value: padres}}
         )
-      getResById(id).then((res) => {
-        setValues(res) 
-        setEditModal(true);
-      })
-    })
+    const res = await getResById(id)
+    setValues(res) 
+    setEditModal(true);
   }
 
   const HandleDelete = () => {
+
     setDeleteModal(true)
   }
 
-  const ModalSubmitDelete = (body) => {
-    deleteRes(id).then((resp) => {
-      if (resp.status === 200) {
-        console.log('Res eliminada', body)
-      }
-      console.log('Respuesta Delete', resp)
-    })
+  const ModalSubmitDelete = async (body, id) => {
+    const resp = await createMuerte({ResID: id, ...body})
+    if (resp.status === 200) {
+      console.log('Res eliminada', body)
+    }
+    console.log('Respuesta Delete', resp)
+    
+    fetchRes()
+    setDeleteModal(false)
   }
   
-  const ModalSubmitEdit = (body ,idRes ) => {
-    updateRes(idRes, body).then((resp) => {
+  const ModalSubmitEdit = async (body ,idRes ) => {
+    if (Object.keys(body).length > 0){
+      const resp = await updateRes(idRes, body)
       console.log('Respuesta Update', resp)
-    })
+      fetchRes()
+      setEditModal(false)
+    }else{
+      console.log('Error al editar')
+    }
+
+    
   }
   
 
@@ -110,7 +119,7 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}}) {
           </Modal>}
         
         {DeleteModal &&
-        <Modal Handlesubmit={ModalSubmitDelete} fields={camposDelete} setOpenModal={setDeleteModal}>
+        <Modal Handlesubmit={ModalSubmitDelete} fields={camposDelete} data={{ID: id} } setOpenModal={setDeleteModal}>
           <h3>Eliminar Res</h3>
         </Modal>}
   </div> 

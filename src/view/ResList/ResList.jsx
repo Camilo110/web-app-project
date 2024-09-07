@@ -36,10 +36,7 @@ export function ResList() {
 
 
   useEffect(() => {
-    getRes().then((res) => {
-      setResponse(res)
-      setListRes(res)
-    })
+    fetchRes()
     getResModal().then(({ fincas, madres, padres }) => {
       setFields({
         ...fields,
@@ -50,6 +47,12 @@ export function ResList() {
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const fetchRes = async() =>{
+    const res = await getRes()
+    setResponse(res)
+    setListRes(res)
+  }
 
 
 
@@ -71,11 +74,14 @@ export function ResList() {
     value ? setListRes(filter(value)) : setListRes(response)
   }
 
-  const ModalSubmitCreate = (values) => {
+  const ModalSubmitCreate = async (values) => {
     console.log('Submit', values)
-    createRes(values).then((resp) => {
-      console.log('Respuesta', resp)
-    })
+    
+    const resp = await createRes(values)
+    
+    console.log('Respuesta', resp)
+    setCreateModal(false)
+    fetchRes()
   }
 
   return (
@@ -97,7 +103,7 @@ export function ResList() {
           </Modal>}
       </div>
 
-      {listRes.map((res) => (<ResItem key={res.Numero} res={res} />))}
+      {listRes.map((res) => (<ResItem key={res.Numero} res={res} fetchRes={fetchRes} />))}
 
 
     </div>

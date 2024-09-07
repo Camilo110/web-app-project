@@ -63,10 +63,6 @@ export function Aside() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('isOpen:', isOpen);
-  }, [isOpen]);
-
   return (
     <>
        {isMobile && isOpen && (
