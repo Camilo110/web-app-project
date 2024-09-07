@@ -257,7 +257,7 @@ export function ResIndividual() {
                   <p>Número de partos: {res.NumeroPartos} </p>
                 </>
               }
-              <p>Ubicación: {res.FincaID}</p>
+              <p>Ubicación: {res.FincaNombre}</p>
               <p>Edad: {calcularEdad(res.FechaNacimiento)} años </p>
               <p>Estado: {res.Estado}</p>
               <p>Peso al Nacer: {res.PesoNacimiento} Kg</p>

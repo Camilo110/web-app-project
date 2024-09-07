@@ -32,7 +32,7 @@ const camposDelete = {
 };
 
 // eslint-disable-next-line react/prop-types
-export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}, fetchRes}) {
+export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos, FincaNombre}, fetchRes}) {
   
   const [DeleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -104,7 +104,7 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos}, fetchRes})
 
             <p>N° Partos: {NumeroPartos}</p>
             <p>Promedio leche (diaria): 19 lts</p>
-            <p>Ubicación: Lote 2</p>
+            <p>Ubicación: {FincaNombre}</p>
         </Link>
             <div className="actions">
                 <button onClick={HandleDelete} className="delete">❌</button>

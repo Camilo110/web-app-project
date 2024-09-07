@@ -247,7 +247,7 @@ export const Produccion = () => {
         <h3>Cargando...</h3>
         :
         <Table HeaderList={['Fecha', 'Tipo', 'Cantidad', 'Res']} 
-               keyList={['Fecha', 'Tipo', 'Cantidad', 'ResID']} 
+               keyList={['Fecha', 'Tipo', 'Cantidad', 'ResNombre']} 
                data={registros}
                onEdit={HandleEdit}
                onDelete={HandleDelete}
