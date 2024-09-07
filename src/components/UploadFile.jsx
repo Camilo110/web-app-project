@@ -23,8 +23,6 @@ export const UploadFile = ({onUpload, setModal}) => {
         onExit()
         return
       }
-      console.log('Ocurrio un error')
-      return
     }
     console.log('Select a file')
   }

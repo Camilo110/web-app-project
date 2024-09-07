@@ -46,15 +46,16 @@ export const Produccion = () => {
     })
     getProduccionModal().then((res) => {
       setListRes(res)
-      setFilterRes(res)
+      setFilterRes(filter(res, 'F', ['Sexo']))
       setIsLoading1(false)
     })
   }, [])
 
   function filter(list, query, listOfKeys) {
-    return list.filter((item) => (
+    const listFilter = list.filter((item) => (
       listOfKeys.some((key) => item[key].toString().toLowerCase().includes(query.toLowerCase()))
     ));
+    return listFilter
   }
 
   const handleInputChangeRes = ({ target: { value } }) => {
