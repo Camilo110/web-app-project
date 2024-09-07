@@ -119,8 +119,9 @@ export function ResIndividual() {
     }
 
     const hijos = await getHijos(id)
-    setNumHijo(hijos.length)
+
     if (hijos) {
+      setNumHijo(hijos.length)
       hijos.forEach(hijo => {
         listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo' })
       })

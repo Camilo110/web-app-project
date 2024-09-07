@@ -16,16 +16,15 @@ export const UploadFile = ({onUpload, setModal}) => {
 
 
   const handleUpload = async () => {
-    if (fileSelect) {
-      const resp = await onUpload(fileSelect)
-      if (resp == 'OK') {
-        setFileSelect('')
-        onExit()
-        return
-      }
+    if (fileSelect.length > 0) {
+      await onUpload(fileSelect)
+      setFileSelect([])
+      onExit()
+      return
     }
     console.log('Select a file')
   }
+  
 
   return (
     <div className="Modal-upload">
