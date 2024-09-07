@@ -109,10 +109,10 @@ b{
   width: 96%;
   margin: 0 auto;
   gap: 1.2rem;
-  grid-template-columns: 230px 3fr;
+  grid-template-columns: 230px 1fr;
 }
 
-main {
+.containerMain {
   display: flex;
   justify-content: center;
   gap : 20px;
@@ -352,7 +352,7 @@ button:focus-visible {
     margin-left: 0.2rem;
 }
 
-  main{
+  .containerMain{
       
       padding: 0 1rem;
   }

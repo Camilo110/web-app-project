@@ -14,7 +14,7 @@ function App() {
     <>
       <Aside/>
 
-      <main>
+      <main className='containerMain'>
         <Routes>
           <Route path="/" element={<Res/>} />
           <Route path="/res" element={<Res/>} />

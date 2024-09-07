@@ -50,14 +50,22 @@ export function Aside() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
+      if(window.innerWidth > 768){
+        setIsOpen(false)
+      }
     };
 
+    handleResize();
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    console.log('isOpen:', isOpen);
+  }, [isOpen]);
 
   return (
     <>
