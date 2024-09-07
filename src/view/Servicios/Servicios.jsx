@@ -1,64 +1,40 @@
 import '../../styles/Servicios.css'
 import { useEffect, useState } from "react"
-import { Modal } from "../../components/Modal"
 import { Table } from "../../components/Table"
 import { ModalServicios } from "../../components/ModalServicios"
-import { createServicio, getServicio, getServicioById, updateServicio, deleteServicio } from "../../services/servicio"
-import { getServiciosModal } from '../../services/forms'
-
-const fields = {
-  Tipo: { label: 'Tipo', type: 'text', value: '' },
-  Fecha: { label: 'Fecha', type: 'date', value: '' },
-  Veterinario: { label: 'Veterinario', type: 'text', value: '' },
-  Observaciones: { label: 'Observaciones', type: 'textarea', value: '' },
-  ResID: { label: 'Nombre Res', type: 'select', value: [''] }
-}
+import { getServicio, getServicioById, deleteServicio } from "../../services/servicio"
 
 export const Servicios = () => {
 
   const [openModalEdit, setOpenModalEdit] = useState(false)
   const [openModalCreate, setOpenModalCreate] = useState(false)
 
-  const [data, setData] = useState([])
-  const [campos, setCampos] = useState(fields)
+  const [dataToEdit, setDataToEdit] = useState({})
 
   const [servicios, setServicios] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const [openModal, setOpenModal] = useState(false)
-
-  useEffect(() => {
-    getServicio().then((resp) => {
-      setServicios(resp)
-      setIsLoading(false)
-    })
+  useEffect( () => {
+    getAll()
   }, [])
+
+  const getAll = async () => {
+    const resp = await getServicio()
+    resp.forEach(element => {
+      element.listInsumos = element.listInsumos.map((insumo) => insumo.Nombre)
+    });
+    setServicios(resp)
+    setIsLoading(false)
+  }
 
   const onEdit = async (id) => {
     const resp = await getServicioById(id)
-    setData(resp)
-    const reses= await getServiciosModal()
-    setCampos({...fields, ResID: { label: 'Nombre Res', type: 'select', value: reses}})
+    setDataToEdit(resp)
     setOpenModalEdit(true)
   }
 
-  const onCreate = async () => {
-    const reses= await getServiciosModal()
-    setCampos({...fields, ResID: { label: 'Nombre Res', type: 'select', value: reses}})
+  const onCreate = () => {
     setOpenModalCreate(true)
-  }
-
-  const SubmitUpdate = async (values, idservicio) => {
-    const resp = await updateServicio(idservicio, values)
-    console.log(resp)
-    setOpenModalEdit(false)
-  }
-
-  const SubmitCreate = async (valuesCreate) => {
-    console.log(valuesCreate, 'values')
-    const resp = await createServicio(valuesCreate)
-    console.log(resp,'------')
-    setOpenModalCreate(false)
   }
 
 
@@ -80,9 +56,9 @@ export const Servicios = () => {
           <h3> Cargando... </h3>
           :
           <Table
-          HeaderList={['Numero', 'Tipo',  'Fecha',  'Veterinario']} //, 'Producto', '# Res'
+          HeaderList={['Numero', 'Tipo',  'Fecha',  'Veterinario', 'Nombre Res', 'Insumos']}
           data={ servicios }
-          keyList={ ['Numero', 'Tipo', 'Fecha', 'Veterinario']}
+          keyList={ ['Numero', 'Tipo', 'Fecha', 'Veterinario', 'ResNombre', 'listInsumos'] }
           onDelete={deleteServicio}
           onEdit={onEdit}
         />
@@ -94,35 +70,16 @@ export const Servicios = () => {
 
       {
         openModalCreate &&
-        <ModalServicios setOpenModal={setOpenModalCreate} />
+        <ModalServicios 
+          setOpenModal={setOpenModalCreate} />
       }
 
-
-      {openModalEdit
-       &&
-       <Modal
-        setOpenModal={setOpenModalEdit}
-        data={data}
-        fields={campos}
-        Handlesubmit={SubmitUpdate}
-        columns={2}
-        >
-          
-          <h3>  Editar Servicio</h3>
-        </Modal>
-      }
-
-      {openModal
-       &&
-       <Modal
-        setOpenModal={setOpenModal}
-        fields={campos}
-        Handlesubmit={SubmitCreate}
-        columns={2}
-        >
-          <h3>  Crear Servicio</h3>
-        </Modal>
-
+{
+        openModalEdit &&
+        <ModalServicios 
+          isEdit={true}
+          setOpenModal={setOpenModalEdit}
+          data={dataToEdit} />
       }
 
     </section>

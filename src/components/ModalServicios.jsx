@@ -4,17 +4,18 @@ import '../styles/ModalServicios.css'
 import { getInsumo } from '../services/Insumo'
 import { getServiciosModal } from '../services/forms'
 import PropTypes from 'prop-types'
-import { createServicio } from '../services/servicio'
+import { createServicio, updateServicio } from '../services/servicio'
 
 
-export const ModalServicios= ({setOpenModal}) => {
+// eslint-disable-next-line no-unused-vars
+export const ModalServicios= ({isEdit = false, isInseminacion = false, data, setOpenModal}) => {
+
   const [insumos, setInsumos] = useState([])
-
-  const [selectedInsumo, setSelectedInsumo] = useState([])
+  const [selectedInsumos, setSelectedInsumos] = useState([])
   const [insumotoAdd, setInsumoToAdd] = useState({Numero: '', Cantidad: 0})
   const [search, setSearch] = useState('')
 
-  const [values, setValues] = useState({Tipo: '', Fecha: '', Veterinario: '', ResID: '', Observaciones: ''})
+  const [values, setValues] = useState({Fecha: '', Tipo: '', Veterinario: '', ResID: '', Observaciones: ''})
   const [resForm, setResForm] = useState([])
 
   useEffect(() => {
@@ -26,20 +27,32 @@ export const ModalServicios= ({setOpenModal}) => {
     setInsumos(data)
     const reses = await getServiciosModal()
     setResForm(reses)
+    if(isEdit) insumosEdit(data)
+  }
+  
+  const insumosEdit = (InsumosDB) => {
+    const {listInsumos, ...restData} = data
+
+    let selectedInsumosAux = []
+    for (let itemInsumo of listInsumos) {
+      const {ID, Numero, UnidadMedida, Nombre} = InsumosDB.find((insumo) => insumo.ID === itemInsumo.ID)
+      selectedInsumosAux.push({ID, Numero, UnidadMedida, Nombre, Cantidad: itemInsumo.Cantidad})
+    }
+    
+    setValues(restData)
+    setSelectedInsumos(selectedInsumosAux)
   }
 
   const onDelete = (id) => {
-    const filterData = selectedInsumo.filter((insumo) => insumo.ID !== id)
-    setSelectedInsumo(filterData)
+    const filterData = selectedInsumos.filter((insumo) => insumo.ID !== id)
+    setSelectedInsumos(filterData)
   }
 
   const onSearchInsumo = (e) => {
     const {value} = e.target
     setSearch(value)
-    // eslint-disable-next-line no-unused-vars
-    const {ID, Numero, Nombre} = filter(value)
-    value ? setInsumoToAdd({...insumotoAdd, ID, Numero: 23, UnidadMedida: 'kg', Nombre}) : setInsumoToAdd({...insumotoAdd, ID: '', Numero: '', Nombre: '', UnidadMedida:''})
-    console.log("Sleccionado",insumotoAdd)
+    const {ID, Numero, UnidadMedida, Nombre} = filter(value)
+    value ? setInsumoToAdd({...insumotoAdd, ID, Numero, UnidadMedida, Nombre}) : setInsumoToAdd({...insumotoAdd, ID: '', Numero: '', Nombre: '', UnidadMedida:''})
   }
 
   const onEditCantidad = (e) => { 
@@ -49,7 +62,7 @@ export const ModalServicios= ({setOpenModal}) => {
 
   const filter = (value) => {
     const dataFilter = insumos.filter((insumo) => insumo.Nombre.toString().toLowerCase().includes(value.toString().toLowerCase()))
-    return  dataFilter.length > 0 ? dataFilter[0] : {ID: '', Numero: '', Nombre: ''}
+    return  dataFilter.length > 0 ? dataFilter[0] : {ID: '', Numero: '', UnidadMedida:'', Nombre: ''}
   }
 
   const onAddInsumo = () => {
@@ -61,18 +74,18 @@ export const ModalServicios= ({setOpenModal}) => {
       console.log("Cantidad no valida")
       return}
 
-    const index = selectedInsumo.findIndex((insumo) => insumo.ID === insumotoAdd.ID)    
+    const index = selectedInsumos.findIndex((insumo) => insumo.ID === insumotoAdd.ID)    
     if(index >= 0){
-      const insumo = selectedInsumo[index]
+      const insumo = selectedInsumos[index]
       const Cantidad = parseInt(insumo.Cantidad) + parseInt(insumotoAdd.Cantidad)
-      const selectedInsumoFilter = selectedInsumo.filter((insumo) => insumo.ID !== insumotoAdd.ID)
-      setSelectedInsumo([{...insumo, Cantidad}, ...selectedInsumoFilter])
+      const selectedInsumoFilter = selectedInsumos.filter((insumo) => insumo.ID !== insumotoAdd.ID)
+      setSelectedInsumos([{...insumo, Cantidad}, ...selectedInsumoFilter])
     }else{
-      setSelectedInsumo([insumotoAdd, ...selectedInsumo])
+      setSelectedInsumos([insumotoAdd, ...selectedInsumos])
     }
-    setInsumoToAdd({Cantidad: 0, ID: '', Numero: '', Nombre: ''})
+    setInsumoToAdd({Cantidad: 0, ID: '', Numero: '',UnidadMedida:'', Nombre: ''})
     setSearch('')
-    console.log(selectedInsumo, 'ADD INSUMO')
+    console.log(selectedInsumos, 'ADD INSUMO')
   }
 
   const handleChangeValues = (e, key) => {
@@ -82,14 +95,19 @@ export const ModalServicios= ({setOpenModal}) => {
 
   const onSubmit = async () => {
     let listInsumos = []
-    selectedInsumo.map((insumo) => {
+    selectedInsumos.map((insumo) => {
       listInsumos.push({InsumoID: insumo.ID, Cantidad: insumo.Cantidad})
     })
 
-    const resp = await createServicio({...values, listInsumos})
-    console.log(resp)
+    if (isEdit) {
+      await updateServicio(values.ID, {...values, listInsumos})
+      console.log(values.ID, {...values, listInsumos}, 'llllll')
+    }else{
+      await createServicio({...values, listInsumos})
+      console.log({...values, listInsumos}, 'llllll')
+    }
 
-    setOpenModal(false)
+    //setOpenModal(false)
   }
   
   return (
@@ -106,9 +124,17 @@ export const ModalServicios= ({setOpenModal}) => {
           <label>Tipo</label>
           <select value={values.Tipo} onChange={(e) => handleChangeValues(e,'Tipo')} >
             <option value=''>Elegir</option>
-            <option value='1'>Servicio Medico</option>
-            <option value='2'>Registros de Secado</option>
-            <option value='3'>Montas</option>
+            <option value='Monta'>Monta</option>
+            <option value='Inseminación'>Inseminación</option>
+            <option value='Podología'>Podología</option>
+            <option value='Vacunación'>Vacunación</option>
+            <option value='Desparasitación'>Desparasitación</option>
+            <option value='Control'>Control</option>
+            <option value='Castración'>Castración</option>
+            <option value='Topizado'>Topizado</option>
+            <option value='Curación'>Curación</option>
+            <option value='Secado'>Secado</option>
+            <option value='Otro'>Otro</option>
           </select>
         </div>
 
@@ -166,7 +192,7 @@ export const ModalServicios= ({setOpenModal}) => {
         <Table
           HeaderList={['Codigo', 'Nombre', 'Cantidad', 'U. Medida']}
           keyList={['Numero', 'Nombre', 'Cantidad', 'UnidadMedida']}
-          data={selectedInsumo}
+          data={selectedInsumos}
           onDelete={onDelete}
           edit={false}
           paginar={false}
@@ -178,5 +204,8 @@ export const ModalServicios= ({setOpenModal}) => {
 }
 
 ModalServicios.propTypes = {
-  setOpenModal: PropTypes.func.isRequired
+  setOpenModal: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool,
+  data: PropTypes.object,
+  isInseminacion: PropTypes.bool
 }
