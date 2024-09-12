@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { getServicioById } from '../../../services/servicio'
 import { ModalServicios } from '../../../components/ModalServicios'
 
 // eslint-disable-next-line no-unused-vars
 export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body}, onDelete}) {
 
-  const [dataToEdit, setDataToEdit] = useState({})
   const [openModalEdit, setOpenModalEdit] = useState(false)
 
   const listInsumosToString = () => {
@@ -15,11 +13,6 @@ export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body
     )).join(', ')
   }
 
-  const onEdit = async (id) => {
-    const resp = await getServicioById(id)
-    setDataToEdit(resp)
-    setOpenModalEdit(true)
-  }
 
   return (
     <div className='TarjetaRegistro'>
@@ -32,14 +25,14 @@ export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body
       <p> Lista Insumos: {listInsumosToString()} </p>
 
       <button onClick={() => onDelete(ID)}>Borrar</button>
-      <button onClick={() => onEdit(ID)}>Editar</button>
+      <button onClick={() => setOpenModalEdit(true)}>Editar</button>
 
       {
         openModalEdit &&
         <ModalServicios 
           isEdit={true}
           setOpenModal={setOpenModalEdit}
-          data={dataToEdit} />
+          idServicio={ID} />
       }
       
     </div>

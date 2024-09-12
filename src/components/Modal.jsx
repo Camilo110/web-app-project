@@ -70,6 +70,7 @@ export const Modal = ({children, fields, columns = 3, data = {}, Handlesubmit, s
 Modal.propTypes = {
   children: PropTypes.node,
   data: PropTypes.object,
+  columns: PropTypes.number,
   fields: PropTypes.objectOf(
     PropTypes.shape({
       label: PropTypes.string,

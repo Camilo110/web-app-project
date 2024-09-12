@@ -2,14 +2,14 @@ import '../../styles/Servicios.css'
 import { useEffect, useState } from "react"
 import { Table } from "../../components/Table"
 import { ModalServicios } from "../../components/ModalServicios"
-import { getServicio, getServicioById, deleteServicio } from "../../services/servicio"
+import { getServicio, deleteServicio } from "../../services/servicio"
 
 export const Servicios = () => {
 
   const [openModalEdit, setOpenModalEdit] = useState(false)
   const [openModalCreate, setOpenModalCreate] = useState(false)
 
-  const [dataToEdit, setDataToEdit] = useState({})
+  const [idToEdit, setIdToEdit] = useState({})
 
   const [servicios, setServicios] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -28,17 +28,13 @@ export const Servicios = () => {
   }
 
   const onEdit = async (id) => {
-    const resp = await getServicioById(id)
-    setDataToEdit(resp)
+    setIdToEdit(id)
     setOpenModalEdit(true)
   }
 
   const onCreate = () => {
     setOpenModalCreate(true)
   }
-
-
-
 
   return (
     <section className="Servicios">
@@ -79,7 +75,7 @@ export const Servicios = () => {
         <ModalServicios 
           isEdit={true}
           setOpenModal={setOpenModalEdit}
-          data={dataToEdit} />
+          idServicio={idToEdit} />
       }
 
     </section>

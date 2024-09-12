@@ -4,11 +4,11 @@ import '../styles/ModalServicios.css'
 import { getInsumo } from '../services/Insumo'
 import { getServiciosModal } from '../services/forms'
 import PropTypes from 'prop-types'
-import { createServicio, updateServicio } from '../services/servicio'
+import { createServicio, getServicioById, getServicioWithInseminacionById, updateServicio } from '../services/servicio'
 
 
 // eslint-disable-next-line no-unused-vars
-export const ModalServicios= ({isEdit = false, isInseminacion = false, data, setOpenModal}) => {
+export const ModalServicios= ({isEdit = false, isInseminacion = false, idServicio, setOpenModal}) => {
 
   const [insumos, setInsumos] = useState([])
   const [selectedInsumos, setSelectedInsumos] = useState([])
@@ -23,19 +23,28 @@ export const ModalServicios= ({isEdit = false, isInseminacion = false, data, set
   }, [])
 
   const getAll = async () => {
-    const data = await getInsumo()
-    setInsumos(data)
+    const insumos = await getInsumo()
+    setInsumos(insumos)
     const reses = await getServiciosModal()
     setResForm(reses)
-    if(isEdit) insumosEdit(data)
+
+    if(isEdit) {
+      if(isInseminacion) {
+        const Servicio = await getServicioWithInseminacionById(idServicio)
+        insumosEdit(insumos, Servicio)
+      }else{
+        const Servicio = await getServicioById(idServicio)
+        insumosEdit(insumos, Servicio)
+      }
+    }
   }
   
-  const insumosEdit = (InsumosDB) => {
-    const {listInsumos, ...restData} = data
+  const insumosEdit = (insumosDB, servicio) => {
+    const {listInsumos, ...restData} = servicio
 
     let selectedInsumosAux = []
     for (let itemInsumo of listInsumos) {
-      const {ID, Numero, UnidadMedida, Nombre} = InsumosDB.find((insumo) => insumo.ID === itemInsumo.ID)
+      const {ID, Numero, UnidadMedida, Nombre} = insumosDB.find((insumo) => insumo.ID === itemInsumo.ID)
       selectedInsumosAux.push({ID, Numero, UnidadMedida, Nombre, Cantidad: itemInsumo.Cantidad})
     }
     
@@ -114,7 +123,7 @@ export const ModalServicios= ({isEdit = false, isInseminacion = false, data, set
     <div className='Modal'>
       <div className='Modal-content'>
 
-      <h3 className="title-modal">Agregar Servicios</h3>
+      <h3 className="title-modal">{isEdit ? 'Editar' : 'Agregar'} Servicios</h3>
 
       <button className="exit" onClick={()=> setOpenModal(false)}>X</button>
 
@@ -125,14 +134,14 @@ export const ModalServicios= ({isEdit = false, isInseminacion = false, data, set
           <select value={values.Tipo} onChange={(e) => handleChangeValues(e,'Tipo')} >
             <option value=''>Elegir</option>
             <option value='Monta'>Monta</option>
-            <option value='Inseminación'>Inseminación</option>
-            <option value='Podología'>Podología</option>
-            <option value='Vacunación'>Vacunación</option>
-            <option value='Desparasitación'>Desparasitación</option>
+            <option value='Inseminacion'>Inseminación</option>
+            <option value='Podologia'>Podología</option>
+            <option value='Vacunacion'>Vacunación</option>
+            <option value='Desparasitacion'>Desparasitación</option>
             <option value='Control'>Control</option>
-            <option value='Castración'>Castración</option>
+            <option value='Castracion'>Castración</option>
             <option value='Topizado'>Topizado</option>
-            <option value='Curación'>Curación</option>
+            <option value='Curacion'>Curación</option>
             <option value='Secado'>Secado</option>
             <option value='Otro'>Otro</option>
           </select>
@@ -151,6 +160,7 @@ export const ModalServicios= ({isEdit = false, isInseminacion = false, data, set
         <div className="field-modal">
           <label>Nombre de Res</label>
           <select value={values.ResID} onChange={(e) => handleChangeValues(e,'ResID')}>
+            <option value='' disabled>Seleccionar</option>
             {resForm.map(({ID, value}) => (
               <option key={ID} value={ID}>{value}</option>
             ))}
@@ -161,6 +171,25 @@ export const ModalServicios= ({isEdit = false, isInseminacion = false, data, set
           <label>Observaciones</label>
           <textarea  value={values.Observaciones || ''} onChange={(e) => handleChangeValues(e,'Observaciones')}></textarea>
         </div>
+
+        {
+          isInseminacion &&
+          <>
+          <div className="field-modal">
+            <label>Fecha Parto</label>
+            <input  value={values.FechaParto} onChange={(e) => handleChangeValues(e,'FechaParto')} type='date' />
+          </div>
+          <div className="field-modal">
+            <label>Toro</label>
+            <select  value={values.ToroID} onChange={(e) => handleChangeValues(e,'ToroID')}>
+              <option value='' disabled>Seleccionar</option>
+              {resForm.map(({ID, value}) => (
+                <option key={ID} value={ID}>{value}</option>
+              ))}
+            </select>
+          </div>
+          </>
+        }
 
         <div className="submit-modal">
           <button onClick={onSubmit}>Guardar</button>
@@ -206,6 +235,6 @@ export const ModalServicios= ({isEdit = false, isInseminacion = false, data, set
 ModalServicios.propTypes = {
   setOpenModal: PropTypes.func.isRequired,
   isEdit: PropTypes.bool,
-  data: PropTypes.object,
+  idServicio: PropTypes.string,
   isInseminacion: PropTypes.bool
 }

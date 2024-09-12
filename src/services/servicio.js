@@ -20,6 +20,14 @@ export const getServicioByIdRes = async (id) => {
   }
 }
 
+export const getServicioWithInseminacionById = async (id) => {
+  const resp = await fetch (`http://localhost:4000/servicio/InseminacionOmonta/${id}`);
+  if (resp.status === 200) {
+    const { body } = await resp.json();
+    return body;
+  }
+}
+
 export const getServicioWithInseminacionByIdRes = async (id) => {
   const resp = await fetch (`http://localhost:4000/servicio/res/InseminacionOmonta/${id}`);
   if (resp.status === 200) {

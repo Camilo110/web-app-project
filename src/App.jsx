@@ -5,7 +5,7 @@ import { Res } from './pages/Res';
 import { ProduccionPage } from './pages/ProduccionPage';
 import { Reproduccion } from "./view/Reproduccion/Reproduccion"
 import { Servicios } from './view/Servicios/Servicios';
-import {Secado} from './pages/Secado';
+import {Secado} from './view/Secado/Secado';
 import {Alimentacion} from './pages/Alimentacion';
 import { ResIndividual } from './view/ResIndividual/ResIndividual';
 
