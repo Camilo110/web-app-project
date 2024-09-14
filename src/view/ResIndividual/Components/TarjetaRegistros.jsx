@@ -7,11 +7,6 @@ export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body
 
   const [openModalEdit, setOpenModalEdit] = useState(false)
 
-  const listInsumosToString = () => {
-    return listInsumos.map((item) => (
-      `${item.Nombre}`
-    )).join(', ')
-  }
 
 
   return (
@@ -22,7 +17,7 @@ export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body
         <p key={key}> {key}: {body[key]}</p>
       ))}
 
-      <p> Lista Insumos: {listInsumosToString()} </p>
+      <p> Lista Insumos: {listInsumos} </p>
 
       <button onClick={() => onDelete(ID)}>Borrar</button>
       <button onClick={() => setOpenModalEdit(true)}>Editar</button>

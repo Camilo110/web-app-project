@@ -3,14 +3,31 @@ import { Cards } from '../../components/Cards';
 import { Table } from '../../components/Table';
 import { Modal } from '../../components/Modal';
 import { ModalServicios } from '../../components/ModalServicios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getAllParaInseminar } from '../../services/paraInseminar';
 
 export const Reproduccion = () => {
 
+  const [dataParaInseminar, setDataParaInseminar] = useState([])
+
   const [tableInseminacion, setTableInseminacion] = useState(true)
+
   const [openModalFechaParto, setOpenModalFechaParto] = useState(false)
+
   const [openModalCreateServicio, setOpenModalCreateServicio] = useState(false)
   const [openModalEditServicio, setOpenModalEditServicio] = useState(false)
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAllParaInseminar()
+      setDataParaInseminar(data)
+    }
+    fetchData()
+  }
+    , [])
+
+  
 
   const showTableInseminacion = () => {
     setTableInseminacion(true)
@@ -33,25 +50,31 @@ export const Reproduccion = () => {
       <div className="gestacion">
         <h2>Vacas en gestación</h2>
         <div className="cards">
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
+          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
         </div>
       </div>
+
       <div className="inseminacion">
         <h2>Vacas para inseminación</h2>
+        {
+          dataParaInseminar.length > 0 &&
         <div className="cards">
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Numero="123" FechaParto="10/12/2023" />
+          {
+          dataParaInseminar.map((item) => (
+            <Cards key={item.ID} id={item.id} Nombre={item.ResNombre} Estado={item.Estado} FechaParto={item.Fecha} />
+          ))
+          }
         </div>
+        }
       </div>
 
       <p>
@@ -85,14 +108,16 @@ export const Reproduccion = () => {
         <Table
           HeaderList={['Nombre', 'Numero', 'Fecha', 'Producto']}
           keyList={['Nombre', 'Numero', 'Fecha', 'Producto']}
-          data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: '123', Fecha: '10/12/2023', Producto: 'Producto' },]}
+          data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: 12, Fecha: '10/12/2023', Producto: 'Producto' },]}
           onEdit={() => setOpenModalEditServicio(true)}
+          onDelete={() => console.log('')}
         />
         :
         <Table
           HeaderList={['Nombre', 'Numero', 'Fecha', 'Hijo']}
           keyList={['Nombre', 'Numero', 'Fecha', 'Hijo']}
           data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: '123', Fecha: '10/12/2023', Hijo: 'Hijo' },]}
+          edit={false}
         />
       }
 

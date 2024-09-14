@@ -1,18 +1,22 @@
 import '../styles/Cards.css';
 import PropTypes from 'prop-types';
 
-export const Cards = ({Nombre, Numero, FechaParto}) => {
+export const Cards = ({id, Nombre, Estado, FechaParto}) => {
+  const setOpenModal = () => {
+    console.log('Modal abierto')
+  }
   return (
-    <div className="card">
+    <div onClick={setOpenModal} className="card">
       <h2>{Nombre}</h2>
-      <p> {Numero}</p>
-      <p>Fecha de Parto: {FechaParto}</p>
+      <p>Estado: {Estado}</p>
+      <p>Fecha: {FechaParto}</p>
     </div>
   );
 }
 
 Cards.propTypes = {
+  id: PropTypes.number.isRequired,
   Nombre: PropTypes.string.isRequired,
-  Numero: PropTypes.number.isRequired,
+  Estado: PropTypes.string.isRequired,
   FechaParto: PropTypes.string.isRequired
 }
