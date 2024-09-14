@@ -1,8 +1,11 @@
 
 export const getInsumoServicio = async (idServicio) => {
   const resp = await fetch(`http://localhost:4000/insumoServicio/servicio/${idServicio}`)
-  const {body} = await resp.json()
-  return body
+  if (resp.status === 200) {
+    const {body} = await resp.json()
+    return body
+  }
+  return []
 }
 
 export const updateInsumoServicio = async (insumo) => {
@@ -17,4 +20,18 @@ export const updateInsumoServicio = async (insumo) => {
   console.log(resp)
   const {body} = await resp.json()
   return body
+}
+
+export const deleteInsumoServicio = async (data) => {
+  const resp = await fetch('http://localhost:4000/insumoServicio', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if (resp.status === 200) {
+    const {body} = await resp.json()
+    return body
+  }
 }

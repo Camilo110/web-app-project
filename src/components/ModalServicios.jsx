@@ -5,7 +5,7 @@ import { getInsumo } from '../services/Insumo'
 import { getServiciosModal } from '../services/forms'
 import PropTypes from 'prop-types'
 import { createServicio, getServicioById, getServicioWithInseminacionById, updateServicio } from '../services/servicio'
-import { getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
+import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
 
 
 // eslint-disable-next-line no-unused-vars
@@ -16,6 +16,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
   const [listInsumos, setListInsumos] = useState([])
   const [insumotoAdd, setInsumoToAdd] = useState({ Numero: '', Cantidad: 0 })
   const [listInsumosToSend, setListInsumosToSend] = useState([])
+  const [listInsumosToDelete, setListInsumosToDelete] = useState([])
 
   const [search, setSearch] = useState('')
 
@@ -59,6 +60,9 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
 
   const onDelete = (id) => {
     //fetch de delete insumoServicio
+    if (isEdit) {
+      setListInsumosToDelete([...listInsumosToDelete, id])
+    }
     const filterData = listInsumos.filter((insumo) => insumo.ID !== id)
     setListInsumos(filterData)
   }
@@ -125,10 +129,17 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
     })
 
     if (isEdit) {
+      const listInsumosToDeleteFinal = listInsumosToDelete.filter((id) => !listInsumosFinal.map((insumo) => insumo.InsumoID).includes(id))
+      console.log(listInsumosToDeleteFinal, 'Delete') 
+
+      for (const id of listInsumosToDeleteFinal) {
+        await deleteInsumoServicio({ InsumoID: id, ServicioID: idServicio })
+      }
+
 
       if (Object.keys(valuesToSend).length > 0) await updateServicio(values.ID, { ...valuesToSend })
 
-      if (listInsumos.length > 0) await updateInsumoServicio(listInsumosFinal) 
+      if (listInsumosFinal.length > 0) await updateInsumoServicio(listInsumosFinal) 
 
       console.log(idServicio, { ...valuesToSend, listInsumosFinal }, 'Edit')
     } else {
