@@ -20,9 +20,6 @@ export const Servicios = () => {
 
   const getAll = async () => {
     const resp = await getServicio()
-    resp.forEach(element => {
-      element.listInsumos = element.listInsumos.map((insumo) => insumo.Nombre)
-    });
     setServicios(resp)
     setIsLoading(false)
   }
