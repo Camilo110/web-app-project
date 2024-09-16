@@ -76,7 +76,7 @@ export function Aside() {
         <div className="toggle">
           <div className="logo">
             <img src="src/assets/img/logo.png" alt="logo" />
-            <h1>ProGanadero</h1>
+            <h1 className="responsive-heading"></h1>
           </div>
           {!isOpen && (
           <label className="close" htmlFor="check" onClick={toggle}>
