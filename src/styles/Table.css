@@ -59,7 +59,6 @@ th {
 
 .Paginacion {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -70,4 +69,10 @@ th {
   align-items: center;
   gap: 1rem;
   padding-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  table{
+    font-size: .6rem;
+  }
 }

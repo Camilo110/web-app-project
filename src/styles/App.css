@@ -76,6 +76,22 @@ small{
   font-size: 0.70rem;
 }
 
+input {
+  max-width: 100%;
+  padding: .35rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; 
+}
+
+select {
+  max-width: 100%;
+  padding: .35rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; 
+}
+
 p{
   color: var(--color-dark-variant);
 }
@@ -113,12 +129,18 @@ b{
 }
 
 .containerMain {
-  display: flex;
   justify-content: center;
   gap : 20px;
   overflow-x: hidden;
   overflow-y: auto; /* Permite el desplazamiento vertical en el main */
-  max-height: 100vh;
+  height: 100vh - 3.4rem;
+  margin-top: 1.4rem;
+  margin-bottom: 2rem;
+  scrollbar-width: none;
+}
+
+.containerMain::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
 }
 
 aside{
@@ -154,7 +176,7 @@ aside .toggle .close{
 }
 
 .asideMain .open {
-  padding-right: 1rem;
+  padding-right: 10rem;
   display: none;
 }
 
@@ -297,7 +319,7 @@ button:focus-visible {
   .container{
       width: 100%;
       grid-template-columns: 1fr;
-      padding: 0 var(--padding-1);
+      padding: 0 .6rem;
   }
 
   
@@ -366,7 +388,6 @@ button:focus-visible {
 
   .containerMain{
       
-      padding: 0 1rem;
   }
 
   .responsive-heading::after {

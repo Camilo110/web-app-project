@@ -13,6 +13,14 @@
   text-align:center
 }
 
+.Formulario label {
+  margin-top: .45rem;
+}
+
+.Formulario button {
+  margin-top: .4rem;
+}
+
 .Seleccionar{
   display: flex;
   flex-direction: column;
@@ -80,4 +88,40 @@
 
 .Paginacion span{
   cursor: pointer;
+}
+
+
+.Seleccionar input {
+  max-width: 58%;
+  padding: .35rem;
+  margin: .3rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; 
+}
+
+@media screen and (max-width: 1200px) {
+  .Seleccionar input {
+    max-width: 84%;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .produccion {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto; 
+    /* gap: 1rem; */
+  }
+
+  .produccion .registroList{
+    grid-column: 1 / 3; 
+    grid-row: 2 / 3;
+    margin: 1rem;
+  }
+
+  .Seleccionar input {
+    max-width: 80%;
+  }
 }
