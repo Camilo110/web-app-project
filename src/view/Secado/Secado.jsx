@@ -1,3 +1,4 @@
+import '../../styles/Secado.css'
 import { useEffect, useState } from "react"
 import { Cards } from "../../components/Cards"
 import { Table } from "../../components/Table"
@@ -20,10 +21,10 @@ export const Secado = () => {
   return (
     <div className='raiz'>
 
-      <div className="Footer">
-        <h1>Registros de reproducción</h1>
+      <div className="Footer-Secado">
+        <h1>Secado</h1>
         <div>
-          <button >Agrega</button>
+          <button >Agregar</button>
         </div>
       </div>
 

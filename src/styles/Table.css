@@ -60,6 +60,7 @@ th {
 .Paginacion {
   display: flex;
   align-items: center;
+  margin: .5rem auto;
 }
 
 .table-search {
@@ -68,7 +69,7 @@ th {
   justify-content: start;
   align-items: center;
   gap: 1rem;
-  padding-top: 2rem;
+  padding-top: 1.2rem;
 }
 
 @media screen and (max-width: 768px) {

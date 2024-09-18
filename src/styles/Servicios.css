@@ -1,6 +1,4 @@
-.Servicios {
-  margin-top: 5rem;
-}
+
 
 .Title{
   display: flex;
@@ -11,7 +9,6 @@
 .ServiciosMain{
   display: flex;
   flex-direction: column;
-  margin-top: 1rem;
 }
 
 .FiltroServicios{

@@ -42,7 +42,7 @@ export const Reproduccion = () => {
     <div className='raiz'>
       <div className="Footer">
         <h1>Registros de reproducción</h1>
-        <div>
+        <div className='BotonesPrincipales'>
           <button onClick={()=>setOpenModalFechaParto(true)}> Programar Inseminación </button>
           <button onClick={()=>setOpenModalCreateServicio(true)}> Registrar Inseminación </button>
         </div>

@@ -115,6 +115,14 @@
     justify-content: center;
     align-items: center;
   }
+
+  .res-individual-main .info-res{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+  }
   
   .SectionOne{
     flex-direction: column;
