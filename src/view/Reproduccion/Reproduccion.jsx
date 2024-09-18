@@ -139,6 +139,7 @@ export const Reproduccion = () => {
           keyList={['Nombre', 'Numero', 'Fecha', 'Hijo']}
           data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: '123', Fecha: '10/12/2023', Hijo: 'Hijo' },]}
           edit={false}
+          enableDelete={false}
         />
       }
 

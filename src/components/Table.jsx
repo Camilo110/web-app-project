@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import PropTypes from 'prop-types'
 import '../styles/Table.css'
 
-export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true, paginar = true}) => {
+export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true, paginar = true, enableDelete = true}) => {
 
   const [numRows, setNumRows] = useState(10)
   const [limit, setLimit] = useState({ inf: 0, sup: 10 })
@@ -94,7 +94,12 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
             {HeaderList.map((header, index) => (
               <th key={header} aria-label={keyList[index]} onClick={selectFieldFilter}>{header}</th>
             ))}
+
+          { 
+          (edit || enableDelete) &&
             <th>Acciones</th>
+          }
+
           </tr>
         </thead>
 
@@ -108,7 +113,10 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
                 {edit &&
                   <span onClick={() => onEdit(registro.ID)}>Editar </span>
                 }
-                <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
+                {
+                  enableDelete &&
+                  <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
+                }
               </td>
             </tr>
           ))}
@@ -127,9 +135,10 @@ Table.propTypes = {
   keyList: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   onEdit: PropTypes.func,
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   edit: PropTypes.bool,
-  paginar : PropTypes.bool
+  paginar : PropTypes.bool,
+  enableDelete: PropTypes.bool
 }
 
 
