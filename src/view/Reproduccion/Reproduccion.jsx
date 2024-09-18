@@ -5,6 +5,7 @@ import { Modal } from '../../components/Modal';
 import { ModalServicios } from '../../components/ModalServicios';
 import { useEffect, useState } from 'react';
 import { getAllParaInseminar } from '../../services/paraInseminar';
+import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion } from '../../services/reproduccion';
 
 export const Reproduccion = () => {
 
@@ -17,11 +18,22 @@ export const Reproduccion = () => {
   const [openModalCreateServicio, setOpenModalCreateServicio] = useState(false)
   const [openModalEditServicio, setOpenModalEditServicio] = useState(false)
 
+  const [dataEnGestacion, setDataEnGestacion] = useState([])
+
+  const [dataInseminacionPorConfirmar, setDataInseminacionPorConfirmar] = useState([])
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getAllParaInseminar()
-      setDataParaInseminar(data)
+      const ParaInseminar = await getAllParaInseminar()
+      setDataParaInseminar(ParaInseminar)
+
+      const EnGestacion = await  getEnGestacion()
+      setDataEnGestacion(EnGestacion)
+
+      const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
+      setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
+
     }
     fetchData()
   }
@@ -50,16 +62,11 @@ export const Reproduccion = () => {
       <div className="gestacion">
         <h2>Vacas en gestación</h2>
         <div className="cards">
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
+          {
+            dataEnGestacion.map((item) => (
+              <Cards key={item.ResID} id={item.ResID} Nombre={item.ResNombre} Estado={'En Gestacion'} FechaParto={item.FechaParto} />
+            ))
+          }
         </div>
       </div>
 
@@ -70,9 +77,23 @@ export const Reproduccion = () => {
         <div className="cards">
           {
           dataParaInseminar.map((item) => (
-            <Cards key={item.ID} id={item.id} Nombre={item.ResNombre} Estado={item.Estado} FechaParto={item.Fecha} />
+            <Cards key={item.ID} id={item.ID} Nombre={item.ResNombre} Estado={item.Estado} FechaParto={item.FechaPartoI ? item.FechaPartoI : item.FechaPartoM} />
           ))
           }
+        </div>
+        }
+      </div>
+
+      <div className="inseminacion">
+        <h2>Inseminacion por Confirmar</h2>
+        {
+          dataInseminacionPorConfirmar.length > 0 &&
+          <div className="cards">
+          {
+          dataInseminacionPorConfirmar.map((item) => (
+              <Cards key={item.ID} id={item.ID} Nombre={item.ResNombre} Estado={'Por Confirmar'} FechaParto={item.FechaParto} onClick={ConfirmarInseminacion}/>
+          ))
+        }
         </div>
         }
       </div>
@@ -84,7 +105,7 @@ export const Reproduccion = () => {
           style={{
             margin: '10px',
             cursor: 'pointer',
-            color: tableInseminacion ? 'blue' : 'black',
+            fontWeight: tableInseminacion ? 'BOLD' : 'normal',
             textDecoration: tableInseminacion ? 'underline' : 'none'
           }}
         >
@@ -94,7 +115,7 @@ export const Reproduccion = () => {
           onClick={showTableParto}
           style={{
             cursor: 'pointer',
-            color: tableInseminacion ? 'black' : 'blue',
+            fontWeight: tableInseminacion ? 'normal' : 'BOLD' ,
             textDecoration: tableInseminacion ? 'none' : 'underline'
           }}
         >

@@ -50,7 +50,8 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
 
     const onChangeFilter = (e) => {
       const value = e.target.value
-      value ? setDatos(filterDate(value)) : setDatos(data) 
+      value ? setDatos(filterDate(value)) : setDatos(data)
+      setLimit({ inf: 0, sup: numRows }) 
     }
     
     const filterDate = (value) => {
