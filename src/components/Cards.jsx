@@ -7,13 +7,12 @@ export const Cards = (props) => {
     id, 
     ResID,
     Nombre,
-    Numero,
     Estado,
     Fecha,
     FechaParto,
-    onAffirmative = {},
+    onAffirmative,
     affirmativeToolTipText,
-    onNegative = {},
+    onNegative,
     negativeToolTipText,
     isRecomendacion = false 
   } = props;
@@ -23,10 +22,10 @@ export const Cards = (props) => {
 
       <div>
         <h2>{Nombre}</h2>
-        <NumeroRes id={ResID} numero={Numero} />
+        <NumeroRes id={ResID}/>
         {
           isRecomendacion &&
-          <p>Revisar</p>
+          <p>{ResID}</p>
         }
       </div>
 
@@ -68,8 +67,7 @@ Cards.propTypes = {
   id: PropTypes.string.isRequired,
   ResID: PropTypes.string.isRequired,
   Nombre: PropTypes.string.isRequired,
-  Numero: PropTypes.number.isRequired,
-  Estado: PropTypes.string.isRequired,
+  Estado: PropTypes.string,
   Fecha: PropTypes.string,
   FechaParto: PropTypes.string,
   onAffirmative: PropTypes.func,

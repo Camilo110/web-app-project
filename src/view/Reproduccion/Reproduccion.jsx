@@ -49,6 +49,18 @@ export const Reproduccion = () => {
     setTableInseminacion(false)
   }
 
+  const openModalCreateServicioGestacion = () => {
+    setOpenModalCreateServicio(true)
+  }
+
+  const openModalAborto = () => {
+    setOpenModalCreateServicio(true)
+  }
+
+  const openModalInsemiancionFallida = () => {
+    setOpenModalCreateServicio(true)
+  }
+
 
   return (
     <div className='raiz'>
@@ -64,7 +76,18 @@ export const Reproduccion = () => {
         <div className="cards">
           {
             dataEnGestacion.map((item) => (
-              <Cards key={item.ResID} id={item.ResID} Nombre={item.ResNombre} Estado={'En Gestacion'} FechaParto={item.FechaParto} />
+              <Cards 
+              key={item.ResID}
+              id={item.ResID}
+              ResID={item.ResID}
+              Nombre={item.ResNombre}
+              Estado={'En Gestacion'}
+              FechaParto={item.FechaParto}
+              onAffirmative={openModalCreateServicioGestacion}
+              affirmativeToolTipText={'Registrar Parto'}
+              onNegative={openModalAborto}
+              negativeToolTipText={'Registrar Aborto'}
+              />
             ))
           }
         </div>
@@ -77,7 +100,16 @@ export const Reproduccion = () => {
         <div className="cards">
           {
           dataParaInseminar.map((item) => (
-            <Cards key={item.ID} id={item.ID} Nombre={item.ResNombre} Estado={item.Estado} FechaParto={item.FechaPartoI ? item.FechaPartoI : item.FechaPartoM} />
+            <Cards 
+              key={item.ID}
+              id={item.ID}
+              ResID={item.ResID}
+              Nombre={item.ResNombre}
+              Estado={item.Estado}
+              Fecha={item.Fecha}
+              onAffirmative={()=>setOpenModalCreateServicio(true)}
+              affirmativeToolTipText={'Registrar Inseminación'}
+              />
           ))
           }
         </div>
@@ -91,7 +123,18 @@ export const Reproduccion = () => {
           <div className="cards">
           {
           dataInseminacionPorConfirmar.map((item) => (
-              <Cards key={item.ID} id={item.ID} Nombre={item.ResNombre} Estado={'Por Confirmar'} FechaParto={item.FechaParto} onClick={ConfirmarInseminacion}/>
+              <Cards
+                key={item.ID}
+                id={item.ID}
+                ResID={item.ResID}
+                Nombre={item.ResNombre}
+                Estado={'Por Confirmar'}
+                FechaParto={item.FechaParto}
+                onAffirmative={() => ConfirmarInseminacion(item.ID)}
+                affirmativeToolTipText={'Confirmar Inseminación'}
+                onNegative={openModalInsemiancionFallida}
+                negativeToolTipText={'Inseminación Fallida'}
+                />
           ))
         }
         </div>

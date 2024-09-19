@@ -12,27 +12,29 @@ const colorByTipo = {
 
 export const NumeroRes = ({id, numero, tipo}) => {
 
-  const [tipoRes, setTipoRes] = useState(tipo);
+  const [tipoRes, setTipoRes] = useState(tipo)
+  const [numeroRes, setNumeroRes] = useState(numero)
 
   useEffect(() => {
-    if (tipo){
+    if (!tipo || !numero) {
       getTipo();
     }
   }, [])
 
   const getTipo = async () => {
-    const {Tipo} = await getResById(id);
+    const {Tipo, Numero} = await getResById(id);
+    setNumeroRes(Numero);
     setTipoRes(Tipo);
   }
 
   return (
     <div className='resNumero' style={{backgroundColor: colorByTipo[tipoRes]}}>
-        {numero}
+        {numeroRes}
     </div>
   )
 }
 NumeroRes.propTypes = {
   id: PropTypes.string.isRequired,
   tipo: PropTypes.string,
-  numero: PropTypes.number.isRequired
+  numero: PropTypes.number
 }
