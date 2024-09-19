@@ -13,6 +13,7 @@ import { Modal } from '../../components/Modal'
 import { getResModal } from '../../services/forms'
 import { createMuerte } from '../../services/muerte'
 import { ModalServicios } from '../../components/ModalServicios'
+import { NumeroRes } from './Components/NumeroRes'
 
 //calcular edad
 const calcularEdad = (fecha) => {
@@ -206,7 +207,7 @@ export function ResIndividual() {
             <div className='SectionOne'>
               <div className='LineOne'>
                 <div>
-                  <p>{res.Numero}</p>
+                  <NumeroRes id={res.ID} numero={res.Numero} tipo={res.Tipo} />
                   <h2>{res.Nombre}</h2>
                 </div>
 
