@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import { getResById } from "../../../services/res";
+import { getResById } from "../services/res";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -26,7 +26,7 @@ export const NumeroRes = ({id, numero, tipo}) => {
   }
 
   return (
-    <div style={{backgroundColor: colorByTipo[tipoRes]}}>
+    <div className='resNumero' style={{backgroundColor: colorByTipo[tipoRes]}}>
         {numero}
     </div>
   )

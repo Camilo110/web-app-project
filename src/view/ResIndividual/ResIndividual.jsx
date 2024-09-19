@@ -13,7 +13,7 @@ import { Modal } from '../../components/Modal'
 import { getResModal } from '../../services/forms'
 import { createMuerte } from '../../services/muerte'
 import { ModalServicios } from '../../components/ModalServicios'
-import { NumeroRes } from './Components/NumeroRes'
+import { NumeroRes } from '../../components/NumeroRes'
 
 //calcular edad
 const calcularEdad = (fecha) => {

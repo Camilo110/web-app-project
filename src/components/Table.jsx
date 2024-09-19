@@ -109,15 +109,18 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
               {keyList.map((key) => (
                 <td key={key}>{registro[key]}</td>
               ))}
-              <td>
-                {edit &&
-                  <span onClick={() => onEdit(registro.ID)}>Editar </span>
-                }
-                {
-                  enableDelete &&
-                  <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
-                }
-              </td>
+              {
+                (edit || enableDelete) &&
+                <td>
+                  {edit &&
+                    <span onClick={() => onEdit(registro.ID)}>Editar </span>
+                  }
+                  {
+                    enableDelete &&
+                    <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
+                  }
+                </td>
+              }
             </tr>
           ))}
         </tbody>
