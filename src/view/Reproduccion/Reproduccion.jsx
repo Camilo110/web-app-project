@@ -5,7 +5,7 @@ import { Modal } from '../../components/Modal';
 import { ModalServicios } from '../../components/ModalServicios';
 import { useEffect, useState } from 'react';
 import { getAllParaInseminar } from '../../services/paraInseminar';
-import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion } from '../../services/reproduccion';
+import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion, inseminacionFallida } from '../../services/reproduccion';
 
 export const Reproduccion = () => {
 
@@ -57,8 +57,8 @@ export const Reproduccion = () => {
     setOpenModalCreateServicio(true)
   }
 
-  const openModalInsemiancionFallida = () => {
-    setOpenModalCreateServicio(true)
+  const InsemiancionFallida = (id) => {
+    inseminacionFallida(id)
   }
 
 
@@ -78,7 +78,6 @@ export const Reproduccion = () => {
             dataEnGestacion.map((item) => (
               <Cards 
               key={item.ResID}
-              id={item.ResID}
               ResID={item.ResID}
               Nombre={item.ResNombre}
               Estado={'En Gestacion'}
@@ -102,7 +101,6 @@ export const Reproduccion = () => {
           dataParaInseminar.map((item) => (
             <Cards 
               key={item.ID}
-              id={item.ID}
               ResID={item.ResID}
               Nombre={item.ResNombre}
               Estado={item.Estado}
@@ -125,14 +123,13 @@ export const Reproduccion = () => {
           dataInseminacionPorConfirmar.map((item) => (
               <Cards
                 key={item.ID}
-                id={item.ID}
                 ResID={item.ResID}
                 Nombre={item.ResNombre}
                 Estado={'Por Confirmar'}
                 FechaParto={item.FechaParto}
                 onAffirmative={() => ConfirmarInseminacion(item.ID)}
                 affirmativeToolTipText={'Confirmar Inseminación'}
-                onNegative={openModalInsemiancionFallida}
+                onNegative={() => InsemiancionFallida(item.ID)}
                 negativeToolTipText={'Inseminación Fallida'}
                 />
           ))

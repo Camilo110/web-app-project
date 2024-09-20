@@ -32,3 +32,17 @@ export async function ConfirmarInseminacion(id){
 
   return false
 }
+export async function inseminacionFallida(id){
+  const resp = await fetch(`http://localhost:4000/reproduccion/inseminacionfallida/${id}`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT'
+  })
+
+  if (resp.status === 200) {
+    return true
+  }
+
+  return false
+}

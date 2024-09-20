@@ -4,7 +4,6 @@ import { NumeroRes } from './NumeroRes';
 
 export const Cards = (props) => {
   const { 
-    id, 
     ResID,
     Nombre,
     Estado,
@@ -64,7 +63,6 @@ export const Cards = (props) => {
 }
 
 Cards.propTypes = {
-  id: PropTypes.string.isRequired,
   ResID: PropTypes.string.isRequired,
   Nombre: PropTypes.string.isRequired,
   Estado: PropTypes.string,

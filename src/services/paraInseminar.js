@@ -28,13 +28,12 @@ export const createParaInseminar = async (paraInseminar) => {
   return body
 }
 
-export const updateParaInseminar = async (paraInseminar) => {
-  const resp = await fetch('http://localhost:4000/paraInseminar', {
+export const updateParaInseminar = async (id) => {
+  const resp = await fetch(`http://localhost:4000/paraInseminar/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(paraInseminar)
+    }
   })
   const {body} = await resp.json()
   return body
