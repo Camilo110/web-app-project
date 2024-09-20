@@ -5,6 +5,7 @@ import { Modal } from '../../components/Modal';
 import { ModalServicios } from '../../components/ModalServicios';
 import { useEffect, useState } from 'react';
 import { getAllParaInseminar } from '../../services/paraInseminar';
+import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion, inseminacionFallida } from '../../services/reproduccion';
 
 export const Reproduccion = () => {
 
@@ -17,11 +18,22 @@ export const Reproduccion = () => {
   const [openModalCreateServicio, setOpenModalCreateServicio] = useState(false)
   const [openModalEditServicio, setOpenModalEditServicio] = useState(false)
 
+  const [dataEnGestacion, setDataEnGestacion] = useState([])
+
+  const [dataInseminacionPorConfirmar, setDataInseminacionPorConfirmar] = useState([])
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getAllParaInseminar()
-      setDataParaInseminar(data)
+      const ParaInseminar = await getAllParaInseminar()
+      setDataParaInseminar(ParaInseminar)
+
+      const EnGestacion = await  getEnGestacion()
+      setDataEnGestacion(EnGestacion)
+
+      const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
+      setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
+
     }
     fetchData()
   }
@@ -37,6 +49,18 @@ export const Reproduccion = () => {
     setTableInseminacion(false)
   }
 
+  const openModalCreateServicioGestacion = () => {
+    setOpenModalCreateServicio(true)
+  }
+
+  const openModalAborto = () => {
+    setOpenModalCreateServicio(true)
+  }
+
+  const InsemiancionFallida = (id) => {
+    inseminacionFallida(id)
+  }
+
 
   return (
     <div className='raiz'>
@@ -50,16 +74,21 @@ export const Reproduccion = () => {
       <div className="gestacion">
         <h2>Vacas en gestación</h2>
         <div className="cards">
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Pendiente" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
-          <Cards Nombre="Juana" Estado="Realizado" FechaParto="10/12/2023" />
+          {
+            dataEnGestacion.map((item) => (
+              <Cards 
+              key={item.ResID}
+              ResID={item.ResID}
+              Nombre={item.ResNombre}
+              Estado={'En Gestacion'}
+              FechaParto={item.FechaParto}
+              onAffirmative={openModalCreateServicioGestacion}
+              affirmativeToolTipText={'Registrar Parto'}
+              onNegative={openModalAborto}
+              negativeToolTipText={'Registrar Aborto'}
+              />
+            ))
+          }
         </div>
       </div>
 
@@ -70,9 +99,41 @@ export const Reproduccion = () => {
         <div className="cards">
           {
           dataParaInseminar.map((item) => (
-            <Cards key={item.ID} id={item.id} Nombre={item.ResNombre} Estado={item.Estado} FechaParto={item.Fecha} />
+            <Cards 
+              key={item.ID}
+              ResID={item.ResID}
+              Nombre={item.ResNombre}
+              Estado={item.Estado}
+              Fecha={item.Fecha}
+              onAffirmative={()=>setOpenModalCreateServicio(true)}
+              affirmativeToolTipText={'Registrar Inseminación'}
+              />
           ))
           }
+        </div>
+        }
+      </div>
+
+      <div className="inseminacion">
+        <h2>Inseminacion por Confirmar</h2>
+        {
+          dataInseminacionPorConfirmar.length > 0 &&
+          <div className="cards">
+          {
+          dataInseminacionPorConfirmar.map((item) => (
+              <Cards
+                key={item.ID}
+                ResID={item.ResID}
+                Nombre={item.ResNombre}
+                Estado={'Por Confirmar'}
+                FechaParto={item.FechaParto}
+                onAffirmative={() => ConfirmarInseminacion(item.ID)}
+                affirmativeToolTipText={'Confirmar Inseminación'}
+                onNegative={() => InsemiancionFallida(item.ID)}
+                negativeToolTipText={'Inseminación Fallida'}
+                />
+          ))
+        }
         </div>
         }
       </div>
@@ -84,7 +145,7 @@ export const Reproduccion = () => {
           style={{
             margin: '10px',
             cursor: 'pointer',
-            color: tableInseminacion ? 'blue' : 'black',
+            fontWeight: tableInseminacion ? 'BOLD' : 'normal',
             textDecoration: tableInseminacion ? 'underline' : 'none'
           }}
         >
@@ -94,7 +155,7 @@ export const Reproduccion = () => {
           onClick={showTableParto}
           style={{
             cursor: 'pointer',
-            color: tableInseminacion ? 'black' : 'blue',
+            fontWeight: tableInseminacion ? 'normal' : 'BOLD' ,
             textDecoration: tableInseminacion ? 'none' : 'underline'
           }}
         >
@@ -118,6 +179,7 @@ export const Reproduccion = () => {
           keyList={['Nombre', 'Numero', 'Fecha', 'Hijo']}
           data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: '123', Fecha: '10/12/2023', Hijo: 'Hijo' },]}
           edit={false}
+          enableDelete={false}
         />
       }
 

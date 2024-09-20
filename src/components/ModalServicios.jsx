@@ -181,6 +181,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                     <option value='Topizado'>Topizado</option>
                     <option value='Curacion'>Curación</option>
                     <option value='Secado'>Secado</option>
+                    <option value='Aborto'>Secado</option>
                     <option value='Otro'>Otro</option>
                   </select>
                 </div>

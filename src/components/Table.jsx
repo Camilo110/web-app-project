@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import PropTypes from 'prop-types'
 import '../styles/Table.css'
 
-export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true, paginar = true}) => {
+export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true, paginar = true, enableDelete = true}) => {
 
   const [numRows, setNumRows] = useState(10)
   const [limit, setLimit] = useState({ inf: 0, sup: 10 })
@@ -50,7 +50,8 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
 
     const onChangeFilter = (e) => {
       const value = e.target.value
-      value ? setDatos(filterDate(value)) : setDatos(data) 
+      value ? setDatos(filterDate(value)) : setDatos(data)
+      setLimit({ inf: 0, sup: numRows }) 
     }
     
     const filterDate = (value) => {
@@ -93,7 +94,12 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
             {HeaderList.map((header, index) => (
               <th key={header} aria-label={keyList[index]} onClick={selectFieldFilter}>{header}</th>
             ))}
+
+          { 
+          (edit || enableDelete) &&
             <th>Acciones</th>
+          }
+
           </tr>
         </thead>
 
@@ -103,12 +109,18 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
               {keyList.map((key) => (
                 <td key={key}>{registro[key]}</td>
               ))}
-              <td>
-                {edit &&
-                  <span onClick={() => onEdit(registro.ID)}>Editar </span>
-                }
-                <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
-              </td>
+              {
+                (edit || enableDelete) &&
+                <td>
+                  {edit &&
+                    <span onClick={() => onEdit(registro.ID)}>Editar </span>
+                  }
+                  {
+                    enableDelete &&
+                    <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
+                  }
+                </td>
+              }
             </tr>
           ))}
         </tbody>
@@ -126,9 +138,10 @@ Table.propTypes = {
   keyList: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   onEdit: PropTypes.func,
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   edit: PropTypes.bool,
-  paginar : PropTypes.bool
+  paginar : PropTypes.bool,
+  enableDelete: PropTypes.bool
 }
 
 
