@@ -4,10 +4,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const colorByTipo = {
-  Leche: 'red',
-  Carne: 'blue',
-  Novillo: 'green',
-  Ternero: 'yellow'
+  Leche: '#EBD24B',
+  Carne: '#DE3C34',
+  'Doble Proposito': '#307CEB'
 }
 
 export const NumeroRes = ({id, numero, tipo}) => {
