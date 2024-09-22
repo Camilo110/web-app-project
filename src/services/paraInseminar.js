@@ -16,6 +16,16 @@ export const getParaInseminarbyId = async (id) => {
   return []
 }
 
+export const getParaInseminarSugeridos = async () => {
+  const resp = await fetch(`http://localhost:4000/paraInseminar/sugeridos`)
+  if (resp.status === 200) {
+    const {body} = await resp.json()
+    return body
+  }
+  return []
+}
+
+
 export const createParaInseminar = async (paraInseminar) => {
   const resp = await fetch('http://localhost:4000/paraInseminar', {
     method: 'POST',

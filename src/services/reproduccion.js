@@ -43,6 +43,16 @@ export async function inseminacionFallida(id){
   if (resp.status === 200) {
     return true
   }
-
   return false
+}
+
+export async function getPartos(){
+  const resp = await fetch(`http://localhost:4000/reproduccion/partos`)
+
+  if (resp.status === 200) {
+    const { body } = await resp.json()
+    return body
+  }
+
+  return []
 }
