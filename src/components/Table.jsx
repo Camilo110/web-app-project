@@ -72,7 +72,7 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
 
 
   return (
-    <div>
+    <div className="table-main">
 
       <div className="table-search"> 
         <h3>Filtrar: </h3>

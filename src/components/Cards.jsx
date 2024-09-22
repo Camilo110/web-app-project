@@ -37,7 +37,7 @@ export const Cards = (props) => {
         <p>Fecha: {Fecha}</p>
       }
 
-      <div>
+      <div className='opciones'>
         {
           onAffirmative &&
           <button className='buttonToolTip' onClick={onAffirmative}>
