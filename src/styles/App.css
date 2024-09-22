@@ -334,6 +334,7 @@ button:focus-visible {
       width: 100%;
       grid-template-columns: 1fr;
       padding: 0 .6rem;
+      gap: 0;
   }
 
   
@@ -342,51 +343,60 @@ button:focus-visible {
   }
 
   aside{
-      position: fixed;
-      background-color: var(--color-white);
-      width: 15rem;
-      z-index: 3;
-      box-shadow: 1rem 3rem 4rem var(--color-light);
-      height: 100vh;
-      left: -100%;
-      display: none;
-      animation: showMenu 0.4s ease forwards;
+    position: fixed;
+    background-color: var(--color-white);
+    width: 15rem;
+    z-index: 3;
+    box-shadow: 1rem 3rem 4rem var(--color-light);
+    height: 100vh;
+    left: -100%;
+    display: none;
+    animation: showMenu 0.4s ease forwards;
   }
 
+  aside .open {
+    animation: hideMenu 0.4s ease forwards;
+  }
 
   @keyframes showMenu {
-     to{
-      left: 0;
-     } 
+    to{
+    left: 0;
+    } 
+  }
+
+  @keyframes hideMenu {
+    to {
+      left: -100%;
+    }
   }
 
   aside .logo{
-      margin-left: 1rem;
+    margin-left: 1rem;
   }
 
   aside .logo h2{
-      display: inline;
+    display: inline;
   }
 
   aside .sidebar h3{
-      display: inline;
+    display: inline;
   }
 
   aside .sidebar a{
-      width: 100%;
-      height: 3.4rem;
+    width: 100%;
+    height: 3.4rem;
   }
 
   aside .sidebar a:last-child{
-      position: absolute;
-      bottom: 5rem;
+    position: absolute;
+    bottom: 5rem;
   }
 
   aside .toggle .close{
-      display: inline-block;
-      cursor: pointer;
-      margin-top: 0.4rem;
-      margin-left: 0.2rem;
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 0.4rem;
+    margin-left: 0.2rem;
   }
 
   .asideMain .open{
@@ -394,14 +404,10 @@ button:focus-visible {
     cursor: pointer;
     margin-top: 1.2rem;
     margin-left: 0.2rem;
-
-    .containerMain{
-      max-height: 88vh;      
-    }
-}
+  }
 
   .containerMain{
-      
+    margin: .5rem 0;
   }
 
   .responsive-heading::after {
