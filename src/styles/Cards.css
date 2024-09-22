@@ -4,6 +4,84 @@
   color: var(--secondary-color);
   font-size: var(--font-size);
   border: 2px solid var(--primary-color); 
-  padding: 5px;
-  margin: 5px;
+  padding: .7rem;
+  margin: .4rem; 
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card button:last-child {
+  margin:  5px 0 0 0 ;
+}
+.card button{
+  margin: 5px 5px 0 5px;
+  padding: .1rem;
+}
+
+.card p{
+  white-space: nowrap;
+}
+
+.card div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card .resNumero{
+  padding: 0 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--color-white);
+}
+
+.card .opciones{
+  display: flex;
+  justify-content: end;
+}
+
+.buttonToolTip{
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.buttonToolTip .toolTip{
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: var(--color-white);
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.buttonToolTip .toolTip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.buttonToolTip:hover .toolTip {
+  visibility: visible;
+  opacity: 1;
 }

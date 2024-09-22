@@ -25,14 +25,14 @@
   border-radius: 10px;
 }
 
-.content-upload .exit{
+.content-upload .exit {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
 
-.add-insumos{
+.add-insumos {
   border-color: black;
   border: groove;
   border-radius: 6px;
@@ -44,21 +44,31 @@
   flex-direction: row;
 }
 
-.add-products .fields{
+.add-products .fields {
   display: flex;
   flex-direction: row;
   gap: 10px;
   width: 100%;
 }
-.add-products .fields input{
+
+.add-products .fields input {
   width: 100px;
   padding: 5px;
   border-radius: 6px;
   border: groove;
 }
+
 .input{
   width: 300  px;
   padding: 5px;
   border-radius: 6px;
   border: groove;
+}
+
+
+.fields input {
+  margin: 0 .3rem;
+}
+
+.Modal-content .Fields-modal-dos .table-main{
 }

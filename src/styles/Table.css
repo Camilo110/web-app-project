@@ -8,6 +8,13 @@
   width: 100%;
 }
 
+.table-main{
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+
 table {
   background-color: var(--color-white);
 }
@@ -69,7 +76,6 @@ th {
   justify-content: start;
   align-items: center;
   gap: 1rem;
-  padding-top: 1.2rem;
 }
 
 @media screen and (max-width: 768px) {

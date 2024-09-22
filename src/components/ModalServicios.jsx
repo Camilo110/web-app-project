@@ -235,7 +235,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                 </div>
               </div>
 
-              <div >
+              <div className='Fields-modal-dos'>
                 <h3>Agregar Insumos</h3>
 
                 <div className="add-insumos">

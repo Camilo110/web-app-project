@@ -12,6 +12,14 @@
   align-items: center;
 }
 
+.SectionOne .LineOne .resNumero {
+  padding: 0 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--color-white);
+}
+
 .listImg {
   display: flex;
   flex-direction: row;

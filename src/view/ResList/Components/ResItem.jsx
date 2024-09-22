@@ -4,6 +4,7 @@ import { getResModal } from "../../../services/forms";
 import { Modal } from "../../../components/Modal"
 import { useEffect, useState } from "react";
 import { createMuerte } from "../../../services/muerte";
+import { NumeroRes } from '../../../components/NumeroRes';
 
 
 const campos = {
@@ -32,7 +33,7 @@ const camposDelete = {
 };
 
 // eslint-disable-next-line react/prop-types
-export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos, FincaNombre}, fetchRes}) {
+export function ResItem({res : {ID: id, Numero, Nombre, Tipo,NumeroPartos, FincaNombre}, fetchRes}) {
   
   const [DeleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -99,7 +100,7 @@ export function ResItem({res : {ID: id, Numero, Nombre,NumeroPartos, FincaNombre
 
           <div className="especial">
               <h2>{Nombre}</h2>
-              <div className="id">{Numero}</div>
+              <NumeroRes id={id} numero={Numero} tipo={Tipo} />
           </div>
 
             <p>N° Partos: {NumeroPartos}</p>

@@ -32,6 +32,8 @@
   top: 10px;
   right: 10px;
   cursor: pointer;
+  padding: .1rem .3rem;
+  
 }
 .Modal-content .Fields-modal{
   display: grid;
@@ -40,6 +42,7 @@
   width: 100%;
   align-items: start;
   justify-content: start;
+  margin: 1rem 0;
 }
 .Modal-content .Fields-modal .field-modal{
   display: flex;
@@ -50,13 +53,18 @@
   gap: 5px;
 }
 
+.Modal-content .Fields-modal-dos{
+  display: grid;
+  gap: 5px;
+}
+
 .title-modal{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  margin: 5px;
+  padding: .8rem ;
   width: 100%;
+  font-size: 1rem;
 }
 .submit-modal{
   display: flex;
