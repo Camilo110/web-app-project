@@ -10,6 +10,7 @@ import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion, ins
 export const Reproduccion = () => {
 
   const [dataParaInseminar, setDataParaInseminar] = useState([])
+  const [dataParaInseminarSugeridos, setDataParaInseminarSugeridos] = useState([])
 
   const [tableInseminacion, setTableInseminacion] = useState(true)
 
@@ -27,13 +28,15 @@ export const Reproduccion = () => {
     const fetchData = async () => {
       const ParaInseminar = await getAllParaInseminar()
       setDataParaInseminar(ParaInseminar)
+      
+      const ParaInseminarSugeridos = await getAllParaInseminar()
+      setDataParaInseminarSugeridos(ParaInseminarSugeridos)
 
       const EnGestacion = await  getEnGestacion()
       setDataEnGestacion(EnGestacion)
 
       const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
       setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
-
     }
     fetchData()
   }
@@ -109,6 +112,20 @@ export const Reproduccion = () => {
               affirmativeToolTipText={'Registrar Inseminación'}
               />
           ))
+          }
+          {
+            dataParaInseminarSugeridos.map((item) => (
+              <Cards 
+              key={item.ID}
+              ResID={item.ID}
+              Nombre={item.ResNombre}
+              Estado={'Sugerido'}
+              Fecha={'Sin Confirmar'}
+              isRecomendacion={true}
+              onAffirmative={()=>setOpenModalCreateServicio(true)}
+              affirmativeToolTipText={'Registrar Inseminación'}
+              />
+            ))
           }
         </div>
         }
