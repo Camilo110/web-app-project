@@ -87,45 +87,48 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
 
         {paginar && paginacion()}
 
-      <table>
+      <div className="table-scroll">
+        <table>
 
-        <thead>
-          <tr>
-            {HeaderList.map((header, index) => (
-              <th key={header} aria-label={keyList[index]} onClick={selectFieldFilter}>{header}</th>
-            ))}
-
-          { 
-          (edit || enableDelete) &&
-            <th>Acciones</th>
-          }
-
-          </tr>
-        </thead>
-
-        <tbody>
-          {datos.slice(limit.inf, limit.sup).map((registro, index) => (
-            <tr key={`${registro.ID}${index}`}>
-              {keyList.map((key) => (
-                <td key={key}>{registro[key]}</td>
+          <thead>
+            <tr>
+              {HeaderList.map((header, index) => (
+                <th key={header} aria-label={keyList[index]} onClick={selectFieldFilter}>{header}</th>
               ))}
-              {
-                (edit || enableDelete) &&
-                <td>
-                  {edit &&
-                    <span onClick={() => onEdit(registro.ID)}>Editar </span>
-                  }
-                  {
-                    enableDelete &&
-                    <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
-                  }
-                </td>
-              }
-            </tr>
-          ))}
-        </tbody>
 
-      </table>
+            { 
+            (edit || enableDelete) &&
+              <th>Acciones</th>
+            }
+
+            </tr>
+          </thead>
+
+          <tbody>
+            {datos.slice(limit.inf, limit.sup).map((registro, index) => (
+              <tr key={`${registro.ID}${index}`}>
+                {keyList.map((key) => (
+                  <td key={key}>{registro[key]}</td>
+                ))}
+                {
+                  (edit || enableDelete) &&
+                  <td>
+                    {edit &&
+                      <span onClick={() => onEdit(registro.ID)}>Editar </span>
+                    }
+                    {
+                      enableDelete &&
+                      <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
+                    }
+                  </td>
+                }
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+
+      </div>
 
       {paginar && paginacion()}
 

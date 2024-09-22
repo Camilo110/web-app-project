@@ -41,7 +41,7 @@ const modules = [
 export function Aside() {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggle = () => {
     setIsOpen(!isOpen);

@@ -203,7 +203,7 @@ export const Reproduccion = () => {
         }
       </div>
 
-      <div className="inseminacion">
+      <div className="inseminacionPorConfirmar">
         <h2>Inseminacion por Confirmar</h2>
         {
           dataInseminacionPorConfirmar.length > 0 &&
@@ -227,7 +227,7 @@ export const Reproduccion = () => {
         }
       </div>
 
-      <p>
+      <p className='ver-opciones'>
         Ver:
         <span
           onClick={showTableInseminacion}

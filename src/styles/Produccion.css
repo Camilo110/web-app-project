@@ -2,6 +2,7 @@
 .produccion {
   display: grid;
   grid-template-columns: 3fr 4fr 4fr;
+  margin: 1.2rem auto;
 }
 
 .Formulario {
@@ -110,8 +111,7 @@
 @media screen and (max-width: 767px) {
   .produccion {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
-    grid-template-rows: auto auto; 
+    grid-template-columns: 1fr 1fr;  
     /* gap: 1rem; */
   }
 
@@ -123,5 +123,19 @@
 
   .Seleccionar input {
     max-width: 80%;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .produccion {
+    display: grid;
+    grid-template-columns: 1fr ;
+    gap: 1rem;
+  }
+
+  .produccion .registroList {
+    grid-column: auto; 
+    grid-row: auto;
+    margin: 0;
   }
 }
