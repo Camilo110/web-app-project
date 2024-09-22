@@ -20,12 +20,19 @@ export const Cards = (props) => {
     <div className="card">
 
       <div>
-        <h2>{Nombre}</h2>
-        <NumeroRes id={ResID}/>
+        <div>
+          <h2>{Nombre}</h2>
         {
           isRecomendacion &&
-          <p>{ResID}</p>
+          <div style={{marginLeft: '5px'}} className='buttonToolTip'>
+            <img src="src\assets\img\signo-de-exclamacion.png" alt="Advertencia"/>
+            <span className='toolTip tooltipbottom'>Esta monta/inseminacion ha sido recomendada por el software</span>
+          </div>
         }
+        </div>
+        
+        <NumeroRes id={ResID}/>
+        
       </div>
 
       <p>Estado: {Estado}</p>

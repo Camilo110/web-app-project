@@ -45,8 +45,6 @@
 
 .buttonToolTip{
   position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
 }
 
 .buttonToolTip .toolTip{
@@ -70,18 +68,18 @@
   transition: opacity 0.3s;
 }
 
-.buttonToolTip .toolTip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+.card .buttonToolTip .tooltipbottom {
+  bottom: auto;
+  top: 125%;
+  margin-top: 5px;
+  font-size: small;
+  width: 250px;
+  margin-left: -125px;
 }
+
 
 .buttonToolTip:hover .toolTip {
   visibility: visible;
   opacity: 1;
 }
+

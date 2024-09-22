@@ -4,8 +4,29 @@ import { Table } from '../../components/Table';
 import { Modal } from '../../components/Modal';
 import { ModalServicios } from '../../components/ModalServicios';
 import { useEffect, useState } from 'react';
-import { getAllParaInseminar } from '../../services/paraInseminar';
-import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion, inseminacionFallida } from '../../services/reproduccion';
+import { getAllParaInseminar, getParaInseminarSugeridos, createParaInseminar } from '../../services/paraInseminar';
+import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion, inseminacionFallida, getPartos } from '../../services/reproduccion';
+import { getAllServicioWithInseminacion } from '../../services/servicio';
+import { getServiciosModal, getResModal } from '../../services/forms';
+import { createRes } from '../../services/res';
+
+const camposRes = {
+  Numero: { label: 'Número', type: 'number', value: 0 },
+  Nombre: { label: 'Nombre', type: 'text', value: '' },
+  Tipo: { label: 'Tipo', type: 'select', value: ['Leche', 'Carne', 'Doble Proposito'] },
+  FechaNacimiento: { label: 'Fecha de Nacimiento', type: 'date', value: '' },
+  Estado: { label: 'Estado', type: 'select', value: ['Activa', 'Vendida', 'Muerte'] },
+  Madre: { label: 'Madre', type: 'select', value: [''] },
+  Padre: { label: 'Padre', type: 'select', value: [''] },
+  PesoActual: { label: 'Peso Actual', type: 'number', value: 0 },
+  PesoNacimiento: { label: 'Peso de Nacimiento', type: 'number', value: 0 },
+  Sexo: { label: 'Sexo', type: 'select', value: ['F', 'M'] },
+  Raza: { label: 'Raza', type: 'text', value: '' },
+  NumeroPartos: { label: 'Número de Partos', type: 'number', value: 0 },
+  RegistroICA: { label: 'Registro ICA', type: 'text', value: '' },
+  Observaciones: { label: 'Observaciones', type: 'text', value: '' },
+  FincaID: { label: 'Finca ID', type: 'select', value: [''] }
+};
 
 export const Reproduccion = () => {
 
@@ -14,14 +35,28 @@ export const Reproduccion = () => {
 
   const [tableInseminacion, setTableInseminacion] = useState(true)
 
-  const [openModalFechaParto, setOpenModalFechaParto] = useState(false)
+  const [openModalParaInseminar, setOpenModalParaInseminar] = useState(false)
 
   const [openModalCreateServicio, setOpenModalCreateServicio] = useState(false)
   const [openModalEditServicio, setOpenModalEditServicio] = useState(false)
 
+  const [openModalCreateRes, setOpenModalCreateRes] = useState(false)
+
   const [dataEnGestacion, setDataEnGestacion] = useState([])
 
   const [dataInseminacionPorConfirmar, setDataInseminacionPorConfirmar] = useState([])
+
+  const [dataServicio, setDataServicio] = useState([])
+
+  const [dataPartos, setDataPartos] = useState([])
+
+  const [listResesForm, setListResesForm] = useState([])
+
+  const [fieldsRes, setFieldsRes] = useState(camposRes)
+
+  const [valuesOnAddParto, setValuesOnAddParto] = useState({})
+  const [valuesOnAddServicio, setValuesOnAddServicio] = useState({})
+  const [onAddParaInseminar, setOnAddParaInseminar] = useState({})
 
 
   useEffect(() => {
@@ -29,7 +64,7 @@ export const Reproduccion = () => {
       const ParaInseminar = await getAllParaInseminar()
       setDataParaInseminar(ParaInseminar)
       
-      const ParaInseminarSugeridos = await getAllParaInseminar()
+      const ParaInseminarSugeridos = await getParaInseminarSugeridos()
       setDataParaInseminarSugeridos(ParaInseminarSugeridos)
 
       const EnGestacion = await  getEnGestacion()
@@ -37,6 +72,12 @@ export const Reproduccion = () => {
 
       const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
       setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
+
+      const servicios = await getAllServicioWithInseminacion()
+      setDataServicio(servicios)
+
+      const partos = await getPartos()
+      setDataPartos(partos)
     }
     fetchData()
   }
@@ -52,17 +93,48 @@ export const Reproduccion = () => {
     setTableInseminacion(false)
   }
 
-  const openModalCreateServicioGestacion = () => {
-    setOpenModalCreateServicio(true)
+  const openModalCreateServicioGestacion = async (data) => {
+    const {fincas, madres, padres } = await getResModal();
+    setFieldsRes({
+      ...fieldsRes,
+      FincaID: { label: 'Finca', type: 'select', value: fincas },
+        Madre: { label: 'Madre', type: 'select', value: madres },
+        Padre: { label: 'Padre', type: 'select', value: padres }
+    })
+
+    setValuesOnAddParto({Madre: data.ResID, FechaNacimiento: new Date().toISOString().split('T')[0], Padre:data.ToroID})
+    setOpenModalCreateRes(true)
+    
   }
 
-  const openModalAborto = () => {
+  const openModalAborto = (data) => {
+    setValuesOnAddServicio({ID: data.ResID, Tipo: 'Aborto', Fecha: new Date().toISOString().split('T')[0]})
     setOpenModalCreateServicio(true)
   }
 
   const InsemiancionFallida = (id) => {
     inseminacionFallida(id)
   }
+  const InseminacionCorrecta = (id) => {
+    ConfirmarInseminacion(id)
+  }
+
+  const onOpenModalParaInseminar = async (data) => {
+    if (data){
+      setOnAddParaInseminar({ResID: data.ID, Fecha: new Date().toISOString().split('T')[0]})
+    }
+    const reses = await getServiciosModal()
+    setListResesForm(reses)
+    setOpenModalParaInseminar(true)
+  }
+
+
+  const ModalSubmitCreateRes = async (values) => {
+    const resp = await createRes(values)
+    console.log(resp + "CREATE RES")
+  }
+    
+
 
 
   return (
@@ -70,7 +142,7 @@ export const Reproduccion = () => {
       <div className="Footer">
         <h1>Registros de reproducción</h1>
         <div className='BotonesPrincipales'>
-          <button onClick={()=>setOpenModalFechaParto(true)}> Programar Inseminación </button>
+          <button onClick={onOpenModalParaInseminar}> Programar Inseminación </button>
           <button onClick={()=>setOpenModalCreateServicio(true)}> Registrar Inseminación </button>
         </div>
       </div>
@@ -85,7 +157,7 @@ export const Reproduccion = () => {
               Nombre={item.ResNombre}
               Estado={'En Gestacion'}
               FechaParto={item.FechaParto}
-              onAffirmative={openModalCreateServicioGestacion}
+              onAffirmative={() => openModalCreateServicioGestacion(item)}
               affirmativeToolTipText={'Registrar Parto'}
               onNegative={openModalAborto}
               negativeToolTipText={'Registrar Aborto'}
@@ -122,7 +194,7 @@ export const Reproduccion = () => {
               Estado={'Sugerido'}
               Fecha={'Sin Confirmar'}
               isRecomendacion={true}
-              onAffirmative={()=>setOpenModalCreateServicio(true)}
+              onAffirmative={() => onOpenModalParaInseminar(item)}
               affirmativeToolTipText={'Registrar Inseminación'}
               />
             ))
@@ -144,7 +216,7 @@ export const Reproduccion = () => {
                 Nombre={item.ResNombre}
                 Estado={'Por Confirmar'}
                 FechaParto={item.FechaParto}
-                onAffirmative={() => ConfirmarInseminacion(item.ID)}
+                onAffirmative={() => InseminacionCorrecta(item.ID)}
                 affirmativeToolTipText={'Confirmar Inseminación'}
                 onNegative={() => InsemiancionFallida(item.ID)}
                 negativeToolTipText={'Inseminación Fallida'}
@@ -185,32 +257,32 @@ export const Reproduccion = () => {
         ?
         <Table
           HeaderList={['Nombre', 'Numero', 'Fecha', 'Producto']}
-          keyList={['Nombre', 'Numero', 'Fecha', 'Producto']}
-          data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: 12, Fecha: '10/12/2023', Producto: 'Producto' },]}
+          keyList={['ResNombre', 'Numero', 'Fecha', 'listInsumos']}
+          data={dataServicio}
           onEdit={() => setOpenModalEditServicio(true)}
-          onDelete={() => console.log('')}
+          enableDelete={false}
         />
         :
         <Table
           HeaderList={['Nombre', 'Numero', 'Fecha', 'Hijo']}
-          keyList={['Nombre', 'Numero', 'Fecha', 'Hijo']}
-          data={[{ID: '00000000-0000-0000-0000-000000000001', Nombre: 'Juana', Numero: '123', Fecha: '10/12/2023', Hijo: 'Hijo' },]}
+          keyList={['ResNombre', 'Numero', 'FechaParto', 'HijoNombre']}
+          data={dataPartos}
           edit={false}
           enableDelete={false}
         />
       }
 
-      {openModalFechaParto &&
+      {openModalParaInseminar &&
         <Modal
           fields={{
             Fecha: { label: 'Fecha', type: 'date' },
-            ResID: { label: 'Nombre de Res', type: 'select', value: [{ ID: 1, value: 'Juana' }, { ID: 2, value: 'Pepa' }] },
+            ResID: { label: 'Nombre de Res', type: 'select', value: listResesForm },
             Observaciones: { label: 'Observaciones', type: 'textarea' }
           }}
           columns={1}
-          data={{ Fecha: '', ResID: '', Observaciones: '' }}
-          Handlesubmit={(values) => console.log(values)}
-          setOpenModal={setOpenModalFechaParto}
+          data={onAddParaInseminar}
+          Handlesubmit={createParaInseminar}
+          setOpenModal={setOpenModalParaInseminar}
         >
           <h2>Programar fecha de Inseminación</h2>
         </Modal>
@@ -231,6 +303,10 @@ export const Reproduccion = () => {
           idServicio={'00000000-0000-0000-0000-000000000001'}
         />
       }
+      {openModalCreateRes &&
+          <Modal Handlesubmit={ModalSubmitCreateRes} fields={fieldsRes} data={valuesOnAddParto} setOpenModal={setOpenModalCreateRes}>
+          <h3>Editar Res</h3>
+         </Modal>}
       
     </div>
   )
