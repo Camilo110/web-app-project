@@ -2,9 +2,9 @@ import {PropTypes} from 'prop-types'
 import { useState } from 'react'
 import '../styles/Modal.css'
 
-export const Modal = ({children, fields, columns = 3, data = {}, Handlesubmit, setOpenModal}) => {
+export const Modal = ({children, fields, columns = 3, data = {}, Handlesubmit, setOpenModal, includeDataInSubmit = false}) => {
 
-  const [valuesUpdate, setValuesUpdate] = useState({})
+  const [valuesUpdate, setValuesUpdate] = useState(includeDataInSubmit? data : {})
   const [values, setValues] = useState(data)
 
   const HandleChange = (e, name) => {
@@ -14,6 +14,7 @@ export const Modal = ({children, fields, columns = 3, data = {}, Handlesubmit, s
     if (type === 'number' && value) value = parseInt(value)
     
     console.log(name , value, "MODALLLLL")
+    console.log({...valuesUpdate, [name]: value})
     setValuesUpdate({...valuesUpdate, [name]: value})
     setValues({...values, [name]: value})
   }
@@ -80,4 +81,5 @@ Modal.propTypes = {
   ).isRequired,
   Handlesubmit: PropTypes.func,
   setOpenModal: PropTypes.func,
+  includeDataInSubmit: PropTypes.bool
 }

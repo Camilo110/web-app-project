@@ -108,7 +108,7 @@ export const Reproduccion = () => {
   }
 
   const openModalAborto = (data) => {
-    setValuesOnAddServicio({ID: data.ResID, Tipo: 'Aborto', Fecha: new Date().toISOString().split('T')[0]})
+    setValuesOnAddServicio({ID: data.ResID, Tipo: 'Aborto', Fecha: new Date().toISOString().split('T')[0], ResID: data.ResID})
     setOpenModalCreateServicio(true)
   }
 
@@ -133,6 +133,15 @@ export const Reproduccion = () => {
     const resp = await createRes(values)
     console.log(resp + "CREATE RES")
   }
+
+  const onAddInseminacion = (data) => {
+    setValuesOnAddServicio(data)
+    setOpenModalCreateServicio(true)
+  }
+
+  const HandleCreateParaEnseminar = async (values) => {
+    await createParaInseminar(values)
+  }
     
 
 
@@ -142,7 +151,7 @@ export const Reproduccion = () => {
       <div className="Footer">
         <h1>Registros de reproducción</h1>
         <div className='BotonesPrincipales'>
-          <button onClick={onOpenModalParaInseminar}> Programar Inseminación </button>
+          <button onClick={() => onOpenModalParaInseminar({Fecha: new Date().toISOString().split('T')[0]})}> Programar Inseminación </button>
           <button onClick={()=>setOpenModalCreateServicio(true)}> Registrar Inseminación </button>
         </div>
       </div>
@@ -159,7 +168,7 @@ export const Reproduccion = () => {
               FechaParto={item.FechaParto}
               onAffirmative={() => openModalCreateServicioGestacion(item)}
               affirmativeToolTipText={'Registrar Parto'}
-              onNegative={openModalAborto}
+              onNegative={() => openModalAborto(item)}
               negativeToolTipText={'Registrar Aborto'}
               />
             ))
@@ -180,7 +189,7 @@ export const Reproduccion = () => {
               Nombre={item.ResNombre}
               Estado={item.Estado}
               Fecha={item.Fecha}
-              onAffirmative={()=>setOpenModalCreateServicio(true)}
+              onAffirmative={() => onAddInseminacion({ResID: item.ResID, Fecha: new Date().toISOString().split('T')[0]})}
               affirmativeToolTipText={'Registrar Inseminación'}
               />
           ))
@@ -281,8 +290,9 @@ export const Reproduccion = () => {
           }}
           columns={1}
           data={onAddParaInseminar}
-          Handlesubmit={createParaInseminar}
+          Handlesubmit={HandleCreateParaEnseminar}
           setOpenModal={setOpenModalParaInseminar}
+          includeDataInSubmit={true}
         >
           <h2>Programar fecha de Inseminación</h2>
         </Modal>
@@ -292,6 +302,7 @@ export const Reproduccion = () => {
         <ModalServicios
           isInseminacion={true}
           setOpenModal={setOpenModalCreateServicio}
+          previewData={valuesOnAddServicio}
         />
       }
       {
@@ -304,8 +315,14 @@ export const Reproduccion = () => {
         />
       }
       {openModalCreateRes &&
-          <Modal Handlesubmit={ModalSubmitCreateRes} fields={fieldsRes} data={valuesOnAddParto} setOpenModal={setOpenModalCreateRes}>
-          <h3>Editar Res</h3>
+          <Modal 
+            Handlesubmit={ModalSubmitCreateRes} 
+            fields={fieldsRes} 
+            data={valuesOnAddParto} 
+            setOpenModal={setOpenModalCreateRes}
+            includeDataInSubmit={true}
+          >
+            <h3>Editar Res</h3>
          </Modal>}
       
     </div>

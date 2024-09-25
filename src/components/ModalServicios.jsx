@@ -7,9 +7,8 @@ import PropTypes from 'prop-types'
 import { createServicio, getServicioById, getServicioWithInseminacionById, updateServicio } from '../services/servicio'
 import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
 
-
 // eslint-disable-next-line no-unused-vars
-export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal }) => {
+export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal, previewData= {} }) => {
 
   const [insumos, setInsumos] = useState([])
 
@@ -20,9 +19,9 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
 
   const [search, setSearch] = useState('')
 
-  const [valuesToSend, setValuesToSend] = useState({})
+  const [valuesToSend, setValuesToSend] = useState(previewData)
 
-  const [values, setValues] = useState({ Fecha: '', Tipo: '', Veterinario: '', ResID: '', Observaciones: '' })
+  const [values, setValues] = useState({ Fecha: '', Tipo: '', Veterinario: '', ResID: '', Observaciones: '', ...previewData })
 
   const [resForm, setResForm] = useState([])
 
@@ -136,18 +135,18 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
         await deleteInsumoServicio({ InsumoID: id, ServicioID: idServicio })
       }
 
-
       if (Object.keys(valuesToSend).length > 0) await updateServicio(values.ID, { ...valuesToSend })
 
       if (listInsumosFinal.length > 0) await updateInsumoServicio(listInsumosFinal) 
 
       console.log(idServicio, { ...valuesToSend, listInsumosFinal }, 'Edit')
     } else {
-      await createServicio({ ...valuesToSend, listInsumos: listInsumosFinal })
+      const resp = await createServicio({ ...valuesToSend, listInsumos: listInsumosFinal })
+      console.log(resp)
       console.log({ ...valuesToSend, listInsumosFinal }, 'Create')
     }
-
-    //setOpenModal(false)
+    
+    setOpenModal(false)
   }
 
   return (
@@ -181,7 +180,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                     <option value='Topizado'>Topizado</option>
                     <option value='Curacion'>Curación</option>
                     <option value='Secado'>Secado</option>
-                    <option value='Aborto'>Secado</option>
+                    <option value='Aborto'>Aborto</option>
                     <option value='Otro'>Otro</option>
                   </select>
                 </div>
@@ -277,5 +276,6 @@ ModalServicios.propTypes = {
   setOpenModal: PropTypes.func.isRequired,
   isEdit: PropTypes.bool,
   idServicio: PropTypes.string,
-  isInseminacion: PropTypes.bool
+  isInseminacion: PropTypes.bool,
+  previewData: PropTypes.object
 }
