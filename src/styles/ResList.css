@@ -46,7 +46,7 @@
   color: var(--secondary-color);
   font-size: var(--font-size);
   border: 2px solid var(--primary-color); 
-  padding: 10px;
+  padding: 1rem;
   margin: 10px;
   align-items: center;
   background-color: var(--color-white);
@@ -54,39 +54,30 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.card img {
+.resList .card img {
   cursor: pointer;
   border-radius: 8px;
   width: auto;
   height: auto;
 }
 
-.card-info {
+.resList  .card-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   height: 180px;
+  padding: 0 0 .5rem 0;
 }
 
-.card-info h2 {
+.resList  .card-info h2 {
   margin: 0;
   font-size: 1.5em;
 }
 
-.card-info p {
+.resList  .card-info p {
   color:rgba(0, 0, 0, 0.87);
   font-weight: 400;
-}
-
-.card-info .id {
-  background-color: #ffec58;
-  padding: 0.12rem;
-  border-radius: 4px;
-  font-weight: 700;
-  color: black;
-  text-align: center;
-  justify-content: center;
-  width: 50px;
 }
 
 .resList .especial {
@@ -120,10 +111,11 @@
 
 .actions .delete {
   background-color: #ff4c4c;
+
 }
 
 .actions .edit {
-  background-color: #ffeb3b;
+  background-color: #3f3e31;
   color: black;
 }
 
