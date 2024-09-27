@@ -8,10 +8,11 @@ import { createServicio, getServicioById, getServicioWithInseminacionById, updat
 import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
 
 // eslint-disable-next-line no-unused-vars
-export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal, previewData= {} }) => {
+export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal, previewData = {}, listTipos }) => {
 
   const [insumos, setInsumos] = useState([])
 
+  const [isInseminacionoMonta, setIsInseminacionoMonta] = useState(isInseminacion)
   const [listInsumos, setListInsumos] = useState([])
   const [insumotoAdd, setInsumoToAdd] = useState({ Numero: '', Cantidad: 0 })
   const [listInsumosToSend, setListInsumosToSend] = useState([])
@@ -40,18 +41,15 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
     if (isEdit) {
       let Servicio = {}
       
-      if (isInseminacion) {
+      if (isInseminacionoMonta) {
         Servicio = await getServicioWithInseminacionById(idServicio)
       } else {
         Servicio = await getServicioById(idServicio)
       }
       setValues(Servicio)
       
-      // hacer fetch de la lista de insumos al endpoint de insumoServicio
       const listInsumosFetch = await getInsumoServicio(idServicio)
       setListInsumos(listInsumosFetch)
-
-
     }
     setIsLoading(false)
   }
@@ -172,16 +170,21 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                     <option value=''>Elegir</option>
                     <option value='Monta'>Monta</option>
                     <option value='Inseminacion'>Inseminación</option>
-                    <option value='Podologia'>Podología</option>
-                    <option value='Vacunacion'>Vacunación</option>
-                    <option value='Desparasitacion'>Desparasitación</option>
-                    <option value='Control'>Control</option>
-                    <option value='Castracion'>Castración</option>
-                    <option value='Topizado'>Topizado</option>
-                    <option value='Curacion'>Curación</option>
-                    <option value='Secado'>Secado</option>
-                    <option value='Aborto'>Aborto</option>
-                    <option value='Otro'>Otro</option>
+                    {
+                      !isInseminacion &&
+                      <>
+                        <option value='Podologia'>Podología</option>
+                        <option value='Vacunacion'>Vacunación</option>
+                        <option value='Desparasitacion'>Desparasitación</option>
+                        <option value='Control'>Control</option>
+                        <option value='Castracion'>Castración</option>
+                        <option value='Topizado'>Topizado</option>
+                        <option value='Curacion'>Curación</option>
+                        <option value='Secado'>Secado</option>
+                        <option value='Aborto'>Aborto</option>
+                        <option value='Otro'>Otro</option>
+                      </>
+                    }
                   </select>
                 </div>
 
@@ -211,7 +214,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                 </div>
 
                 {
-                  isInseminacion &&
+                  isInseminacionoMonta &&
                   <>
                     <div className="field-modal">
                       <label>Fecha Parto</label>
@@ -277,5 +280,6 @@ ModalServicios.propTypes = {
   isEdit: PropTypes.bool,
   idServicio: PropTypes.string,
   isInseminacion: PropTypes.bool,
-  previewData: PropTypes.object
+  previewData: PropTypes.object,
+  listTipos: PropTypes.array
 }
