@@ -18,9 +18,10 @@ export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body
       ))}
 
       <p> Lista Insumos: {listInsumos} </p>
-
-      <button onClick={() => onDelete(ID)}>Borrar</button>
-      <button onClick={() => setOpenModalEdit(true)}>Editar</button>
+      <div className="opciones">
+        <button onClick={() => onDelete(ID)}>Borrar</button>
+        <button onClick={() => setOpenModalEdit(true)}>Editar</button>
+      </div>      
 
       {
         openModalEdit &&
