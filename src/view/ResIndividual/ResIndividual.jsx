@@ -210,8 +210,6 @@ export function ResIndividual() {
                   <NumeroRes id={res.ID} numero={res.Numero} tipo={res.Tipo} />
                   <h2>{res.Nombre}</h2>
                 </div>
-
-                <p style={{ cursor: 'pointer' }} onClick={() => onDeleteImage()}>Eliminar Foto Seleccionada</p>
               </div>
 
               <div className='opciones'>
@@ -222,12 +220,6 @@ export function ResIndividual() {
                   style={{ cursor: 'pointer' }}
                 >Subir foto
                 </p>
-                <p
-                  style={{ cursor: 'pointer' }}
-                  onClick={onCreate}
-                >
-                  Agregar Servicio
-                </p>
               </div>
 
             </div>
@@ -235,10 +227,15 @@ export function ResIndividual() {
             <main className='res-individual-main'>
 
               <div className='galeria'>
-                <img className='imagenPrincipal'
-                  src={`http://localhost:4000/imagen/img/${imageMain?.URL}`}
-                  alt="Cow Image" />
-
+                <div className='imagenPrincipalMain'>
+                  <img className='imagenPrincipal'
+                    src={`http://localhost:4000/imagen/img/${imageMain?.URL}`}
+                    alt="Cow Image" />
+                  <p style={{ cursor: 'pointer' }} onClick={() => onDeleteImage()}>
+                    Eliminar 
+                    <span className="tooltip">Eliminar fotografía</span>
+                  </p>
+                </div>
                 <div className='listImg'>
                   {images?.map((item) => (
                     <img
@@ -259,17 +256,17 @@ export function ResIndividual() {
                   <p>Número de partos: {res.NumeroPartos} </p>
                 </>
               }
-              <p>Ubicación: {res.FincaNombre}</p>
-              <p>Edad: {calcularEdad(res.FechaNacimiento)} años </p>
-              <p>Estado: {res.Estado}</p>
-              <p>Peso al Nacer: {res.PesoNacimiento} Kg</p>
-              <p>Peso Actual: {res.PesoActual} Kg</p>
-              <p>Cantidad de Hijos: {numHijo}</p>
-              <p>Tipo: {res.Tipo}</p>
-              <p>Sexo: {res.Sexo}</p>
-              <p>Raza: {res.Raza}</p>
-              <p>Registro ICA: {res.RegistroICA}</p>
-              <p>Observaciones: {res.Observaciones}</p>
+              <p> <b>Ubicación:</b> {res.FincaNombre}</p>
+              <p> <b>Edad:</b> {calcularEdad(res.FechaNacimiento)} años </p>
+              <p> <b>Estado:</b> {res.Estado}</p>
+              <p> <b>Peso al Nacer:</b> {res.PesoNacimiento} Kg</p>
+              <p> <b>Peso Actual:</b> {res.PesoActual} Kg</p>
+              <p> <b>Cantidad de Hijos:</b> {numHijo}</p>
+              <p> <b>Tipo:</b> {res.Tipo}</p>
+              <p> <b>Sexo:</b> {res.Sexo}</p>
+              <p> <b>Raza:</b> {res.Raza}</p>
+              <p> <b>Registro ICA:</b> {res.RegistroICA}</p>
+              <p> <b>Observaciones:</b> {res.Observaciones}</p>
             </div>
             </main>
 
@@ -304,9 +301,15 @@ export function ResIndividual() {
               </div>
             }
 
-            <div>
-              <h3>Servicios Medicos</h3>
-              <p>Agregar +</p>
+            <div className='serviciosMedicosMain'>
+              <div className='tituloClase'>
+                <h2>Servicios Medicos</h2>
+                <button
+                  style={{ cursor: 'pointer' }}
+                  onClick={onCreate}>
+                  Agregar Servicio
+                </button>
+              </div>
               <div className='ListaRegistros'>
                 {servicios &&
                   servicios.map((item) => (
@@ -330,9 +333,11 @@ export function ResIndividual() {
               </div>
             }
 
-            <div >
-              <h3>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h3>
-              <p>Agregar +</p>
+            <div className='MontasInseminacionesMain' >
+              <div className='tituloClase'>
+                <h2>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h2>
+                <p>Agregar +</p>
+              </div>
               <div className='ListaRegistros'>
                 {inseminaciones &&
                   inseminaciones.map((item) => (
