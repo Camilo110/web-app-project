@@ -124,7 +124,7 @@ export function ResIndividual() {
     if (hijos) {
       setNumHijo(hijos.length)
       hijos.forEach(hijo => {
-        listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo' })
+        listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo', Tipo: hijo.Tipo })
       })
     }
     setLinaje(listLinaje)
@@ -287,7 +287,8 @@ export function ResIndividual() {
                         id={item.id}
                         numero={item.Numero}
                         nombre={item.nombre}
-                        familiaridad={item.familiaridad} />
+                        familiaridad={item.familiaridad}
+                        tipo={item.Tipo} />
                     ))
                     :
                     <h3>No hay  registros de linaje</h3>
