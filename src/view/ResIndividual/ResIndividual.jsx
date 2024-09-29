@@ -202,7 +202,7 @@ export function ResIndividual() {
         isLoading ? <p>Cargando...</p> :
           <div className='res-individual'>
 
-            <p onClick={BackPage}>volver a la lista</p>
+            <p onClick={BackPage}> 🔙 volver a la lista</p>
 
             <div className='SectionOne'>
               <div className='LineOne'>
@@ -213,13 +213,13 @@ export function ResIndividual() {
               </div>
 
               <div className='opciones'>
-                <p onClick={HandleDelete}>borrar</p>
-                <p onClick={HandleEdit}>editar</p>
-                <p
+                <button onClick={HandleDelete}>Eliminar</button>
+                <button onClick={HandleEdit}>Editar</button>
+                <button
                   onClick={() => setModalUpload(true)}
                   style={{ cursor: 'pointer' }}
                 >Subir foto
-                </p>
+                </button>
               </div>
 
             </div>
@@ -245,6 +245,14 @@ export function ResIndividual() {
                       onClick={() => setImageMain(item)}
                     />
                   ))}
+                  <div className='subirImagen'>
+                  <a onClick={() => setModalUpload(true)} style={{ cursor: 'pointer' }}>
+                      <div className="texto-container">
+                        <div className="texto-mas">+</div>
+                        <div className="texto">Subir imagen</div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -362,12 +370,12 @@ export function ResIndividual() {
 
       {editModalRes &&
         <Modal Handlesubmit={ModalSubmitEdit} fields={fields} data={res} setOpenModal={setEditModalRes}>
-          <h3>Editar Res</h3>
+          <h2>Editar Res</h2>
         </Modal>}
 
       {DeleteModalRes &&
         <Modal Handlesubmit={ModalSubmitDelete} fields={camposDelete} data={{ ID: id }} setOpenModal={setDeleteModalRes}>
-          <h3>Eliminar Res</h3>
+          <h2>Eliminar Res</h2>
         </Modal>}
 
     </>
