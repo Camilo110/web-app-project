@@ -7,8 +7,8 @@ import PropTypes from 'prop-types'
 import { createServicio, getServicioById, getServicioWithInseminacionById, updateServicio } from '../services/servicio'
 import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
 
-// eslint-disable-next-line no-unused-vars
-export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal, previewData = {}, listTipos }) => {
+
+export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal, previewData = {}}) => {
 
   const [insumos, setInsumos] = useState([])
 
@@ -114,7 +114,39 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
   }
 
   const handleChangeValues = (e, key) => {
+    if (key === 'Tipo') {
+      if (e.target.value === 'Inseminacion' || e.target.value === 'Monta') {
+        let formattedFechaParto = ''
+
+        if (values.Fecha) {
+          const FechaPartoSugerido = new Date(values.Fecha)
+          FechaPartoSugerido.setDate(FechaPartoSugerido.getDate() + 283)
+          formattedFechaParto = FechaPartoSugerido.toISOString().split('T')[0]
+        }
+
+        setIsInseminacionoMonta(true)
+        setValues({...values, FechaParto: formattedFechaParto, ToroID: '', Tipo: e.target.value})
+        setValuesToSend({...valuesToSend, FechaParto: formattedFechaParto, ToroID: '', Tipo: e.target.value})
+      } else {
+        setIsInseminacionoMonta(false)
+        setValues({...values, FechaParto: '', ToroID: '', Tipo: e.target.value})
+        setValuesToSend({...valuesToSend, FechaParto: '', ToroID: '', Tipo: e.target.value})
+      }
+      return
+    }
+
     const { value } = e.target
+
+    if (key === 'Fecha' && (values.Tipo === 'Inseminacion' || values.Tipo === 'Monta')) {
+      const FechaPartoSugerido = new Date(e.target.value)
+      FechaPartoSugerido.setDate(FechaPartoSugerido.getDate() + 283)
+      const formattedFechaParto = FechaPartoSugerido.toISOString().split('T')[0]
+
+      setValues({ ...values, FechaParto: formattedFechaParto, Fecha:value })
+      setValuesToSend({ ...valuesToSend, FechaParto: formattedFechaParto, Fecha:value })
+      return
+    }
+
     setValues({ ...values, [key]: value })
     setValuesToSend({ ...valuesToSend, [key]: value })
   }
@@ -166,8 +198,8 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
 
                 <div className="field-modal">
                   <label>Tipo</label>
-                  <select value={values.Tipo} onChange={(e) => handleChangeValues(e, 'Tipo')} >
-                    <option value=''>Elegir</option>
+                  <select value={values.Tipo || ''} onChange={(e) => handleChangeValues(e, 'Tipo')} >
+                    <option value='' disabled>Elegir</option>
                     <option value='Monta'>Monta</option>
                     <option value='Inseminacion'>Inseminación</option>
                     {
@@ -208,29 +240,32 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                   </select>
                 </div>
 
-                <div className="field-modal">
-                  <label>Observaciones</label>
-                  <textarea value={values.Observaciones || ''} onChange={(e) => handleChangeValues(e, 'Observaciones')}></textarea>
-                </div>
-
                 {
                   isInseminacionoMonta &&
                   <>
                     <div className="field-modal">
                       <label>Fecha Parto</label>
-                      <input value={values.FechaParto} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
+                      <input value={values.FechaParto || ''} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
                     </div>
                     <div className="field-modal">
                       <label>Toro</label>
-                      <select value={values.ToroID} onChange={(e) => handleChangeValues(e, 'ToroID')}>
-                        <option value='' disabled>Seleccionar</option>
-                        {resForm.map(({ ID, value }) => (
-                          <option key={ID} value={ID}>{value}</option>
-                        ))}
+                      <select 
+                          value={values.ToroID || ''} 
+                          onChange={(e) => handleChangeValues(e, 'ToroID')}
+                      >
+                          <option value='' disabled>Seleccionar</option>
+                          {resForm.map(({ ID, value }) => (
+                              <option key={ID} value={ID}>{value}</option>
+                          ))}
                       </select>
                     </div>
                   </>
                 }
+
+                <div className="field-modal" style={{gridColumnStart: '1', gridColumnEnd: '3'}}>
+                  <label>Observaciones</label>
+                  <textarea value={values.Observaciones || ''} onChange={(e) => handleChangeValues(e, 'Observaciones')}></textarea>
+                </div>
 
                 <div className="submit-modal">
                   <button onClick={onSubmit}>Guardar</button>
@@ -257,7 +292,13 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                   <button onClick={onAddInsumo}>Agregar</button>
                 </div>
 
-                <input className='input' type="text" disabled value={insumotoAdd.Nombre || ''} />
+                <div style={{display: 'flex', flexDirection:'row', gap : '5px'}}>
+                  <label>Nombre</label>
+                  <input className='input' type="text" disabled value={insumotoAdd.Nombre || ''} />
+                  <label>U. Medida</label>
+                  <input className='input' type="text" disabled value={insumotoAdd.UnidadMedida || ''} /> 
+
+                </div>
 
                 <Table
                   HeaderList={['Codigo', 'Nombre', 'Cantidad', 'U. Medida']}
