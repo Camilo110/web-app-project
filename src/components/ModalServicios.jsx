@@ -79,7 +79,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
   }
 
   const filter = (value) => {
-    const dataFilter = insumos.filter((insumo) => insumo.Nombre.toString().toLowerCase().includes(value.toString().toLowerCase()))
+    const dataFilter = insumos.filter((insumo) => (insumo.Nombre.toString().toLowerCase().includes(value.toString().toLowerCase()) || insumo.Numero.toString().toLowerCase().includes(value.toString().toLowerCase())))
     return dataFilter.length > 0 ? dataFilter[0] : { ID: '', Numero: '', UnidadMedida: '', Nombre: '' }
   }
 
