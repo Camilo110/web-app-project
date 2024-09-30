@@ -13,6 +13,8 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
   const [insumos, setInsumos] = useState([])
 
   const [isInseminacionoMonta, setIsInseminacionoMonta] = useState(isInseminacion)
+  const [isMonta, setIsMonta] = useState(false)
+
   const [listInsumos, setListInsumos] = useState([])
   const [insumotoAdd, setInsumoToAdd] = useState({ Numero: '', Cantidad: 0 })
   const [listInsumosToSend, setListInsumosToSend] = useState([])
@@ -127,6 +129,10 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
         setIsInseminacionoMonta(true)
         setValues({...values, FechaParto: formattedFechaParto, ToroID: '', Tipo: e.target.value})
         setValuesToSend({...valuesToSend, FechaParto: formattedFechaParto, ToroID: '', Tipo: e.target.value})
+
+        if (e.target.value === 'Monta'){
+          setIsMonta(true)
+        }
       } else {
         setIsInseminacionoMonta(false)
         setValues({...values, FechaParto: '', ToroID: '', Tipo: e.target.value})
@@ -247,18 +253,20 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                       <label>Fecha Parto</label>
                       <input value={values.FechaParto || ''} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
                     </div>
-                    <div className="field-modal">
-                      <label>Toro</label>
-                      <select 
-                          value={values.ToroID || ''} 
-                          onChange={(e) => handleChangeValues(e, 'ToroID')}
-                      >
-                          <option value='' disabled>Seleccionar</option>
-                          {resForm.map(({ ID, value }) => (
-                              <option key={ID} value={ID}>{value}</option>
-                          ))}
-                      </select>
-                    </div>
+                    { isMonta &&
+                      <div className="field-modal">
+                        <label>Toro</label>
+                        <select 
+                            value={values.ToroID || ''} 
+                            onChange={(e) => handleChangeValues(e, 'ToroID')}
+                        >
+                            <option value='' disabled>Seleccionar</option>
+                            {resForm.map(({ ID, value }) => (
+                                <option key={ID} value={ID}>{value}</option>
+                            ))}
+                        </select>
+                      </div>
+                    }
                   </>
                 }
 
