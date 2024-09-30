@@ -124,7 +124,7 @@ export function ResIndividual() {
     if (hijos) {
       setNumHijo(hijos.length)
       hijos.forEach(hijo => {
-        listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo' })
+        listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo', Tipo: hijo.Tipo })
       })
     }
     setLinaje(listLinaje)
@@ -202,7 +202,7 @@ export function ResIndividual() {
         isLoading ? <p>Cargando...</p> :
           <div className='res-individual'>
 
-            <p onClick={BackPage}>volver a la lista</p>
+            <p onClick={BackPage}> 🔙 volver a la lista</p>
 
             <div className='SectionOne'>
               <div className='LineOne'>
@@ -210,24 +210,16 @@ export function ResIndividual() {
                   <NumeroRes id={res.ID} numero={res.Numero} tipo={res.Tipo} />
                   <h2>{res.Nombre}</h2>
                 </div>
-
-                <p style={{ cursor: 'pointer' }} onClick={() => onDeleteImage()}>Eliminar Foto Seleccionada</p>
               </div>
 
               <div className='opciones'>
-                <p onClick={HandleDelete}>borrar</p>
-                <p onClick={HandleEdit}>editar</p>
-                <p
+                <button onClick={HandleDelete}>Eliminar</button>
+                <button onClick={HandleEdit}>Editar</button>
+                <button
                   onClick={() => setModalUpload(true)}
                   style={{ cursor: 'pointer' }}
                 >Subir foto
-                </p>
-                <p
-                  style={{ cursor: 'pointer' }}
-                  onClick={onCreate}
-                >
-                  Agregar Servicio
-                </p>
+                </button>
               </div>
 
             </div>
@@ -235,10 +227,15 @@ export function ResIndividual() {
             <main className='res-individual-main'>
 
               <div className='galeria'>
-                <img className='imagenPrincipal'
-                  src={`http://localhost:4000/imagen/img/${imageMain?.URL}`}
-                  alt="Cow Image" />
-
+                <div className='imagenPrincipalMain'>
+                  <img className='imagenPrincipal'
+                    src={`http://localhost:4000/imagen/img/${imageMain?.URL}`}
+                    alt="Cow Image" />
+                  <p style={{ cursor: 'pointer' }} onClick={() => onDeleteImage()}>
+                    Eliminar 
+                    <span className="tooltip">Eliminar fotografía</span>
+                  </p>
+                </div>
                 <div className='listImg'>
                   {images?.map((item) => (
                     <img
@@ -248,6 +245,14 @@ export function ResIndividual() {
                       onClick={() => setImageMain(item)}
                     />
                   ))}
+                  <div className='subirImagen'>
+                  <a onClick={() => setModalUpload(true)} style={{ cursor: 'pointer' }}>
+                      <div className="texto-container">
+                        <div className="texto-mas">+</div>
+                        <div className="texto">Subir imagen</div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -259,17 +264,17 @@ export function ResIndividual() {
                   <p>Número de partos: {res.NumeroPartos} </p>
                 </>
               }
-              <p>Ubicación: {res.FincaNombre}</p>
-              <p>Edad: {calcularEdad(res.FechaNacimiento)} años </p>
-              <p>Estado: {res.Estado}</p>
-              <p>Peso al Nacer: {res.PesoNacimiento} Kg</p>
-              <p>Peso Actual: {res.PesoActual} Kg</p>
-              <p>Cantidad de Hijos: {numHijo}</p>
-              <p>Tipo: {res.Tipo}</p>
-              <p>Sexo: {res.Sexo}</p>
-              <p>Raza: {res.Raza}</p>
-              <p>Registro ICA: {res.RegistroICA}</p>
-              <p>Observaciones: {res.Observaciones}</p>
+              <p> <b>Ubicación:</b> {res.FincaNombre}</p>
+              <p> <b>Edad:</b> {calcularEdad(res.FechaNacimiento)} años </p>
+              <p> <b>Estado:</b> {res.Estado}</p>
+              <p> <b>Peso al Nacer:</b> {res.PesoNacimiento} Kg</p>
+              <p> <b>Peso Actual:</b> {res.PesoActual} Kg</p>
+              <p> <b>Cantidad de Hijos:</b> {numHijo}</p>
+              <p> <b>Tipo:</b> {res.Tipo}</p>
+              <p> <b>Sexo:</b> {res.Sexo}</p>
+              <p> <b>Raza:</b> {res.Raza}</p>
+              <p> <b>Registro ICA:</b> {res.RegistroICA}</p>
+              <p> <b>Observaciones:</b> {res.Observaciones}</p>
             </div>
             </main>
 
@@ -287,7 +292,8 @@ export function ResIndividual() {
                         id={item.id}
                         numero={item.Numero}
                         nombre={item.nombre}
-                        familiaridad={item.familiaridad} />
+                        familiaridad={item.familiaridad}
+                        tipo={item.Tipo} />
                     ))
                     :
                     <h3>No hay  registros de linaje</h3>
@@ -303,9 +309,15 @@ export function ResIndividual() {
               </div>
             }
 
-            <div>
-              <h3>Servicios Medicos</h3>
-              <p>Agregar +</p>
+            <div className='serviciosMedicosMain'>
+              <div className='tituloClase'>
+                <h2>Servicios Medicos</h2>
+                <button
+                  style={{ cursor: 'pointer' }}
+                  onClick={onCreate}>
+                  Agregar Servicio
+                </button>
+              </div>
               <div className='ListaRegistros'>
                 {servicios &&
                   servicios.map((item) => (
@@ -329,9 +341,11 @@ export function ResIndividual() {
               </div>
             }
 
-            <div >
-              <h3>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h3>
-              <p>Agregar +</p>
+            <div className='MontasInseminacionesMain' >
+              <div className='tituloClase'>
+                <h2>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h2>
+                <p>Agregar +</p>
+              </div>
               <div className='ListaRegistros'>
                 {inseminaciones &&
                   inseminaciones.map((item) => (
@@ -356,12 +370,12 @@ export function ResIndividual() {
 
       {editModalRes &&
         <Modal Handlesubmit={ModalSubmitEdit} fields={fields} data={res} setOpenModal={setEditModalRes}>
-          <h3>Editar Res</h3>
+          <h2>Editar Res</h2>
         </Modal>}
 
       {DeleteModalRes &&
         <Modal Handlesubmit={ModalSubmitDelete} fields={camposDelete} data={{ ID: id }} setOpenModal={setDeleteModalRes}>
-          <h3>Eliminar Res</h3>
+          <h2>Eliminar Res</h2>
         </Modal>}
 
     </>

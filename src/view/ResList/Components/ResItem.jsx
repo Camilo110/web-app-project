@@ -24,12 +24,12 @@ export function ResItem({res : {ID: id, Numero, Nombre, Tipo, NumeroPartos, Finc
               <NumeroRes id={id} numero={Numero} tipo={Tipo} />
           </div>
 
-            <p>N° Partos: {NumeroPartos}</p>
-            <p>Promedio leche (diaria): 19 lts</p>
-            <p>Ubicación: {FincaNombre}</p>
-            <p>Peso Actual: 500kg</p>
-            <p>Raza: Holstein</p>
-            <p>Tipo: {Tipo}</p>
+            <p> <b>N° Partos:</b> {NumeroPartos}</p>
+            <p> <b>Promedio leche (diaria):</b> 19 lts</p>
+            <p> <b>Ubicación:</b> {FincaNombre}</p>
+            <p> <b>Peso Actual:</b> 500kg</p>
+            <p> <b>Raza:</b> Holstein</p>
+            <p> <b>Tipo:</b> {Tipo}</p>
         </Link>
         </section>
   </div> 

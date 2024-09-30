@@ -5,6 +5,13 @@
   gap: 10px;
 }
 
+.SectionOne .opciones {
+  display: flex;
+  gap: 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .SectionOne div {
   display: flex;
   gap: 10px;
@@ -12,7 +19,7 @@
   align-items: center;
 }
 
-.SectionOne .LineOne .resNumero {
+.SectionOne .LineOne .resNumero, .TarjetaLinaje .info .resNumero {
   padding: 0 10px;
   align-items: center;
   justify-content: center;
@@ -27,11 +34,43 @@
   gap: 5px;
   width: 100%;
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .listImg img {
   max-width: 180px;
   max-height: 100px;
+}
+
+.listImg .subirImagen a {
+  display: flex;
+  width: 110px;
+  height: 97px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  border: 2px dashed var(--color-primary);
+  border-radius: 8px;
+  color: var(--color-primary);
+  font-size: 4rem;
+}
+
+.texto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+.texto-mas {
+  margin-top: -.9rem;
+  font-size: 3.5rem;
+}
+
+.texto {
+  margin-top: -1.2rem;
+  font-size: .7rem;
 }
 
 .res-individual{
@@ -41,6 +80,19 @@
   gap: 10px;
   padding: 10px;
   width: 100%;
+}
+
+.res-individual .tituloClase{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.res-individual .serviciosMedicosMain, .res-individual .MontasInseminacionesMain {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  gap: .5rem;
 }
 
 .res-individual-main {
@@ -57,30 +109,131 @@
   gap: 1.2rem;
 }
 
+.galeria .imagenPrincipalMain {
+  display: flex;
+  position: relative;
+}
+
+.galeria .imagenPrincipalMain p {
+  position: absolute;
+  bottom: 1;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--color-white);
+  padding: 0.2rem 0.5rem;
+  margin: 0;
+  border-radius: 0 0 0 .3rem ;
+  transition: background 0.3s ease;
+}
+
+.galeria .imagenPrincipalMain p:hover {  
+  background: rgba(0, 0, 0, 0.6); 
+}
+
+.galeria .imagenPrincipalMain p .tooltip {
+  visibility: hidden;
+  width: 160px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--color-white);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.galeria .imagenPrincipalMain p:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .res-individual-main .imagenPrincipal{
   max-width: 480px;
   max-height: 300px;
 }
- 
-.TarjetaLinaje, .TarjetaRegistro{
-  display: flex;
-  flex-direction: column;
+
+
+.TarjetaLinaje, .TarjetaRegistro {
   color: var(--secondary-color);
   font-size: var(--font-size);
   border: 2px solid var(--primary-color); 
-  padding: .7rem;
-  margin: .4rem; 
+  padding: .6rem;
+  margin: .3rem; 
   background-color: var(--color-white);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
-.TarjetaLinaje .info{
+.TarjetaRegistro {  
+  min-width: 270px;
+}
+
+.TarjetaRegistro .contenido {
+  display: flex;
+  flex-direction: column;
+  padding: .7rem 0;
+}
+
+.TarjetaRegistro > :last-child{
+  display: flex;
+  align-self: flex-end;
+  justify-content: end;
+}
+
+.TarjetaRegistro .numero p{
+  display: inline-flex;
+  background-color: var(--color-primary);
+  font-size: 1.1rem;
+  color: var(--color-white);
+  border-radius: 8px;
+  padding: .1rem .3rem;
+}
+
+.TarjetaLinaje .image-container {
+  position: relative;
+  width: 180px;
+  height: 100px;
+}
+
+.TarjetaLinaje .image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.TarjetaLinaje .image-container .familiaridad {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--color-white);
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px 0;
+  margin: 0;
+}
+
+.TarjetaLinaje .info {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
 }
 
+.TarjetaLinaje .info h2{
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  max-width: 11ch;
+  
+}
 
 .Linaje{
   display: flex;
@@ -92,12 +245,6 @@
   border-radius: 5px;
 }
 
-.TarjetaRegistro{
-  margin: 2px;
-  padding: 5px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
 
 /* .ListaRegistros::-webkit-scrollbar,
 .ListImg::-webkit-scrollbar {

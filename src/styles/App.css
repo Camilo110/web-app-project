@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --color-primary: #6C9BCF;
+  --color-primary: #6994c5;
+  --color-secundary: #4b7eb8;
   --color-danger: #FF0060;
   --color-success: #1B9C85;
   --color-warning: #F7D060;
@@ -49,6 +50,10 @@ body{
 
 a{
   color: var(--color-dark);
+}
+
+b {
+  font-weight: 450;
 }
 
 img{
@@ -280,10 +285,11 @@ button {
 }
 button:hover {
   border-color: #3c3c3c;
+  background-color: var(--color-secundary);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 7px auto -webkit-focus-ring-color;
 }
 
 .responsive-heading::after {
