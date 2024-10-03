@@ -58,6 +58,8 @@ export const Reproduccion = () => {
   const [valuesOnAddServicio, setValuesOnAddServicio] = useState({})
   const [onAddParaInseminar, setOnAddParaInseminar] = useState({})
 
+  const [idResEditServicio, setIdResEditServicio] = useState('')
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,6 +143,11 @@ export const Reproduccion = () => {
 
   const HandleCreateParaEnseminar = async (values) => {
     await createParaInseminar(values)
+  }
+  
+  const onOpenModalEditServicio = (id) => {
+    setIdResEditServicio(id)
+    setOpenModalEditServicio(true)
   }
     
 
@@ -268,7 +275,7 @@ export const Reproduccion = () => {
           HeaderList={['Nombre', 'Numero', 'Fecha', 'Producto']}
           keyList={['ResNombre', 'Numero', 'Fecha', 'listInsumos']}
           data={dataServicio}
-          onEdit={() => setOpenModalEditServicio(true)}
+          onEdit={onOpenModalEditServicio}
           enableDelete={false}
         />
         :
@@ -311,7 +318,7 @@ export const Reproduccion = () => {
           isEdit={true}
           isInseminacion={true}
           setOpenModal={setOpenModalEditServicio}
-          idServicio={'00000000-0000-0000-0000-000000000001'}
+          idServicio={idResEditServicio}
         />
       }
       {openModalCreateRes &&
