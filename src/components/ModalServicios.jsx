@@ -127,16 +127,21 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
         }
 
         setIsInseminacionoMonta(true)
-        setValues({...values, FechaParto: formattedFechaParto, ToroID: '', Tipo: e.target.value})
-        setValuesToSend({...valuesToSend, FechaParto: formattedFechaParto, ToroID: '', Tipo: e.target.value})
+        setValues({...values, FechaParto: formattedFechaParto,Tipo: e.target.value})
+        setValuesToSend({...valuesToSend, FechaParto: formattedFechaParto, Tipo: e.target.value})
 
         if (e.target.value === 'Monta'){
           setIsMonta(true)
+        } else {
+          setIsMonta(false)
         }
       } else {
         setIsInseminacionoMonta(false)
-        setValues({...values, FechaParto: '', ToroID: '', Tipo: e.target.value})
-        setValuesToSend({...valuesToSend, FechaParto: '', ToroID: '', Tipo: e.target.value})
+        const {ToroID, FechaParto, ...restValues} = values
+        setValues({...restValues, Tipo: e.target.value})
+        
+        const {ToroID: ToroIDToSend, FechaParto: FechaPartoToSend, ...restValuesToSend} = valuesToSend
+        setValuesToSend({...restValuesToSend, Tipo: e.target.value})
       }
       return
     }
@@ -171,7 +176,10 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
         await deleteInsumoServicio({ InsumoID: id, ServicioID: idServicio })
       }
 
-      if (Object.keys(valuesToSend).length > 0) await updateServicio(values.ID, { ...valuesToSend })
+      if (Object.keys(valuesToSend).length > 0) {
+        const resp = await updateServicio(values.ID, { ...valuesToSend })
+        console.log(resp, 'Update')
+      }
 
       if (listInsumosFinal.length > 0) await updateInsumoServicio(listInsumosFinal) 
 
