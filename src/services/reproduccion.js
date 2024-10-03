@@ -56,3 +56,14 @@ export async function getPartos(){
 
   return []
 }
+
+export async function getParaSecado(){
+  const resp = await fetch(`http://localhost:4000/reproduccion/parasecado`)
+
+  if (resp.status === 200) {
+    const { body } = await resp.json()
+    return body
+  }
+
+  return []
+}

@@ -45,6 +45,15 @@ export const getServicioWithInseminacionByIdRes = async (id) => {
   }
 }
 
+export const getAllSecado = async () => {
+  const resp = await fetch (`http://localhost:4000/servicio/secado`);
+  if (resp.status === 200) {
+    const { body } = await resp.json();
+    return body;
+  }
+  return [];
+}
+
 export const getSecadoByIdRes = async (id) => {
   const resp = await fetch (`http://localhost:4000/servicio/res/secado/${id}`);
   if (resp.status === 200){

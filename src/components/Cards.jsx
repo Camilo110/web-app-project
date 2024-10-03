@@ -2,6 +2,11 @@ import '../styles/Cards.css';
 import PropTypes from 'prop-types';
 import { NumeroRes } from './NumeroRes';
 
+const DecoratedFecha = (dias) => {
+  // TODO retornar un string con meses y días
+  return `${dias} días`
+}
+
 export const Cards = (props) => {
   const { 
     ResID,
@@ -13,6 +18,7 @@ export const Cards = (props) => {
     affirmativeToolTipText,
     onNegative,
     negativeToolTipText,
+    diasGestacion,
     isRecomendacion = false 
   } = props;
   return (
@@ -38,9 +44,16 @@ export const Cards = (props) => {
       <p>Estado: {Estado}</p>
 
       {
-        FechaParto ?
+        diasGestacion &&
+        <p>Tiempo gestación: {DecoratedFecha(diasGestacion)}</p>
+      }
+
+      {
+        FechaParto &&
         <p>Fecha Parto: {FechaParto}</p>
-        :
+      }
+      { 
+        Fecha &&
         <p>Fecha: {Fecha}</p>
       }
 
@@ -79,5 +92,6 @@ Cards.propTypes = {
   affirmativeToolTipText: PropTypes.string,
   onNegative: PropTypes.func,
   negativeToolTipText: PropTypes.string,
-  isRecomendacion: PropTypes.bool
+  isRecomendacion: PropTypes.bool,
+  diasGestacion: PropTypes.number
 }
