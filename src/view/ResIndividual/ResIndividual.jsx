@@ -14,15 +14,7 @@ import { getResModal } from '../../services/forms'
 import { createMuerte } from '../../services/muerte'
 import { ModalServicios } from '../../components/ModalServicios'
 import { NumeroRes } from '../../components/NumeroRes'
-
-//calcular edad
-const calcularEdad = (fecha) => {
-  const hoy = new Date()
-  const FechaNacimiento = new Date(fecha)
-  const edad = hoy.getFullYear() - FechaNacimiento.getFullYear()
-  return edad
-}
-
+import { daysToYearsandMonths } from '../../utils/DaysToYearsandMonths'
 
 const camposRes = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -70,6 +62,8 @@ export function ResIndividual() {
   const [ModalUpload, setModalUpload] = useState(false)
 
   const [openModalCreateServicio, setOpenModalCreateServicio] = useState(false)
+  const [previewDataModal, setPreviewDataModal] = useState({})
+  const [isInseminacionOSecado, setIsInseminacionOSecado] = useState({inseminacion: false, secado: false})
 
 
   const [DeleteModalRes, setDeleteModalRes] = useState(false);
@@ -124,13 +118,16 @@ export function ResIndividual() {
     if (hijos) {
       setNumHijo(hijos.length)
       hijos.forEach(hijo => {
-        listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo', Tipo: hijo.Tipo })
+        listLinaje.push({ id: hijo.ID, nombre: hijo.Nombre, Numero: hijo.Numero, familiaridad: 'Hijo' })
       })
     }
     setLinaje(listLinaje)
   }
 
-  const onCreate = () => {
+  const onCreateServicio = (isInseminacion, isSecado) => {
+    const Tipo = isInseminacion ? 'Inseminacion' : isSecado ? 'Secado' : ''
+    setPreviewDataModal({Tipo, ResID: id, Fecha: new Date().toISOString().split('T')[0]})
+    setIsInseminacionOSecado({inseminacion: isInseminacion, secado: isSecado})
     setOpenModalCreateServicio(true)
   }
 
@@ -202,7 +199,7 @@ export function ResIndividual() {
         isLoading ? <p>Cargando...</p> :
           <div className='res-individual'>
 
-            <p onClick={BackPage}> 🔙 volver a la lista</p>
+            <p onClick={BackPage} style={{cursor: 'pointer'}}> 🔙 volver a la lista</p>
 
             <div className='SectionOne'>
               <div className='LineOne'>
@@ -258,14 +255,9 @@ export function ResIndividual() {
 
             <div className='info-res'>
               <h2>Información</h2>
-              {res.Sexo === 'F' &&
-                <>
-                  <p>Promedio de leche diaria: NUM</p>
-                  <p>Número de partos: {res.NumeroPartos} </p>
-                </>
-              }
+              <p> <b>Número de partos:</b> {res.NumeroCrias} </p>
               <p> <b>Ubicación:</b> {res.FincaNombre}</p>
-              <p> <b>Edad:</b> {calcularEdad(res.FechaNacimiento)} años </p>
+              <p> <b>Edad:</b> {daysToYearsandMonths(res.Edad)} </p>
               <p> <b>Estado:</b> {res.Estado}</p>
               <p> <b>Peso al Nacer:</b> {res.PesoNacimiento} Kg</p>
               <p> <b>Peso Actual:</b> {res.PesoActual} Kg</p>
@@ -292,8 +284,7 @@ export function ResIndividual() {
                         id={item.id}
                         numero={item.Numero}
                         nombre={item.nombre}
-                        familiaridad={item.familiaridad}
-                        tipo={item.Tipo} />
+                        familiaridad={item.familiaridad} />
                     ))
                     :
                     <h3>No hay  registros de linaje</h3>
@@ -301,7 +292,7 @@ export function ResIndividual() {
               </div>
             </div>
 
-            {res.Sexo === 'F' &&
+            { (res.Tipo === 'Leche' || res.Tipo === 'Doble Proposito') &&
               <div>
                 <h3> Registros de Produccion</h3>
                 <p>Coming Soon</p>
@@ -312,9 +303,7 @@ export function ResIndividual() {
             <div className='serviciosMedicosMain'>
               <div className='tituloClase'>
                 <h2>Servicios Medicos</h2>
-                <button
-                  style={{ cursor: 'pointer' }}
-                  onClick={onCreate}>
+                <button onClick={() => onCreateServicio(false, false)}>
                   Agregar Servicio
                 </button>
               </div>
@@ -328,9 +317,13 @@ export function ResIndividual() {
             </div>
 
             {res.Sexo === 'F' &&
-              <div>
-                <h3>Registros de Secado</h3>
-                <p>Agregar +</p>
+              <div className='MontasInseminacionesMain'>
+                <div className='tituloClase'>
+                  <h2>Registros de Secado</h2>
+                  <button onClick={() => onCreateServicio(false, true)}>
+                    Agregar Secado
+                  </button>
+                </div>
                 <div className='ListaRegistros'>
                   {secados &&
                     secados.map((item) => (
@@ -344,7 +337,9 @@ export function ResIndividual() {
             <div className='MontasInseminacionesMain' >
               <div className='tituloClase'>
                 <h2>Montas {res.Sexo === 'F' && 'o Inseminaciones'}</h2>
-                <p>Agregar +</p>
+                <button onClick={() => onCreateServicio(true, false)}>
+                  Agregar Registro
+                </button>
               </div>
               <div className='ListaRegistros'>
                 {inseminaciones &&
@@ -364,6 +359,9 @@ export function ResIndividual() {
       {
         openModalCreateServicio &&
         <ModalServicios 
+          previewData={previewDataModal}
+          isInseminacion={isInseminacionOSecado.inseminacion}
+          isSecado={isInseminacionOSecado.secado}
           setOpenModal={setOpenModalCreateServicio} />
       }
 

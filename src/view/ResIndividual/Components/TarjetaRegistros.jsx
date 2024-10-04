@@ -16,10 +16,16 @@ export function TarjetaRegistros({body: {ID, Numero, ResID, listInsumos, ...body
       </div>
       <div className='contenido'>
         {Object.keys(body).map((key) => (
-          <p key={key}> {key}: {body[key]}</p>
+          <p key={key}>
+          { body[key] && 
+            <> {key}: {body[key]}</>
+          }
+          </p>
         ))}
 
-        <p> Lista Insumos: {listInsumos} </p>
+         {listInsumos && 
+         <p>Lista Insumos: {listInsumos} </p>
+          }
       </div>
       <div className="opciones">
         <button onClick={() => onDelete(ID)}>Borrar</button>
