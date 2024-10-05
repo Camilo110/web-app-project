@@ -118,17 +118,18 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
   const handleChangeValues = (e, key) => {
     if (key === 'Tipo') {
       if (e.target.value === 'Inseminacion' || e.target.value === 'Monta') {
-        let formattedFechaParto = ''
+        let dataAux = {}
 
         if (values.Fecha) {
           const FechaPartoSugerido = new Date(values.Fecha)
           FechaPartoSugerido.setDate(FechaPartoSugerido.getDate() + 283)
-          formattedFechaParto = FechaPartoSugerido.toISOString().split('T')[0]
+          const formattedFechaParto = FechaPartoSugerido.toISOString().split('T')[0]
+          dataAux = {FechaParto: formattedFechaParto}
         }
 
         setIsInseminacionoMonta(true)
-        setValues({...values, FechaParto: formattedFechaParto,Tipo: e.target.value})
-        setValuesToSend({...valuesToSend, FechaParto: formattedFechaParto, Tipo: e.target.value})
+        setValues({...values, ...dataAux, Tipo: e.target.value})
+        setValuesToSend({...valuesToSend, ...dataAux, Tipo: e.target.value})
 
         if (e.target.value === 'Monta'){
           setIsMonta(true)
@@ -216,31 +217,36 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                   <label>Tipo</label>
                   <select value={values.Tipo || ''} onChange={(e) => handleChangeValues(e, 'Tipo')} >
                     <option value='' disabled>Elegir</option>
-                    {
-                      isInseminacion ?
-                      <>
-                        <option value='Monta'>Monta</option>
-                        <option value='Inseminacion'>Inseminación</option>
-                      </>
+                    {isEdit ?
+                      <option value={values.Tipo}>{values.Tipo}</option>
                       :
                       <>
                       {
-                        isSecado ?
+                        isInseminacion ?
                         <>
-                          <option value='Secado'>Secado</option>
+                          <option value='Monta'>Monta</option>
+                          <option value='Inseminacion'>Inseminación</option>
                         </>
                         :
                         <>
-                          <option value='Podologia'>Podología</option>
-                          <option value='Vacunacion'>Vacunación</option>
-                          <option value='Desparasitacion'>Desparasitación</option>
-                          <option value='Control'>Control</option>
-                          <option value='Castracion'>Castración</option>
-                          <option value='Topizado'>Topizado</option>
-                          <option value='Curacion'>Curación</option>
-                          <option value='Secado'>Secado</option>
-                          <option value='Aborto'>Aborto</option>
-                          <option value='Otro'>Otro</option>
+                        {
+                          isSecado ?
+                          <>
+                            <option value='Secado'>Secado</option>
+                          </>
+                          :
+                          <>
+                            <option value='Podologia'>Podología</option>
+                            <option value='Vacunacion'>Vacunación</option>
+                            <option value='Desparasitacion'>Desparasitación</option>
+                            <option value='Control'>Control</option>
+                            <option value='Castracion'>Castración</option>
+                            <option value='Topizado'>Topizado</option>
+                            <option value='Curacion'>Curación</option>
+                            <option value='Aborto'>Aborto</option>
+                            <option value='Otro'>Otro</option>
+                          </>
+                        }
                         </>
                       }
                       </>
@@ -307,8 +313,13 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
 
                 <div className="add-insumos">
                   <div className='fields'>
-                    <label>Codigo</label>
-                    <input type="text" value={search} onChange={onSearchInsumo} />
+                    <label>Insumo</label>
+                    <input 
+                      type="text"
+                      value={search}
+                      onChange={onSearchInsumo}
+                      placeholder='Ingrese Nombre o Código'                    
+                    />
                     {
                       // TO DO: <button>search</button>
                     }

@@ -65,6 +65,9 @@ export function ResIndividual() {
   const [previewDataModal, setPreviewDataModal] = useState({})
   const [isInseminacionOSecado, setIsInseminacionOSecado] = useState({inseminacion: false, secado: false})
 
+  const [openModalEdit, setOpenModalEdit] = useState(false)
+  const [idServicioOnEdit, setIdServicioOnEdit] = useState('')
+
 
   const [DeleteModalRes, setDeleteModalRes] = useState(false);
   const [editModalRes, setEditModalRes] = useState(false);
@@ -192,6 +195,11 @@ export function ResIndividual() {
     window.location.href = '/res';
   }
 
+  const onEditServicio = (id) => {
+    setIdServicioOnEdit(id)
+    setOpenModalEdit(true)
+  }
+
   return (
 
     <>
@@ -310,7 +318,7 @@ export function ResIndividual() {
               <div className='ListaRegistros'>
                 {servicios &&
                   servicios.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} onDelete={HandleDeleteServicio} />
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={HandleDeleteServicio} onEdit={onEditServicio} />
                   ))
                 }
               </div>
@@ -327,7 +335,7 @@ export function ResIndividual() {
                 <div className='ListaRegistros'>
                   {secados &&
                     secados.map((item) => (
-                      <TarjetaRegistros key={item.ID} body={item} onDelete={HandleDeleteServicio} />
+                      <TarjetaRegistros key={item.ID} body={item} onDelete={HandleDeleteServicio} onEdit={onEditServicio} />
                     ))
                   }
                 </div>
@@ -344,7 +352,7 @@ export function ResIndividual() {
               <div className='ListaRegistros'>
                 {inseminaciones &&
                   inseminaciones.map((item) => (
-                    <TarjetaRegistros key={item.ID} body={item} onDelete={HandleDeleteServicio} />
+                    <TarjetaRegistros key={item.ID} body={item} onDelete={HandleDeleteServicio} onEdit={onEditServicio} />
                   ))
                 }
               </div>
@@ -375,6 +383,15 @@ export function ResIndividual() {
         <Modal Handlesubmit={ModalSubmitDelete} fields={camposDelete} data={{ ID: id }} setOpenModal={setDeleteModalRes}>
           <h2>Eliminar Res</h2>
         </Modal>}
+      
+            
+        {
+        openModalEdit &&
+        <ModalServicios 
+          isEdit={true}
+          setOpenModal={setOpenModalEdit}
+          idServicio={idServicioOnEdit} />
+        }
 
     </>
 
