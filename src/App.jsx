@@ -8,6 +8,8 @@ import { Servicios } from './view/Servicios/Servicios';
 import {Secado} from './view/Secado/Secado';
 import {Alimentacion} from './pages/Alimentacion';
 import { ResIndividual } from './view/ResIndividual/ResIndividual';
+import { Insumos } from './view/Insumos/Insumos';
+import { Fincas } from './view/Finca/Fincas';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path='servicios' element={<Servicios/>}/>
           <Route path='secado' element={<Secado/>}/>
           <Route path='alimentacion' element={<Alimentacion/>}/>
+          <Route path='insumos' element={<Insumos/>}/>
+          <Route path='fincas' element={<Fincas/>}/>
 
           <Route path="*" element={<div> <h1>Not Found</h1> </div> } />
         </Routes>
