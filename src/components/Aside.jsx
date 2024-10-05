@@ -27,9 +27,19 @@ const modules = [
     link: '/secado'
   },
   {
-    icon: 'restaurant',
-    title: 'Alimentacion',
-    link: '/alimentacion'
+    icon: 'monetization_on',
+    title: 'Finanzas',
+    link: '/finanzas'
+  },  
+  {
+    icon: 'inventory_2',
+    title: 'Insumos',
+    link: '/insumos'
+  },
+  {
+    icon: 'location_city',
+    title: 'Fincas',
+    link: '/fincas'
   },
   {
     icon: 'person',

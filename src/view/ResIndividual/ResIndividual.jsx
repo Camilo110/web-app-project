@@ -129,7 +129,12 @@ export function ResIndividual() {
 
   const onCreateServicio = (isInseminacion, isSecado) => {
     const Tipo = isInseminacion ? 'Inseminacion' : isSecado ? 'Secado' : ''
-    setPreviewDataModal({Tipo, ResID: id, Fecha: new Date().toISOString().split('T')[0]})
+    if (res.Sexo == 'M' && isInseminacion){
+      setPreviewDataModal({Tipo: 'Monta', ToroID: id, Fecha: new Date().toISOString().split('T')[0]}) }
+    else {
+      setPreviewDataModal({Tipo, ResID: id, Fecha: new Date().toISOString().split('T')[0]})
+    }
+
     setIsInseminacionOSecado({inseminacion: isInseminacion, secado: isSecado})
     setOpenModalCreateServicio(true)
   }

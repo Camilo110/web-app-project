@@ -32,6 +32,9 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
 
   useEffect(() => {
     getAll()
+    if (values.Tipo === 'Monta') {
+      setIsMonta(true)
+    }
   }, [])
 
   const getAll = async () => {
