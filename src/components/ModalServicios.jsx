@@ -8,7 +8,7 @@ import { createServicio, getServicioById, getServicioWithInseminacionById, updat
 import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
 
 
-export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServicio, setOpenModal, previewData = {}}) => {
+export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecado = false, idServicio, setOpenModal, previewData = {}}) => {
 
   const [insumos, setInsumos] = useState([])
 
@@ -32,6 +32,9 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
 
   useEffect(() => {
     getAll()
+    if (values.Tipo === 'Monta') {
+      setIsMonta(true)
+    }
   }, [])
 
   const getAll = async () => {
@@ -118,17 +121,18 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
   const handleChangeValues = (e, key) => {
     if (key === 'Tipo') {
       if (e.target.value === 'Inseminacion' || e.target.value === 'Monta') {
-        let formattedFechaParto = ''
+        let dataAux = {}
 
         if (values.Fecha) {
           const FechaPartoSugerido = new Date(values.Fecha)
           FechaPartoSugerido.setDate(FechaPartoSugerido.getDate() + 283)
-          formattedFechaParto = FechaPartoSugerido.toISOString().split('T')[0]
+          const formattedFechaParto = FechaPartoSugerido.toISOString().split('T')[0]
+          dataAux = {FechaParto: formattedFechaParto}
         }
 
         setIsInseminacionoMonta(true)
-        setValues({...values, FechaParto: formattedFechaParto,Tipo: e.target.value})
-        setValuesToSend({...valuesToSend, FechaParto: formattedFechaParto, Tipo: e.target.value})
+        setValues({...values, ...dataAux, Tipo: e.target.value})
+        setValuesToSend({...valuesToSend, ...dataAux, Tipo: e.target.value})
 
         if (e.target.value === 'Monta'){
           setIsMonta(true)
@@ -137,9 +141,11 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
         }
       } else {
         setIsInseminacionoMonta(false)
+        // eslint-disable-next-line no-unused-vars
         const {ToroID, FechaParto, ...restValues} = values
         setValues({...restValues, Tipo: e.target.value})
         
+        // eslint-disable-next-line no-unused-vars
         const {ToroID: ToroIDToSend, FechaParto: FechaPartoToSend, ...restValuesToSend} = valuesToSend
         setValuesToSend({...restValuesToSend, Tipo: e.target.value})
       }
@@ -214,21 +220,38 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
                   <label>Tipo</label>
                   <select value={values.Tipo || ''} onChange={(e) => handleChangeValues(e, 'Tipo')} >
                     <option value='' disabled>Elegir</option>
-                    <option value='Monta'>Monta</option>
-                    <option value='Inseminacion'>Inseminación</option>
-                    {
-                      !isInseminacion &&
+                    {isEdit ?
+                      <option value={values.Tipo}>{values.Tipo}</option>
+                      :
                       <>
-                        <option value='Podologia'>Podología</option>
-                        <option value='Vacunacion'>Vacunación</option>
-                        <option value='Desparasitacion'>Desparasitación</option>
-                        <option value='Control'>Control</option>
-                        <option value='Castracion'>Castración</option>
-                        <option value='Topizado'>Topizado</option>
-                        <option value='Curacion'>Curación</option>
-                        <option value='Secado'>Secado</option>
-                        <option value='Aborto'>Aborto</option>
-                        <option value='Otro'>Otro</option>
+                      {
+                        isInseminacion ?
+                        <>
+                          <option value='Monta'>Monta</option>
+                          <option value='Inseminacion'>Inseminación</option>
+                        </>
+                        :
+                        <>
+                        {
+                          isSecado ?
+                          <>
+                            <option value='Secado'>Secado</option>
+                          </>
+                          :
+                          <>
+                            <option value='Podologia'>Podología</option>
+                            <option value='Vacunacion'>Vacunación</option>
+                            <option value='Desparasitacion'>Desparasitación</option>
+                            <option value='Control'>Control</option>
+                            <option value='Castracion'>Castración</option>
+                            <option value='Topizado'>Topizado</option>
+                            <option value='Curacion'>Curación</option>
+                            <option value='Aborto'>Aborto</option>
+                            <option value='Otro'>Otro</option>
+                          </>
+                        }
+                        </>
+                      }
                       </>
                     }
                   </select>
@@ -293,8 +316,13 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, idServi
 
                 <div className="add-insumos">
                   <div className='fields'>
-                    <label>Codigo</label>
-                    <input type="text" value={search} onChange={onSearchInsumo} />
+                    <label>Insumo</label>
+                    <input 
+                      type="text"
+                      value={search}
+                      onChange={onSearchInsumo}
+                      placeholder='Ingrese Nombre o Código'                    
+                    />
                     {
                       // TO DO: <button>search</button>
                     }
@@ -337,6 +365,7 @@ ModalServicios.propTypes = {
   isEdit: PropTypes.bool,
   idServicio: PropTypes.string,
   isInseminacion: PropTypes.bool,
+  isSecado: PropTypes.bool,
   previewData: PropTypes.object,
   listTipos: PropTypes.array
 }

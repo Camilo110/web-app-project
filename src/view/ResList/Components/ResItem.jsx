@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useEffect } from 'react';
 import { NumeroRes } from '../../../components/NumeroRes';
+import { daysToYearsandMonths } from "../../../utils/DaysToYearsandMonths";
+import PropTypes from 'prop-types'
 
-// eslint-disable-next-line react/prop-types
-export function ResItem({res : {ID: id, Numero, Nombre, Tipo, NumeroPartos, FincaNombre}}) {
+export function ResItem({res : {ID: id, Numero, Nombre, Tipo, Edad, NumeroCrias, FincaNombre}}) {
 
   useEffect(() => {
     }, [])
@@ -24,8 +25,8 @@ export function ResItem({res : {ID: id, Numero, Nombre, Tipo, NumeroPartos, Finc
               <NumeroRes id={id} numero={Numero} tipo={Tipo} />
           </div>
 
-            <p> <b>N° Partos:</b> {NumeroPartos}</p>
-            <p> <b>Promedio leche (diaria):</b> 19 lts</p>
+            <p> <b>N° Crias:</b> {NumeroCrias}</p>
+            <p> <b>Edad</b> {daysToYearsandMonths(Edad)}</p>
             <p> <b>Ubicación:</b> {FincaNombre}</p>
             <p> <b>Peso Actual:</b> 500kg</p>
             <p> <b>Raza:</b> Holstein</p>
@@ -34,4 +35,8 @@ export function ResItem({res : {ID: id, Numero, Nombre, Tipo, NumeroPartos, Finc
         </section>
   </div> 
   );
+}
+
+ResItem.propTypes = {
+  res: PropTypes.object.isRequired
 }

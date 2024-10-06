@@ -92,6 +92,7 @@ export const Secado = () => {
         <ModalServicios
           setOpenModal={setOpenModalCreateServicio}
           previewData={valuesOnAddServicio}
+          isSecado={true}
         />
       }
       {

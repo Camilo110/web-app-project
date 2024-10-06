@@ -8,10 +8,9 @@ export const getFinca = async () => {
 
 
 export const getFincaById = async (id) => {
-const listFinca = await getFinca();
-const finca = listFinca.find((finca) => finca.Numero === id);
-console.log(finca, 'FINCA')
-return finca;
+  const resp = await fetch(`http://localhost:4000/finca/${id}`);
+  const {body} = await resp.json();
+  return body;
 }
 
 export const updateFinca = async (id, bodys) => {
@@ -39,8 +38,8 @@ export const createFinca = async (res) => {
   return body;
 }
 
-export const deleteRes = async (id) => {
-  const resp = await fetch(`http://localhost:4000/fsinca/${id}`, {
+export const deleteFinca = async (id) => {
+  const resp = await fetch(`http://localhost:4000/finca/${id}`, {
     method: 'DELETE'
   });
   console.log('melo')

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { NumeroRes } from '../../../components/NumeroRes'
 
-export function TarjetaLinaje({ id, nombre, numero, familiaridad, tipo }) {
+export function TarjetaLinaje({ id, nombre, familiaridad }) {
   return (
     <div style={{ cursor: 'pointer' }} className="TarjetaLinaje">
       <Link to={`/res/${id}`} className="link">
@@ -15,7 +15,7 @@ export function TarjetaLinaje({ id, nombre, numero, familiaridad, tipo }) {
         </div>
         <div className="info">
           <h2>{nombre}</h2>
-          < NumeroRes id={id} numero={numero} tipo={tipo}></ NumeroRes>
+          < NumeroRes id={id}></ NumeroRes>
         </div>
       </Link>
     </div>
@@ -25,8 +25,6 @@ export function TarjetaLinaje({ id, nombre, numero, familiaridad, tipo }) {
 TarjetaLinaje.propTypes = {
   id: PropTypes.string.isRequired,
   nombre: PropTypes.string.isRequired,
-  numero: PropTypes.number.isRequired,
-  familiaridad: PropTypes.string.isRequired,
-  tipo: PropTypes.string.isRequired
+  familiaridad: PropTypes.string.isRequired
 }
 

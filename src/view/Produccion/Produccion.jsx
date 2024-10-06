@@ -5,6 +5,7 @@ import { CreateProduccionIndividual, getProduccion, EditProduccionIndividual, De
 import { useEffect, useState } from "react";
 import { ItemRegistro } from './Components/ItemRegistro';
 import { Table } from '../../components/Table';
+import { getCantidadProductos } from '../../services/producto';
 
 const fields = {
   Fecha: { label: 'Fecha', type: 'date', value: '' },
@@ -35,21 +36,32 @@ export const Produccion = () => {
   const [inputValue, setInputValue] = useState('')
   
   const [registros, setRegistros] = useState([])
-  const [filterRegistros, setFilterRegistros] = useState([])
-  const [inputRegistro, setInputRegistro] = useState('')
+
+  const [productos, setProductos] = useState([])
 
   useEffect(() => {
-    getProduccion().then((resp) => {
-      setRegistros(resp)
-      setFilterRegistros(resp)
-      setIsLoading2(false)
-    })
-    getProduccionModal().then((res) => {
-      setListRes(res)
-      setFilterRes(filter(res, 'F', ['Sexo']))
-      setIsLoading1(false)
-    })
+    fetchProduccion()
+    fetchDataModal()
+    fetchProductos()
   }, [])
+
+  const fetchProduccion = async () => {
+    const response = await getProduccion()
+    setRegistros(response)
+
+    setIsLoading2(false)
+  } 
+  const fetchDataModal = async () => {
+    const response = await getProduccionModal()
+    setListRes(response)
+    setFilterRes(filter(response, 'F', ['Sexo']))
+    setIsLoading1(false)
+  }
+  const fetchProductos = async () => {
+    const response = await getCantidadProductos()
+    setProductos(response)
+  }
+
 
   function filter(list, query, listOfKeys) {
     const listFilter = list.filter((item) => (
@@ -61,11 +73,6 @@ export const Produccion = () => {
   const handleInputChangeRes = ({ target: { value } }) => {
     setInputValue(value)
     value ? setFilterRes(filter(listRes, value, ['Numero', 'Nombre'])) : setFilterRes(listRes)
-  }
-
-  const handleInputChangeRegistro = ({ target: { value } }) => {
-    setInputRegistro(value)
-    value ? setFilterRegistros(filter(registros, value, ['Fecha', 'Tipo'])) : setFilterRegistros(registros)
   }
 
   const HandleChange = (e, key) => {
@@ -96,19 +103,6 @@ export const Produccion = () => {
 
     setValues({ ...values, ResID: OldResID })
   }
-
-  //Seria mejor esto en el Back
-  const getName = (ID) => {
-    let name = ''
-    listRes.map((res) => {
-      if (res.ID === ID) {
-        name = res.Nombre
-        return name
-      }
-    })
-    return name
-  }
-
 
   const Submit = (values) => {
     CreateProduccionIndividual(values).then((resp) => {
@@ -223,17 +217,14 @@ export const Produccion = () => {
         </section>
 
         <section className='registroList'>
-          <h2>Registros</h2>
-          <input type="text" onChange={handleInputChangeRegistro} value={inputRegistro} placeholder="Buscar Registros" />
-          <div className='listScroll'>
+          <h2>Total Produccion</h2>
+          <div>
             {
-              filterRegistros.map((registro) => (
+              productos.map((registro) => (
                 <ItemRegistro 
                   key={registro.ID} 
                   Cantidad={registro.Cantidad} 
-                  Fecha={registro.Fecha} 
-                  Tipo={registro.Tipo} 
-                  Nombre={getName(registro.ResID)} />
+                  Tipo={registro.Nombre} />
               ))
             }
           </div>

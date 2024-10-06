@@ -33,31 +33,51 @@ export function ResList() {
 
   const [fields, setFields] = useState(campos)
 
-
+  const [limit, setLimit] = useState({ inf: 0, sup: 15 })
 
   useEffect(() => {
     fetchRes()
-    getResModal().then(({ fincas, madres, padres }) => {
-      setFields({
-        ...fields,
-        FincaID: { label: 'Finca', type: 'select', value: fincas },
-        Madre: { label: 'Madre', type: 'select', value: madres },
-        Padre: { label: 'Padre', type: 'select', value: padres }
-      })
-    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const onChangeLimit = (op) => {
+    const numRows = 15
+    const addInf = (limit.inf + numRows >= response.length) ? limit.inf : limit.inf + numRows
+    const addSup = Math.max(Math.min((limit.sup + numRows), response.length), numRows)
+    
+    const minusInf = Math.max((limit.inf - numRows), 0)
+    const minusSup = minusInf + numRows
+    
+    if (op === '+') {
+      setLimit({ inf: addInf, sup: addSup })
+    } else {
+      setLimit({ inf: minusInf, sup: minusSup })
+    }
+    window.scrollTo(0, 0)
+  }
+
+
 
   const fetchRes = async() =>{
     const res = await getRes()
     setResponse(res)
     setListRes(res)
   }
+  const  fetchDataForm = async () => {
+    const { fincas, madres, padres } = await getResModal()
+    setFields({
+      ...fields,
+      FincaID: { label: 'Finca', type: 'select', value: fincas },
+      Madre: { label: 'Madre', type: 'select', value: madres },
+      Padre: { label: 'Padre', type: 'select', value: padres }
+    })
+  }
 
 
 
 
-  const HandleAdd = () => {
+  const HandleAdd =  async () => {
+    await fetchDataForm()
     setCreateModal(true);
   }
 
@@ -82,6 +102,7 @@ export function ResList() {
     console.log('Respuesta', resp)
     setCreateModal(false)
     fetchRes()
+    setLimit({ inf: 0, sup: 15 })
   }
 
   return (
@@ -103,7 +124,13 @@ export function ResList() {
           </Modal>}
       </div>
 
-      {listRes.map((res) => (<ResItem key={res.Numero} res={res} fetchRes={fetchRes} />))}
+      {listRes.slice(limit.inf, limit.sup).map((res) => (<ResItem key={res.Numero} res={res} fetchRes={fetchRes} />))}
+
+      <div className="Paginacion">
+        <span onClick={() => onChangeLimit('-')}>{'Anterior << '}</span>
+        <span>{`Página: ${Math.ceil(limit.sup / 15)} de ${Math.ceil(response.length / 15)}`}</span>
+        <span onClick={() => onChangeLimit('+')}>{' >> Siguiente'} </span>
+      </div>
 
 
     </div>
