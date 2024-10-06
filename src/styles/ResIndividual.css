@@ -8,7 +8,6 @@
 .SectionOne .opciones {
   display: flex;
   gap: 0;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -289,10 +288,6 @@
     align-items: start;
   }
   
-  .SectionOne{
-    flex-direction: column;
-    
-  }
   .SectionOne div{
     display: flex;
     justify-content: flex-end;
@@ -303,4 +298,13 @@
     display: flex;
     justify-content: space-between;    
   }
+}
+
+@media screen and (max-width: 500px){
+  
+  .SectionOne{
+    flex-direction: column;
+    
+  }
+  
 }
