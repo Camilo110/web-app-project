@@ -1,0 +1,11 @@
+.containerMain .user {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerMain .user .user-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}

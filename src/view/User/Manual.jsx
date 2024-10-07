@@ -1,9 +1,11 @@
+import '../../styles/Manual.css'
+
 export const Manual = () => {
   return (
-    <div>
-      <h2>Manual De Usuario</h2>
+    <div className="manual-usuario">
+      <h1>Manual De Usuario</h1>
 
-      <h3>Modulo Res</h3>
+      <p>Este es un manual de usuario </p>
     </div>
   )
 }

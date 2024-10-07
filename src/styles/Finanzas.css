@@ -1,0 +1,112 @@
+.containerMain .finanzas{
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.containerMain .finanzas-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 1.2rem;
+}
+
+.containerMain .finanzas-main .Balance {
+  display: flex;
+  flex-direction: column;
+  padding: .8rem;
+  gap: .6rem;
+  background-color: var(--color-white);
+}
+
+.containerMain .finanzas-main .Balance .Balance-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-white);  
+  gap: .7rem;
+}
+
+.containerMain .finanzas-main .Balance .Balance-content .parte-superior,
+.containerMain .finanzas-main .Balance .Balance-content .parte-inferior {
+  display: flex;
+  justify-content: center;
+  width: 100%;  
+  gap: .7rem;
+  background-color: var(--color-white);
+}
+
+.containerMain .finanzas-main .Balance .Balance-content .ingresos,
+.containerMain .finanzas-main .Balance .Balance-content .egresos,
+.containerMain .finanzas-main .Balance .Balance-content .total {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem;  
+  border: solid 3px var(--color-primary);
+  border-radius: .3rem;
+}
+
+.containerMain .finanzas-main .Balance .Balance-content .ingresos img,
+.containerMain .finanzas-main .Balance .Balance-content .egresos img,
+.containerMain .finanzas-main .Balance .Balance-content .total img {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.containerMain .finanzas-main .Balance .Balance-content .ingresos {
+  border-color: var(--color-success);
+}
+
+.containerMain .finanzas-main .Balance .Balance-content .egresos {
+  border-color: var(--color-danger);
+}
+
+.containerMain .finanzas-main .form {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  padding: .8rem;
+  background-color: var(--color-white);
+}
+
+.containerMain .finanzas-main .form .form-body {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.containerMain .finanzas-main .form .form-body .form-tipo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .8rem; 
+  margin-bottom: .4rem; 
+}
+
+.containerMain .finanzas-main .form .form-body .form-tipo a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .1rem;
+  border: 2px solid var(--color-primary);
+}
+
+.containerMain .finanzas-main .form .form-body .form-input {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+
+
+
+
+
+.containerMain .finanzas-main > div:nth-child(1),
+.containerMain .finanzas-main > div:nth-child(2) {
+  grid-column: 1;
+}
+
+.containerMain .finanzas-main > div:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}

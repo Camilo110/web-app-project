@@ -303,8 +303,7 @@
 @media screen and (max-width: 500px){
   
   .SectionOne{
-    flex-direction: column;
-    
+    flex-direction: column;  
   }
   
 }
