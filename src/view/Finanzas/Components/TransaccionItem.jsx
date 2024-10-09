@@ -7,10 +7,12 @@ export const TransaccionItem = ({ID, Fecha, Valor, Producto}) => {
 
   return (
     <div className="TransaccionItem" onClick={handleClick}>
-      <a> Icon</a>
-      <h2> {Producto} </h2>
+      <img src="src/assets/img/positivo.png" alt="icon"/>
       <p> {Fecha} </p>
-      <p> $ {Valor} </p>
+      <div className="producto-valor">
+        <h3> {Producto} </h3>
+        <p> $ {Valor} </p>
+      </div>      
     </div>
 
   )
