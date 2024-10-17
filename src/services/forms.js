@@ -21,10 +21,23 @@ export const getResModal = async () => {
   return res
  }
 
-
  export const getServiciosModal = async () => {
   const response = await fetch('http://localhost:4000/res');
   const {body} = await response.json();
   const reses = body.map(({ID, Nombre}) => ({ID, value: Nombre}))
   return reses
+ }
+
+ export const getProveedor = async () => {
+  const response = await fetch('http://localhost:4000/proveedor');
+  const {body} = await response.json();
+  const proveedores = body.map(({ID, Nombre}) => ({ID, value: Nombre}))
+  return proveedores
+ }
+
+ export const getCliente = async () => {
+  const response = await fetch('http://localhost:4000/cliente');
+  const {body} = await response.json();
+  const clientes = body.map(({ID, Nombre}) => ({ID, value: Nombre}))
+  return clientes
  }
