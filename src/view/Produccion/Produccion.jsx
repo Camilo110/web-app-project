@@ -5,7 +5,7 @@ import { CreateProduccionIndividual, getProduccion, EditProduccionIndividual, De
 import { useEffect, useState } from "react";
 import { ItemRegistro } from './Components/ItemRegistro';
 import { Table } from '../../components/Table';
-import { getCantidadProductos } from '../../services/producto';
+import { getProductos } from '../../services/producto';
 
 const fields = {
   Fecha: { label: 'Fecha', type: 'date', value: '' },
@@ -58,7 +58,7 @@ export const Produccion = () => {
     setIsLoading1(false)
   }
   const fetchProductos = async () => {
-    const response = await getCantidadProductos()
+    const response = await getProductos()
     setProductos(response)
   }
 
