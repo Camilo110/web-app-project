@@ -229,6 +229,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                         <>
                           <option value='Monta'>Monta</option>
                           <option value='Inseminacion'>Inseminación</option>
+                          <option value='Aborto'>Aborto</option>
                         </>
                         :
                         <>
@@ -246,7 +247,6 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                             <option value='Castracion'>Castración</option>
                             <option value='Topizado'>Topizado</option>
                             <option value='Curacion'>Curación</option>
-                            <option value='Aborto'>Aborto</option>
                             <option value='Otro'>Otro</option>
                           </>
                         }
