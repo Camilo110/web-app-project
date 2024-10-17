@@ -2,7 +2,19 @@ import { useEffect, useRef, useState } from "react"
 import PropTypes from 'prop-types'
 import '../styles/Table.css'
 
-export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true, paginar = true, enableDelete = true}) => {
+export const Table = (props) => {
+
+  const {
+    HeaderList,
+    keyList,
+    data,
+    onEdit,
+    onDelete,
+    edit = true,
+    paginar = true,
+    enableDelete = true,
+    filtrar = true
+  }= props
 
   const [numRows, setNumRows] = useState(10)
   const [limit, setLimit] = useState({ inf: 0, sup: 10 })
@@ -74,16 +86,18 @@ export const Table = ({ HeaderList, keyList, data, onEdit, onDelete, edit = true
   return (
     <div className="table-main">
 
-      <div className="table-search"> 
-        <h3>Filtrar: </h3>
-        <input 
-          ref={reference}
-          type="text" 
-          placeholder="" 
-          onChange={onChangeFilter}
-        />
-        <span style={{color: 'red'}}>{fieldFilter.text}</span>
-      </div>
+      {filtrar &&
+        <div className="table-search"> 
+          <h3>Filtrar: </h3>
+          <input 
+            ref={reference}
+            type="text" 
+            placeholder="" 
+            onChange={onChangeFilter}
+          />
+          <span style={{color: 'red'}}>{fieldFilter.text}</span>
+        </div>
+      }
 
         {paginar && paginacion()}
 
@@ -144,7 +158,8 @@ Table.propTypes = {
   onDelete: PropTypes.func,
   edit: PropTypes.bool,
   paginar : PropTypes.bool,
-  enableDelete: PropTypes.bool
+  enableDelete: PropTypes.bool,
+  filtrar : PropTypes.bool
 }
 
 
