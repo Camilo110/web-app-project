@@ -13,14 +13,17 @@ import { Fincas } from './view/Finca/Fincas';
 import { User } from './view/User/User';
 import { Finanzas } from './view/Finanzas/Finanzas';
 import { Manual } from './view/User/Manual';
+import { Login } from './view/Login/Login';
+import { Register } from './view/Login/Register';
 
 function App() {
   return (
     <>
-      <Aside/>
 
       <main className='containerMain'>
         <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
           <Route path="/" element={<Res/>} />
           <Route path="/res" element={<Res/>} />
           <Route path="/res/:id" element={<ResIndividual/>}/>
