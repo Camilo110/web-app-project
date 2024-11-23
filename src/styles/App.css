@@ -218,7 +218,7 @@ aside .sidebar a{
   display: flex;
   align-items: center;
   color: var(--color-info-dark);
-  height: 3.7rem;
+  height: 3.4rem;
   gap: 1rem;
   position: relative;
   margin-left: 2rem;
@@ -320,16 +320,6 @@ button:focus-visible {
       width: 5.6rem;
   }
 
-
-  aside .sidebar a:last-child{
-      position: relative;
-      margin-top: 1.8rem;
-  }
-  
-  aside .sidebar a:last-child{
-      position: relative;
-      margin-top: 1.8rem;
-  }
   .responsive-heading::after {
     content: 'PG';
   }

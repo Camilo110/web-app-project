@@ -46,3 +46,8 @@ export const createRes = async (res) => {
   return body;
 }
 
+export const getProduccionPorResFechas = async (id, startDate, endDate) => {
+  const response = await fetch(`http://localhost:4000/produccionIndividual/${id}/${startDate}/${endDate}`);
+  return response;
+}
+

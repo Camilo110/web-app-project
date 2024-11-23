@@ -4,10 +4,13 @@ import { getHijos, getResById, updateRes } from "../../services/res"
 import { deleteImage, getImages, uploadImage } from '../../services/images'
 import { useState } from "react"
 import { TarjetaLinaje } from './Components/TarjetaLinaje'
+import { Line } from 'react-chartjs-2'
+import 'chart.js/auto'
 //import PropTypes from 'prop-types'
 import { TarjetaRegistros } from './Components/TarjetaRegistros'
 import { useParams } from 'react-router-dom'
 import { getServicioByIdRes, deleteServicio, getServicioWithInseminacionByIdRes, getSecadoByIdRes } from '../../services/servicio'
+import { getProduccionPorResFechas } from '../../services/res'
 import { UploadFile } from '../../components/UploadFile'
 import { Modal } from '../../components/Modal'
 import { getResModal } from '../../services/forms'
@@ -72,6 +75,10 @@ export function ResIndividual() {
   const [DeleteModalRes, setDeleteModalRes] = useState(false);
   const [editModalRes, setEditModalRes] = useState(false);
   const [fields, setFields] = useState(camposRes)
+
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [productionData, setProductionData] = useState([]);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -205,6 +212,58 @@ export function ResIndividual() {
     setOpenModalEdit(true)
   }
 
+  // logica para el gráfico de produccion
+  useEffect(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(today.getMonth() - 1);
+
+    setEndDate(today.toISOString().split('T')[0]);
+    setStartDate(oneMonthAgo.toISOString().split('T')[0]);
+  }, []);
+  
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+  };
+
+  useEffect(() => {
+    const fetchProductionData = async () => {
+      if (startDate && endDate) {
+        try {
+          console.log('startDate:', startDate);
+          const response = await getProduccionPorResFechas(id, startDate, endDate);
+          if(response.ok) {
+            const data = await response.json();
+            setProductionData(data.body);
+          } else {
+            setProductionData([]);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
+      }
+    };
+
+    fetchProductionData();
+  }, [startDate, endDate]);
+
+  const data = {
+    labels: productionData.map((d) => d.Fecha),
+    datasets: [
+      {
+        label: 'Producción de Leche',
+        data: productionData.map((d) => d.Cantidad),
+        fill: false,
+        backgroundColor: 'rgba(105, 148, 197, 1)'
+
+      },
+    ],
+  };
+
   return (
 
     <>
@@ -305,13 +364,22 @@ export function ResIndividual() {
               </div>
             </div>
 
-            { (res.Tipo === 'Leche' || res.Tipo === 'Doble Proposito') &&
-              <div>
-                <h3> Registros de Produccion</h3>
-                <p>Coming Soon</p>
-                <img src='https://fakeimg.pl/500x200' alt="Grafico" />
-              </div>
-            }
+            { (res.Tipo === 'Leche' || res.Tipo === 'Doble Proposito') && (
+        <div className='registrosReproduccion'>
+          <h2>Registros de Producción</h2>
+          <div className='fechas'>
+            <label className='labelFechas'>
+              Fecha de inicio:
+              <input type="date" value={startDate} onChange={handleStartDateChange} />
+            </label>
+            <label className='labelFechas'>
+              Fecha de fin:
+              <input type="date" value={endDate} onChange={handleEndDateChange} />
+            </label>
+          </div>
+          <Line data={data} />
+        </div>
+      )}
 
             <div className='serviciosMedicosMain'>
               <div className='tituloClase'>

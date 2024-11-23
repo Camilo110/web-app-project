@@ -244,6 +244,28 @@
   border-radius: 5px;
 }
 
+.res-individual .registrosReproduccion {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-top: .5rem;
+}
+
+.res-individual .registrosReproduccion .fechas {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.res-individual .registrosReproduccion .fechas .labelFechas{
+  display: flex;
+  gap: .3rem;
+}
+
+canvas {
+  background-color: var(--color-white);
+  padding: .8rem;
+}
 
 /* .ListaRegistros::-webkit-scrollbar,
 .ListImg::-webkit-scrollbar {
@@ -304,6 +326,11 @@
   
   .SectionOne{
     flex-direction: column;  
+  }
+
+  .res-individual .registrosReproduccion .fechas {
+    flex-direction: column;
+    align-items: start;
   }
   
 }
