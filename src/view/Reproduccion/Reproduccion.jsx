@@ -162,26 +162,6 @@ export const Reproduccion = () => {
           <button onClick={()=>setOpenModalCreateServicio(true)}> Registrar Inseminación </button>
         </div>
       </div>
-      <div className="gestacion">
-        <h2>Vacas en gestación</h2>
-        <div className="cards">
-          {
-            dataEnGestacion.map((item) => (
-              <Cards 
-              key={item.ResID}
-              ResID={item.ResID}
-              Nombre={item.ResNombre}
-              Estado={'En Gestacion'}
-              FechaParto={item.FechaParto}
-              onAffirmative={() => openModalCreateServicioGestacion(item)}
-              affirmativeToolTipText={'Registrar Parto'}
-              onNegative={() => openModalAborto(item)}
-              negativeToolTipText={'Registrar Aborto'}
-              />
-            ))
-          }
-        </div>
-      </div>
 
       <div className="inseminacion">
         <h2>Vacas para inseminación</h2>
@@ -241,6 +221,27 @@ export const Reproduccion = () => {
         }
         </div>
         }
+      </div>
+
+      <div className="gestacion">
+        <h2>Vacas en gestación</h2>
+        <div className="cards">
+          {
+            dataEnGestacion.map((item) => (
+              <Cards 
+              key={item.ResID}
+              ResID={item.ResID}
+              Nombre={item.ResNombre}
+              Estado={'En Gestacion'}
+              FechaParto={item.FechaParto}
+              onAffirmative={() => openModalCreateServicioGestacion(item)}
+              affirmativeToolTipText={'Registrar Parto'}
+              onNegative={() => openModalAborto(item)}
+              negativeToolTipText={'Registrar Aborto'}
+              />
+            ))
+          }
+        </div>
       </div>
 
       <p className='ver-opciones'>

@@ -134,6 +134,10 @@ b{
   color: var(--color-warning);
 }
 
+.root {
+  display: flex;
+}
+
 .container {
   display: grid;
   width: 96%;
