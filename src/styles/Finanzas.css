@@ -26,16 +26,15 @@
 .containerMain .finanzas-main .Balance {
   display: flex;
   flex-direction: column;
-  padding: .8rem;
+  align-items: center;
+  padding: .4rem;
   gap: .6rem;
-  background-color: var(--color-white);
 }
 
 .containerMain .finanzas-main .Balance .Balance-content {
   display: flex;
+  align-items: center; 
   flex-direction: column;
-  align-items: center;
-  background-color: var(--color-white);  
   gap: .7rem;
 }
 
@@ -45,7 +44,6 @@
   justify-content: center;
   width: 100%;  
   gap: .7rem;
-  background-color: var(--color-white);
 }
 
 .containerMain .finanzas-main .Balance .Balance-content .ingresos,
@@ -56,6 +54,7 @@
   gap: .6rem;
   padding: .5rem;  
   border: solid 3px var(--color-primary);
+  background-color: var(--color-white); 
   border-radius: .3rem;
 }
 
@@ -122,6 +121,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  overflow-x: scroll;
   gap: 1rem;
   margin: 1rem 0;
 }
@@ -141,11 +141,41 @@
   height: 2.2rem;
 }
 
+.section-one .form .Fields-modal-dos .incluir-insumos{
+  border-color: black;
+  border: groove;
+  border-radius: 6px;
+  padding: 4px;
+  gap: .2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  Aflex-direction: row;
+}
+
+.section-one .form .Fields-modal-dos .nombre-medida {
+  display: flex;
+  flex-direction: row;
+  gap: .6rem;
+  margin-top: 1rem;
+}
+
 @media screen and (max-width: 1200px) {
   .containerMain .finanzas-main .lista-transacciones {
     min-width: auto;
   }
   
+}
+
+@media screen and (max-width: 860px) {
+  .section-one .form .Fields-modal-dos .incluir-insumos{
+    flex-wrap: wrap;
+  }
+
+  .section-one .form .Fields-modal-dos .nombre-medida {
+    flex-wrap: wrap;
+  }
 }
 
 
@@ -154,5 +184,12 @@
     flex-direction: column;
   }
   
+}
+
+@media screen and (max-width: 525px) {
+  .containerMain .finanzas-main .Balance .Balance-content .parte-superior,
+  .containerMain .finanzas-main .Balance .Balance-content .parte-inferior{
+    flex-direction: column;
+  }
 }
 

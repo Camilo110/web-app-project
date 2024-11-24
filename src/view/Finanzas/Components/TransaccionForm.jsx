@@ -164,115 +164,112 @@ export const TransaccionForm = () => {
     console.log(resp)
   }
   return (
-    <div >
-      <div >
-        {
-          isLoading
-            ?
-            <p>Cargando...</p>
-            :
-            <>
-              <div className='form'>
+    
+    <>
+      {
+        isLoading
+          ?
+          <p>Cargando...</p>
+          :
+          <>
+            <div className='form'>
 
-              <div className="form-headear">
-                <h2>Registrar Transacción </h2>
+            <div className="form-headear">
+              <h2>Registrar Transacción </h2>
+            </div>
+
+            <div className='form-body'>
+
+            
+
+              <div className="form-input">
+                <label>Tipo</label>
+                <select value={values.Tipo || ''} onChange={(e) => handleChangeValues(e, 'Tipo')} >
+                  <option value='' disabled>Elegir</option>
+                  <option value='Ingreso'>Ingreso</option>
+                  <option value='Egreso'>Egreso</option>
+                </select>
               </div>
 
-              <div className='form-body'>
-
-              
-
-                <div className="form-input">
-                  <label>Tipo</label>
-                  <select value={values.Tipo || ''} onChange={(e) => handleChangeValues(e, 'Tipo')} >
-                    <option value='' disabled>Elegir</option>
-                    <option value='Ingreso'>Ingreso</option>
-                    <option value='Egreso'>Egreso</option>
-                  </select>
-                </div>
-
-                <div className="form-input">
-                  <label>Fecha</label>
-                  <input value={values.Fecha} onChange={(e) => handleChangeValues(e, 'Fecha')} type='date' />
-                </div>
-
-                <div className="form-input">
-                  <label>Descripcion</label>
-                  <input value={values.Descripcion} onChange={(e) => handleChangeValues(e, 'Descripcion')} type='text' />
-                </div>
-
-                <div className="form-input">
-                  <label>Total</label>
-                  <input value={values.Valor} type='number' onChange={(e) => handleChangeValues(e, 'Valor')} />
-                </div>
-
-                <div className="form-input">
-                  <label>Cliente</label>
-                  <select value={values.Tercero || ''} onChange={(e) => handleChangeValues(e, 'Tercero')}>
-                    <option value='' disabled>Seleccionar</option>
-                    {listTerceros.map(({ ID, value }) => (
-                      <option key={ID} value={ID}>{value}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="form-submit">
-                  <button onClick={onSubmit}>Guardar</button>
-                </div>
+              <div className="form-input">
+                <label>Fecha</label>
+                <input value={values.Fecha} onChange={(e) => handleChangeValues(e, 'Fecha')} type='date' />
               </div>
 
-              <div className='Fields-modal-dos'>
-                <h3>Incluir Insumos</h3>
-
-                <div className="add-insumos">
-                  <div className='fields'>
-                    <label>Insumo</label>
-                    <input
-                      type="text"
-                      value={search}
-                      onChange={onSearchInsumo}
-                      placeholder='Ingrese Nombre o Código'
-                    />
-                  </div>
-
-                  <div className='fields'>
-                    <label>Cantidad</label>
-                    <input type="number" value={productotoAdd.Cantidad || 0.0} onChange={(event) => updateInsumoToAdd(event, 'Cantidad')} />
-                  </div>
-
-                  <div className='fields'>
-                    <label>Valor</label>
-                    <input  type="number" value={productotoAdd.Precio || 0.0 } onChange={(event) => updateInsumoToAdd(event, 'Precio')}/>
-                  </div>
-
-                  <button onClick={onAddInsumo}>Agregar</button>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
-                  <label>Nombre</label>
-                  <input className='input' type="text" disabled value={productotoAdd.Nombre || ''} />
-
-                  <label>U. Medida</label>
-                  <input className='input' type="text" disabled value={productotoAdd.UnidadMedida || ''}/>  
-                </div>
-
-                <Table
-                  HeaderList={['Codigo', 'Nombre', 'Cantidad', 'U. Medida', 'Valor Unitario', 'Valor Total']}
-                  keyList={['Numero', 'Nombre', 'Cantidad', 'UnidadMedida', 'Precio', 'Total']}
-                  data={listProduct}
-                  onDelete={onDelete}
-                  edit={false}
-                  paginar={false}
-                  filtrar={false}
-                />
-                </div>
+              <div className="form-input">
+                <label>Descripcion</label>
+                <input value={values.Descripcion} onChange={(e) => handleChangeValues(e, 'Descripcion')} type='text' />
               </div>
 
-            </>
-        }
-      </div>
-    </div>
+              <div className="form-input">
+                <label>Total</label>
+                <input value={values.Valor} type='number' onChange={(e) => handleChangeValues(e, 'Valor')} />
+              </div>
 
+              <div className="form-input">
+                <label>Cliente</label>
+                <select value={values.Tercero || ''} onChange={(e) => handleChangeValues(e, 'Tercero')}>
+                  <option value='' disabled>Seleccionar</option>
+                  {listTerceros.map(({ ID, value }) => (
+                    <option key={ID} value={ID}>{value}</option>
+                  ))}
+                </select>
+              </div>
 
+              <div className="form-submit">
+                <button onClick={onSubmit}>Guardar</button>
+              </div>
+            </div>
+
+            <div className='Fields-modal-dos'>
+              <h3>Incluir Insumos</h3>
+
+              <div className="incluir-insumos">
+                <div className='fields'>
+                  <label>Insumo</label>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={onSearchInsumo}
+                    placeholder='Ingrese Nombre o Código'
+                  />
+                </div>
+
+                <div className='fields'>
+                  <label>Cantidad</label>
+                  <input type="number" value={productotoAdd.Cantidad || 0.0} onChange={(event) => updateInsumoToAdd(event, 'Cantidad')} />
+                </div>
+
+                <div className='fields'>
+                  <label>Valor</label>
+                  <input  type="number" value={productotoAdd.Precio || 0.0 } onChange={(event) => updateInsumoToAdd(event, 'Precio')}/>
+                </div>
+
+                <button onClick={onAddInsumo}>Agregar</button>
+              </div>
+
+              <div className=''>
+                <label>Nombre</label>
+                <input className='input' type="text" disabled value={productotoAdd.Nombre || ''} />
+
+                <label>U. Medida</label>
+                <input className='input' type="text" disabled value={productotoAdd.UnidadMedida || ''}/>  
+              </div>
+
+              <Table
+                HeaderList={['Codigo', 'Nombre', 'Cantidad', 'U. Medida', 'Valor Unitario', 'Valor Total']}
+                keyList={['Numero', 'Nombre', 'Cantidad', 'UnidadMedida', 'Precio', 'Total']}
+                data={listProduct}
+                onDelete={onDelete}
+                edit={false}
+                paginar={false}
+                filtrar={false}
+              />
+              </div>
+            </div>
+
+          </>
+      }
+    </>
   )
 }

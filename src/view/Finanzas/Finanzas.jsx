@@ -27,7 +27,7 @@ export const Finanzas = () => {
 
 
   return (
-    <div className="container">
+    <>
       <div className="finanzas">
         <h1 className="title"> Finanzas </h1>
         <div className="finanzas-main">
@@ -63,7 +63,7 @@ export const Finanzas = () => {
 
             <TransaccionForm />
 
-            </div>
+          </div>
             
 
           <div className="lista-transacciones">
@@ -76,11 +76,11 @@ export const Finanzas = () => {
                   ))
                 }
               </div>
-            </div>
+          </div>
             
 
         </div>
       </div>
-    </div>
+    </>
   )
 }
