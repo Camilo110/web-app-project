@@ -17,6 +17,29 @@
   gap: 1.2rem;
 }
 
+.containerMain .finanzas-main .grafico-main {
+  display: flex;
+  flex-direction: column;
+  margin: .8rem 0;
+  gap: .8rem;
+}
+
+.containerMain .finanzas-main .grafico-main .grafico-fechas {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.containerMain .finanzas-main .grafico-main .grafico-fechas .fechas{
+  display: flex;
+  gap: .6rem;
+}
+
+.containerMain .finanzas-main .grafico-main .grafico-fechas label{
+  display: flex;
+  gap: .4rem;
+}
+
 .containerMain .finanzas-main .section-one{
   display: flex;
   flex-direction: column;
@@ -191,5 +214,10 @@
   .containerMain .finanzas-main .Balance .Balance-content .parte-inferior{
     flex-direction: column;
   }
+
+  .containerMain .finanzas-main .grafico-main .grafico-fechas .fechas{
+    flex-direction: column;
+  }
+  
 }
 

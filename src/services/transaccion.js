@@ -28,3 +28,8 @@ export const createTransaccion = async (data) => {
   const { body } = await resp.json()
   return body
 }
+
+export const balanceTransacciones = async (startDate, endDate) => {
+  const resp = await fetch(`http://localhost:4000/transaccion/fechas/${startDate}/${endDate}`)
+  return resp
+}
