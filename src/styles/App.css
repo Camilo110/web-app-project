@@ -300,6 +300,13 @@ button:focus-visible {
 .responsive-heading::after {
   content: 'ProGanadero';
 }
+
+.no-aside-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
  
 
 @media screen and (max-width: 1200px) {

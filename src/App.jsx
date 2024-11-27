@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       {/* Renderiza el Aside solo si la ruta actual no está en noAsideRoutes */}
-      <div className={!noAsideRoutes.includes(location.pathname) && 'container'}>      
+      <div className={noAsideRoutes.includes(location.pathname) ? 'no-aside-container' : 'container'}>
       {!noAsideRoutes.includes(location.pathname) && <Aside />}
       <main className="containerMain">
         <Routes>

@@ -1,0 +1,76 @@
+.no-aside-container .containerMain .login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.no-aside-container .containerMain .login .login__container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+.no-aside-container .containerMain .login .login__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.no-aside-container .containerMain .login .login__logo img {
+  width: 80px; 
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.no-aside-container .containerMain .login .login__campos {
+  margin-top: 1rem;
+}
+
+.no-aside-container .containerMain .login .login__container--input {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.no-aside-container .containerMain .login .login__container--input p {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.no-aside-container .containerMain .login .login__container--input input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.no-aside-container .containerMain .login button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.no-aside-container .containerMain .login button:hover {
+  background-color: #0056b3;
+}
+
+.no-aside-container .containerMain .login p {
+  margin-top: 1rem;
+}
+
+.no-aside-container .containerMain .login p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.no-aside-container .containerMain .login p a:hover {
+  text-decoration: underline;
+}

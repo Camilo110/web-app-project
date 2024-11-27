@@ -1,3 +1,4 @@
+import '../../styles/Login.css';
 import { useState } from "react"
 
 export const Login = () => {
@@ -5,30 +6,31 @@ export const Login = () => {
   const [password, setPassword] = useState('')
 
   const onSubmit = () => {
-   console.log({email, password})
+    console.log({ email, password })
   }
 
   return (
-    <div>
-      <div className="main">
-        <div className="login">
-          <div className="login__container">
-            <h1>Iniciar Sesion</h1>
-            <div>
-              <div className="login__container--input">
-                <input type="text" placeholder="Correo"  onChange={setEmail}/>
-              </div>
-              <div className="login__container--input">
-                <input type="password" placeholder="Contraseña" onChange={setPassword} />
-              </div>
-              <button onClick={onSubmit}>Iniciar Sesion</button>
-            </div>
-            <p>
-              No tienes una cuenta? <a href="/register">Registrate</a>
-            </p>
-          </div>
+    <div className="login">
+      <div className="login__container">
+        <div className="login__logo">
+          <img src="src/assets/img/logo.png" alt="logo" />
         </div>
+        <h1>Iniciar Sesión</h1>
+        <div className="login__campos">
+          <div className="login__container--input">
+            <p>Correo</p>
+            <input type="text" placeholder="Correo" onChange={(e) => setEmail(e.target.value)} />
+          </div>
+          <div className="login__container--input">
+            <p>Contraseña</p>
+            <input type="password" placeholder="Contraseña" onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          <button onClick={onSubmit}>Iniciar Sesión</button>
+        </div>
+        <p>
+          No tienes una cuenta? <a href="/register">Regístrate</a>
+        </p>
       </div>
     </div>
-  )
+  );
 }
