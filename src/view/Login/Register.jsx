@@ -16,7 +16,7 @@ return (
       <div className="login__logo">
         <img src="src/assets/img/logo.png" alt="logo" />
       </div>
-      <h1>Registro</h1>
+      <h1>Registrarse</h1>
       <div className="login__campos">
         <div className="login__container--input">
           <p>Nombre</p>
