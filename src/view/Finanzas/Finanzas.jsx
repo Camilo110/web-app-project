@@ -31,7 +31,6 @@ export const Finanzas = () => {
             const data = await response.json();
             const processedData = processFinancialData(data.body)
             setFinancialData(processedData);
-            calculateResumen(processedData);
           } else {
             setFinancialData([]);
           }

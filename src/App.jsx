@@ -15,6 +15,7 @@ import { Finanzas } from './view/Finanzas/Finanzas';
 import { Manual } from './view/User/Manual';
 import { Login } from './view/Login/Login';
 import { Register } from './view/Login/Register';
+import { Dashboard } from './view/Dashboard/Dashboard';
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Res />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/res" element={<Res />} />
           <Route path="/res/:id" element={<ResIndividual />} />
           <Route path="/produccion" element={<ProduccionPage />} />

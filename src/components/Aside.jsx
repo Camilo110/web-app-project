@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 
 const modules = [
   {
+    icon: 'home',
+    title: 'Home',
+    link: '/'
+  },
+  {
     icon: 'pets',
     title: 'Animales',
     link: '/res'
