@@ -151,7 +151,7 @@ b{
   gap : 20px;
   overflow-x: hidden;
   overflow-y: auto; /* Permite el desplazamiento vertical en el main */
-  height: 100vh - 3.4rem;
+  height: 100vh;
   margin-top: 1.4rem;
   margin-bottom: 2rem;
   scrollbar-width: none;
