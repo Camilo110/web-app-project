@@ -123,7 +123,6 @@ export const Finanzas = () => {
 
 
   return (
-    <>
       <div className="finanzas">
         <h1 className="title"> Finanzas </h1>
         <div className="finanzas-main">
@@ -191,6 +190,5 @@ export const Finanzas = () => {
 
         </div>
       </div>
-    </>
   )
 }
