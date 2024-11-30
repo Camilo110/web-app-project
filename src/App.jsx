@@ -16,6 +16,7 @@ import { Manual } from './view/User/Manual';
 import { Login } from './view/Login/Login';
 import { Register } from './view/Login/Register';
 import { Dashboard } from './view/Dashboard/Dashboard';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
           <Route path="/manual" element={<Manual />} />
           <Route path="*" element={<div><h1>Not Found</h1></div>} />
         </Routes>
+        <div><Toaster/></div>
       </main>
       </div>   
     </>

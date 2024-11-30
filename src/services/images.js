@@ -27,6 +27,5 @@ export const deleteImage = async (id) => {
   const response = await fetch(`http://localhost:4000/imagen/${id}`, {
       method: 'DELETE',
   });
-  const resp = await response.json()
-  console.log(resp)
+  return response
 }

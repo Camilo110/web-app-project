@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Table } from "../../components/Table"
 import { Modal } from '../../components/Modal'
 import { getInsumo, createInsumo, updateInsumo, getInsumoById } from '../../services/Insumo';
+import { ConfirmAlert } from '../../utils/ConfirmAlert';
 
 const fields = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -26,13 +27,14 @@ export const Insumos = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getInsumo()
-      setDataInsumo(resp)
-      setIsLoading(false)
-    }
     fetchData()
   } , [])
+
+  const fetchData = async () => {
+    const resp = await getInsumo()
+    setDataInsumo(resp)
+    setIsLoading(false)
+  }
 
   const onEditInsumo = async (id) => {
     const resp = await getInsumoById(id)
@@ -41,7 +43,7 @@ export const Insumos = () => {
   }
 
   const onSubmitCreate = async (data) => {
-    await createInsumo(data)
+    await ConfirmAlert(createInsumo, fetchData, data, "create");
   }
 
   const onSubmitEdit = async (data, id) => {

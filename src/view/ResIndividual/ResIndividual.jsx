@@ -18,6 +18,7 @@ import { createMuerte } from '../../services/muerte'
 import { ModalServicios } from '../../components/ModalServicios'
 import { NumeroRes } from '../../components/NumeroRes'
 import { daysToYearsandMonths } from '../../utils/DaysToYearsandMonths'
+import { DeleteAlert } from '../../utils/DeleteAlert'
 
 const camposRes = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -148,9 +149,8 @@ export function ResIndividual() {
 
   const onDeleteImage = async () => {
     if (imageMain === undefined) return
-    await deleteImage(imageMain.ID)
-    await new Promise(resolve => setTimeout(resolve, 50));
-    fetchImages()
+    DeleteAlert(deleteImage, fetchImages, imageMain.ID)
+
   }
 
   const handleUpload = async (imageSelect) => {
@@ -173,17 +173,12 @@ export function ResIndividual() {
   }
 
   const HandleDelete = () => {
+    if (res.Estado === 'Muerte') return
     setDeleteModalRes(true)
   }
 
   const ModalSubmitDelete = async (body, id) => {
-    const resp = await createMuerte({ ResID: id, ...body })
-    if (resp.status === 200) {
-      console.log('Res eliminada', body)
-    }
-    console.log('Respuesta Delete', resp)
-
-    FetchRes()
+    DeleteAlert(createMuerte, FetchRes, { ResID: id, ...body })
     setDeleteModalRes(false)
   }
 
@@ -300,7 +295,7 @@ export function ResIndividual() {
                   <img className='imagenPrincipal'
                     src={`http://localhost:4000/imagen/img/${imageMain?.URL}`}
                     alt="Cow Image" />
-                  <p style={{ cursor: 'pointer' }} onClick={() => onDeleteImage()}>
+                  <p style={{ cursor: 'pointer' }} onClick={onDeleteImage}>
                     Eliminar 
                     <span className="tooltip">Eliminar fotografía</span>
                   </p>

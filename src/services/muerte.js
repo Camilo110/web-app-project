@@ -7,6 +7,5 @@ export const createMuerte = async (muerte) => {
     },
     body: JSON.stringify(muerte)
   });
-  const { body } = await resp.json();
-  return body;
+  return resp
 }

@@ -34,8 +34,11 @@ export const createFinca = async (res) => {
     },
     body: JSON.stringify(res)
   });
-  const {body} = await resp.json();
-  return body;
+  if (resp.status === 200) {
+    return { status: 200 };
+  } else {
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const deleteFinca = async (id) => {

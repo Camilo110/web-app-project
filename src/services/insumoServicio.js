@@ -30,8 +30,5 @@ export const deleteInsumoServicio = async (data) => {
     },
     body: JSON.stringify(data)
   })
-  if (resp.status === 200) {
-    const {body} = await resp.json()
-    return body
-  }
+  return resp
 }
