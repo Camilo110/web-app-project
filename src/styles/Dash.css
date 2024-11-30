@@ -1,0 +1,103 @@
+.dashboardMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboardMain .header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem;
+  background-color: var(--color-white);
+  box-shadow: var(--box-shadow);
+  border-radius: 15px;
+  width: 92%;
+}
+
+.dashboardMain .header .fechas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboardMain .dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+  padding: 0 1rem;
+}
+
+.dashboardMain .dashboard .cards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+}
+
+.dashboardMain .dashboard .cards .card-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem;
+  border-radius: 15px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--color-white);
+  width: 200px;
+  height: 90px;
+  /* color del borde de las cards en azul */
+  border: 3px solid var(--color-primary);
+}
+
+.dashboardMain .dashboard .graficas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+}
+
+.dashboardMain .dashboard .graficas canvas{
+  width: 500px;
+  height: 300px;
+}
+
+.dashboardMain .dashboard .graficos-torta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+}
+
+.dashboardMain .dashboard .graficos-torta canvas{
+  max-width: 240px;
+  max-height: 240px;
+}
+
+@media screen and (max-width: 1200px) {
+
+  .dashboardMain .dashboard .graficas {
+    flex-direction: column;
+  }
+  
+}
+
+@media screen and (max-width: 500px) {
+
+  .dashboardMain .dashboard .graficas canvas{
+    width: 300px;
+    height: 200px;
+  }
+
+  .dashboardMain .dashboard .graficos-torta canvas {
+    width: auto;
+    height: auto;
+  }
+  
+}

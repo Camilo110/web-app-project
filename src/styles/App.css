@@ -151,9 +151,8 @@ b{
   gap : 20px;
   overflow-x: hidden;
   overflow-y: auto; /* Permite el desplazamiento vertical en el main */
-  height: 91vh;
-  margin-top: 1.4rem;
-  margin-bottom: 2rem;
+  height: 99vh;
+  padding-top: 1.4rem;
   scrollbar-width: none;
 }
 
@@ -226,8 +225,8 @@ aside .sidebar a{
 }
 
 aside .sidebar a img{
-  width: 28px; 
-  height: 28px; 
+  width: 29px; 
+  height: 29px; 
   transition: all 0.3s ease;
 }
 
@@ -343,6 +342,7 @@ button:focus-visible {
       grid-template-columns: 1fr;
       padding: 0 .6rem;
       gap: 0;
+      height: 95vh;
   }
   
   .toggle{
@@ -405,7 +405,7 @@ button:focus-visible {
 
   .containerMain{
     margin: .5rem 0;
-    height: 94vh;
+    height: 90vh;
   }
 
   .responsive-heading::after {

@@ -13,12 +13,12 @@ const modules = [
   },
   {
     icon: 'produccion.png',
-    title: 'Produccion',
+    title: 'Producción',
     link: '/produccion'
   },
   {
     icon: 'reproduccion.png',
-    title: 'Reproduccion',
+    title: 'Reproducción',
     link: '/reproduccion'
   },
   {

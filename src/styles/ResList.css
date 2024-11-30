@@ -51,6 +51,7 @@
   align-items: center;
   background-color: var(--color-white);
   border-radius: 8px;
+  min-width: 600px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -135,6 +136,7 @@
   
   .resList .card {
     flex-direction: column;
+    min-width: 300px;
   }
 
 }
