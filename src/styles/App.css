@@ -151,7 +151,7 @@ b{
   gap : 20px;
   overflow-x: hidden;
   overflow-y: auto; /* Permite el desplazamiento vertical en el main */
-  height: 100vh;
+  height: 91vh;
   margin-top: 1.4rem;
   margin-bottom: 2rem;
   scrollbar-width: none;
@@ -226,16 +226,16 @@ aside .sidebar a{
 }
 
 aside .sidebar a img{
-  width: 40px; 
-  height: 40px; 
+  width: 28px; 
+  height: 28px; 
   transition: all 0.3s ease;
 }
 
-aside .sidebar a:last-child{
+/* aside .sidebar a:last-child{
   position: absolute;
   bottom: 2rem;
   width: 100%;
-}
+} */
 
 aside .sidebar a.active{
   width: 100%;
@@ -384,10 +384,10 @@ button:focus-visible {
     height: 3.4rem;
   }
 
-  aside .sidebar a:last-child{
+  /* aside .sidebar a:last-child{
     position: absolute;
     bottom: 5rem;
-  }
+  } */
 
   aside .toggle .close{
     display: inline-block;
@@ -405,6 +405,7 @@ button:focus-visible {
 
   .containerMain{
     margin: .5rem 0;
+    height: 94vh;
   }
 
   .responsive-heading::after {

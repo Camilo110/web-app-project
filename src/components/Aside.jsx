@@ -2,52 +2,52 @@ import { useState, useEffect } from "react";
 
 const modules = [
   {
-    icon: 'home',
+    icon: 'home.png',
     title: 'Home',
     link: '/'
   },
   {
-    icon: 'pets',
+    icon: 'animales.png',
     title: 'Animales',
     link: '/res'
   },
   {
-    icon: 'production_quantity_limits',
+    icon: 'produccion.png',
     title: 'Produccion',
     link: '/produccion'
   },
   {
-    icon: 'child_care',
+    icon: 'reproduccion.png',
     title: 'Reproduccion',
     link: '/reproduccion'
   },
   {
-    icon: 'add_circle_outline',
+    icon: 'servicios.png',
     title: 'Servicios',
     link: '/servicios'
   },
   {
-    icon: 'dry',
+    icon: 'secado.png',
     title: 'Secado',
     link: '/secado'
   },
   {
-    icon: 'monetization_on',
+    icon: 'finanzas.png',
     title: 'Finanzas',
     link: '/finanzas'
   },  
   {
-    icon: 'inventory_2',
+    icon: 'insumos.png',
     title: 'Insumos',
     link: '/insumos'
   },
   {
-    icon: 'location_city',
+    icon: 'fincas.png',
     title: 'Fincas',
     link: '/fincas'
   },
   {
-    icon: 'person',
+    icon: 'user.png',
     title: 'Usuario',
     link: '/user'
   }
@@ -104,7 +104,9 @@ export function Aside() {
         <div className="sidebar">
           {modules.map(({icon, title, link}) => (
             <a href={link} key={title}>
-              <span className="material-icons-sharp">{icon}</span>
+              <span>
+              <img className="icon" src={`src/assets/img/icons/${icon}`} alt={title} />
+              </span>
               <h3>{title}</h3>
             </a>
           ))}
