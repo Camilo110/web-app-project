@@ -12,16 +12,23 @@ export const getInsumoById = async (id) => {
 }
 
 export const createInsumo = async (data) => {
-  const resp = await fetch('http://localhost:4000/insumo', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  const {body} = await resp.json()
-  return body
-}
+    const resp = await fetch('http://localhost:4000/insumo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    
+    console.log('first')
+    if (resp.status === 200) {
+      return { status: 200 };  
+    } else {
+    return Promise.reject('Error al Crear');
+    }
+  }
+
+
 
 export const updateInsumo = async (id, data) => {
   const resp = await fetch(`http://localhost:4000/insumo/${id}`, {

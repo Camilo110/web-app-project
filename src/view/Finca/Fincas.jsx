@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Table } from "../../components/Table"
 import { Modal } from '../../components/Modal'
 import { getFinca, getFincaById, createFinca, updateFinca} from '../../services/finca';
+import { ConfirmAlert } from '../../utils/ConfirmAlert';
 
 const fields = {
   Nombre: { label: 'Nombre', type: 'text', value: '' },
@@ -22,14 +23,14 @@ export const Fincas = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getFinca()
-      setDatafinca(resp)
-      setIsLoading(false)
-    }
     fetchData()
   } , [])
-
+  
+  const fetchData = async () => {
+    const resp = await getFinca()
+    setDatafinca(resp)
+    setIsLoading(false)
+  }
   const onEditFinca = async (id) => {
     const resp = await getFincaById(id)
     setDataOnEdit(resp)
@@ -37,7 +38,7 @@ export const Fincas = () => {
   }
 
   const onSubmitCreate = async (data) => {
-    await createFinca(data)
+    await ConfirmAlert(createFinca, fetchData, data, "create");
   }
 
   const onSubmitEdit = async (data, id) => {

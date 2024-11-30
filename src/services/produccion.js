@@ -37,6 +37,5 @@ export const DeleteProduccionIndividual = async (id) => {
     method: 'DELETE'
   })
 
-  const {body} = await resp.json()
-  return body
+  return resp
 }
