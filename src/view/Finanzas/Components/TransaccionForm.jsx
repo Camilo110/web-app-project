@@ -5,10 +5,12 @@ import { getInsumo } from '../../../services/Insumo'
 import { getProveedor, getCliente } from '../../../services/forms'
 import { createTransaccion } from '../../../services/transaccion'
 import { getProductos } from '../../../services/producto'
+import { ConfirmAlert } from '../../../utils/ConfirmAlert'
+import PropTypes from 'prop-types'
 
 
 
-export const TransaccionForm = () => {
+export const TransaccionForm = ({fetch}) => {
   const [insumos, setInsumos] = useState([])
   const [productos, setProductos] = useState([])
 
@@ -22,7 +24,7 @@ export const TransaccionForm = () => {
       Fecha: new Date().toISOString().split('T')[0], 
       Tipo: 'Ingreso', 
       Descripcion: '', 
-      Total: 0, Tercero: ''
+      Total: 0
     })
 
   const [listTerceros, setListTerceros] = useState([])
@@ -160,8 +162,9 @@ export const TransaccionForm = () => {
     for (const insumo of listProduct){
       listInsumosFinal.push({ id: insumo.ID, cantidad: insumo.Cantidad , precio: insumo.Precio})
     }
-    const resp = await createTransaccion({ ...values, Productos: listInsumosFinal })
-    console.log(resp)
+    await ConfirmAlert(createTransaccion , fetch, { ...values, Productos: listInsumosFinal })
+    setValues({ ...values, Fecha: new Date().toISOString().split('T')[0], Descripcion: '', Valor: 0 })
+    setListProduct([])
   }
   return (
     
@@ -231,7 +234,14 @@ export const TransaccionForm = () => {
 
               <div className="incluir-insumos">
                 <div className='fields'>
-                  <label>Insumo</label>
+                  <label>
+                  {
+                values.Tipo === 'Ingreso' ?
+                  <h3>Producto</h3>
+                  :
+                  <h3>Insumo</h3>
+              }
+                  </label>
                   <input
                     type="text"
                     value={search}
@@ -277,4 +287,8 @@ export const TransaccionForm = () => {
       }
     </>
   )
+}
+
+TransaccionForm.propTypes = {
+  fetch: PropTypes.func.isRequired
 }

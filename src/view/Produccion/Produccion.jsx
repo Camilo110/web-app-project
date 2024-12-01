@@ -7,6 +7,7 @@ import { ItemRegistro } from './Components/ItemRegistro';
 import { Table } from '../../components/Table';
 import { getProductos } from '../../services/producto';
 import { ConfirmAlert } from '../../utils/ConfirmAlert';
+import { DeleteAlert } from '../../utils/DeleteAlert';
 
 const fields = {
   Fecha: { label: 'Fecha', type: 'date', value: '' },
@@ -105,13 +106,17 @@ export const Produccion = () => {
         }
       }
     })
-
+    
+ 
     setValues({ ...values, ResID: OldResID })
     setNumSelected(oldNumSelected)
   }
 
   const Submit = async(values) => {
     ConfirmAlert(CreateProduccionIndividual, fetchProduccion, values)
+    setValues({ ...values, Fecha: Today(), ResID: [], Cantidad: 0})
+    fetchDataModal()
+    setNumSelected([])
   }
 
   const SubmitEdit = async (values, id) => {
@@ -129,7 +134,7 @@ export const Produccion = () => {
   }
 
   const HandleDelete = (id) => {
-    ConfirmAlert(DeleteProduccionIndividual, fetchProduccion, id)
+    DeleteAlert(DeleteProduccionIndividual, fetchProduccion, id)
   }
   return (
     <div>
