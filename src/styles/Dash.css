@@ -10,17 +10,23 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: .6rem;
+  padding: .7rem;
   background-color: var(--color-white);
   box-shadow: var(--box-shadow);
   border-radius: 15px;
-  width: 92%;
+  width: 90%;
 }
 
 .dashboardMain .header .fechas {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.dashboardMain .header .fechas .inicio,
+.dashboardMain .header .fechas .fin {
+  display: flex;
+  gap: .5rem;
 }
 
 .dashboardMain .dashboard {
@@ -48,10 +54,19 @@
   border-radius: 15px;
   box-shadow: var(--box-shadow);
   background-color: var(--color-white);
-  width: 200px;
+  width: 210px;
   height: 90px;
-  /* color del borde de las cards en azul */
   border: 3px solid var(--color-primary);
+}
+
+.dashboardMain .dashboard .cards .card-dashboard .title{
+  display: flex;
+}
+
+.dashboardMain .dashboard .cards .card-dashboard .title img {
+  width: 20px;
+  height: 20px;
+  margin-right: .5rem;
 }
 
 .dashboardMain .dashboard .graficas {
