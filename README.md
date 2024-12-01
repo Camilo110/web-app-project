@@ -1,8 +1,6 @@
 # web-app-project
  App web Proyecto de grado
 
- # MotoClub App
-
 - Clone this repository.
 
 ```bash
