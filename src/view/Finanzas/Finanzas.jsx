@@ -1,10 +1,10 @@
-import { TransaccionItem } from "./Components/TransaccionItem"
 import '../../styles/Finanzas.css'
 import { useEffect } from "react"
 import { getAllTransaccion, getResumen } from "../../services/transaccion"
 import { useState } from "react"
 import { TransaccionForm } from "./Components/TransaccionForm"
 import 'chart.js/auto';
+import { Table } from "../../components/Table"
 
 export const Finanzas = () => {
   const [transacciones, setTransacciones] = useState([])
@@ -12,18 +12,15 @@ export const Finanzas = () => {
 
   useEffect(() => {
     fetchTransacciones()
-    fetchResumen()
   }, [])
 
   const fetchTransacciones = async () => {
     const resp = await getAllTransaccion()
     setTransacciones(resp)
+    const resp1 = await getResumen()
+    setResumen(resp1)
   }
 
-  const fetchResumen = async() => {
-    const resp = await getResumen()
-    setResumen(resp)
-  }
 
 
   return (
@@ -59,21 +56,15 @@ export const Finanzas = () => {
                 </div>
               </div>
             </div>
-            <TransaccionForm />
+            <TransaccionForm  fetch={fetchTransacciones}/>
           </div>
-            
-
-          <div className="lista-transacciones">
-              <h2>Transacciones</h2>
-              <input type="text" placeholder="Buscar Registro" />
-              <div className="scroll-trasacciones">
-                {
-                  transacciones.map((item) => (
-                    <TransaccionItem key={item.ID} item={item} />
-                  ))
-                }
-              </div>
-          </div>
+       <Table
+          HeaderList={['Fecha', 'Tipo', 'Valor', 'Descripción', 'Productos']}
+          data={ transacciones }
+          keyList={ ['Fecha', 'Tipo', 'Valor', 'Descripcion', 'ProductosString'] }
+          onEdit={(id) => console.log(id)}
+          enableDelete={false}
+        />
             
 
         </div>

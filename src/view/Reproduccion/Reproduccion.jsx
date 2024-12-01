@@ -9,6 +9,7 @@ import { getEnGestacion, getInseminacionPorConfirmar, ConfirmarInseminacion, ins
 import { getAllServicioWithInseminacion } from '../../services/servicio';
 import { getServiciosModal, getResModal } from '../../services/forms';
 import { createRes } from '../../services/res';
+import { ConfirmAlert } from '../../utils/ConfirmAlert';
 
 const camposRes = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -60,31 +61,36 @@ export const Reproduccion = () => {
 
   const [idResEditServicio, setIdResEditServicio] = useState('')
 
+  const [isInseminacion, setIsInseminacion] = useState(true)
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      const ParaInseminar = await getAllParaInseminar()
-      setDataParaInseminar(ParaInseminar)
-      
-      const ParaInseminarSugeridos = await getParaInseminarSugeridos()
-      setDataParaInseminarSugeridos(ParaInseminarSugeridos)
-
-      const EnGestacion = await  getEnGestacion()
-      setDataEnGestacion(EnGestacion)
-
-      const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
-      setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
-
-      const servicios = await getAllServicioWithInseminacion()
-      setDataServicio(servicios)
-
-      const partos = await getPartos()
-      setDataPartos(partos)
-    }
     fetchData()
+    fetchRegistros()
   }
-    , [])
+  , [])
+  
+  const fetchData = async () => {
+    const ParaInseminar = await getAllParaInseminar()
+    setDataParaInseminar(ParaInseminar)
+    
+    const ParaInseminarSugeridos = await getParaInseminarSugeridos()
+    setDataParaInseminarSugeridos(ParaInseminarSugeridos)
 
+    const EnGestacion = await  getEnGestacion()
+    setDataEnGestacion(EnGestacion)
+
+    const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
+    setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
+  }
+
+  const fetchRegistros = async () => {
+    const servicios = await getAllServicioWithInseminacion()
+    setDataServicio(servicios)
+
+    const partos = await getPartos()
+    setDataPartos(partos)
+  }
   
 
   const showTableInseminacion = () => {
@@ -110,15 +116,16 @@ export const Reproduccion = () => {
   }
 
   const openModalAborto = (data) => {
-    setValuesOnAddServicio({ID: data.ResID, Tipo: 'Aborto', Fecha: new Date().toISOString().split('T')[0], ResID: data.ResID})
+    setValuesOnAddServicio({Tipo: 'Aborto', Fecha: new Date().toISOString().split('T')[0], ResID: data.ResID})
+    setIsInseminacion(false)
     setOpenModalCreateServicio(true)
   }
 
   const InsemiancionFallida = (id) => {
-    inseminacionFallida(id)
+    ConfirmAlert(inseminacionFallida, fetchData, id)
   }
   const InseminacionCorrecta = (id) => {
-    ConfirmarInseminacion(id)
+    ConfirmAlert(ConfirmarInseminacion, fetchData, id)
   }
 
   const onOpenModalParaInseminar = async (data) => {
@@ -127,13 +134,14 @@ export const Reproduccion = () => {
     }
     const reses = await getServiciosModal()
     setListResesForm(reses)
+    setIsInseminacion(true)
     setOpenModalParaInseminar(true)
   }
 
 
   const ModalSubmitCreateRes = async (values) => {
-    const resp = await createRes(values)
-    console.log(resp + "CREATE RES")
+    await ConfirmAlert(createRes, fetchData, values)
+    setOpenModalCreateRes(false)
   }
 
   const onAddInseminacion = (data) => {
@@ -141,8 +149,9 @@ export const Reproduccion = () => {
     setOpenModalCreateServicio(true)
   }
 
-  const HandleCreateParaEnseminar = async (values) => {
-    await createParaInseminar(values)
+  const HandleCreateParaInseminar = async (values) => {
+    await ConfirmAlert(createParaInseminar, fetchData, values)
+    setOpenModalParaInseminar(false)
   }
   
   const onOpenModalEditServicio = (id) => {
@@ -190,7 +199,7 @@ export const Reproduccion = () => {
               Estado={'Sugerido'}
               Fecha={'Sin Confirmar'}
               isRecomendacion={true}
-              onAffirmative={() => onOpenModalParaInseminar(item)}
+              onAffirmative={() => onAddInseminacion({ResID: item.ResID, Fecha: new Date().toISOString().split('T')[0]})}
               affirmativeToolTipText={'Registrar Inseminación'}
               />
             ))
@@ -298,7 +307,7 @@ export const Reproduccion = () => {
           }}
           columns={1}
           data={onAddParaInseminar}
-          Handlesubmit={HandleCreateParaEnseminar}
+          Handlesubmit={HandleCreateParaInseminar}
           setOpenModal={setOpenModalParaInseminar}
           includeDataInSubmit={true}
         >
@@ -308,9 +317,11 @@ export const Reproduccion = () => {
       {
         openModalCreateServicio &&
         <ModalServicios
-          isInseminacion={true}
+          isInseminacion={isInseminacion}
+          isAborto={!isInseminacion}
           setOpenModal={setOpenModalCreateServicio}
           previewData={valuesOnAddServicio}
+          fetch={fetchData}
         />
       }
       {

@@ -19,17 +19,18 @@ export const Secado = () => {
   const [idServicioEdit, setIdServicioEdit] = useState('')
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getAllSecado()
-      setDataSecados(response)
-
-      const response2 = await getParaSecado ()
-      setParaSecar(response2)
-
-      setIsLoading(false)
-    }
     fetchData()
   } , [])
+  
+  const fetchData = async () => {
+    const response = await getAllSecado()
+    setDataSecados(response)
+
+    const response2 = await getParaSecado ()
+    setParaSecar(response2)
+
+    setIsLoading(false)
+  }
 
   const addSecado = (id) => {
     setValuesOnAddServicio({
@@ -93,6 +94,7 @@ export const Secado = () => {
           setOpenModal={setOpenModalCreateServicio}
           previewData={valuesOnAddServicio}
           isSecado={true}
+          fetch={fetchData}
         />
       }
       {
@@ -101,6 +103,7 @@ export const Secado = () => {
           isEdit={true}
           setOpenModal={setOpenModalEditServicio}
           idServicio={idServicioEdit}
+          fetch={fetchData}
         />
       }
     </div>

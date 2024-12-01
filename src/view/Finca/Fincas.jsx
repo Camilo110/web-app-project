@@ -2,8 +2,9 @@ import '../../styles/Secado.css'
 import { useEffect, useState } from "react"
 import { Table } from "../../components/Table"
 import { Modal } from '../../components/Modal'
-import { getFinca, getFincaById, createFinca, updateFinca} from '../../services/finca';
+import { getFinca, getFincaById, createFinca, updateFinca, deleteFinca} from '../../services/finca';
 import { ConfirmAlert } from '../../utils/ConfirmAlert';
+import { DeleteAlert } from '../../utils/DeleteAlert';
 
 const fields = {
   Nombre: { label: 'Nombre', type: 'text', value: '' },
@@ -39,10 +40,16 @@ export const Fincas = () => {
 
   const onSubmitCreate = async (data) => {
     await ConfirmAlert(createFinca, fetchData, data, "create");
+    setOpenModalCreate(false)
   }
 
   const onSubmitEdit = async (data, id) => {
-    await updateFinca(id, data)
+    await ConfirmAlert((d)=>updateFinca(id, d), fetchData, data)
+    setOpenModalEdit(false)
+  }
+
+  const onDeleteFinca = async (id) => {
+    await DeleteAlert(deleteFinca, fetchData, id)
   }
 
   return (
@@ -65,7 +72,7 @@ export const Fincas = () => {
           data={ dataFinca }
           keyList={ ['Nombre', 'Direccion'] }
           onEdit={onEditFinca}
-          enableDelete={false}
+          onDelete={onDeleteFinca}
         />
       }
       {
