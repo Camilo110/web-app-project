@@ -25,8 +25,13 @@ export const createTransaccion = async (data) => {
     },
     body: JSON.stringify(data)
   })
-  const { body } = await resp.json()
-  return body
+  if (resp.status === 200) {
+    return true
+  }else{
+    const {body} = await  resp.json()
+    console.log(body)
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const balanceTransacciones = async (startDate, endDate) => {

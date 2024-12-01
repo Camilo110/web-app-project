@@ -71,11 +71,7 @@ export const updateServicio = async (id, body) => {
     },
     body: JSON.stringify(body)
   });
-  if (resp.status === 200) {
-    return true;
-  }else{
-    return Promise.reject('Failed to create record');
-  }
+  return resp
 }
 
 export const createServicio = async (body) => {
