@@ -9,7 +9,7 @@ import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '.
 import { ConfirmAlert } from '../utils/ConfirmAlert'
 
 
-export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecado = false, idServicio, setOpenModal, previewData = {}, fetch=()=>{}}) => {
+export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecado = false, isAborto=false, idServicio, setOpenModal, previewData = {}, fetch=()=>{}}) => {
 
   const [insumos, setInsumos] = useState([])
 
@@ -242,7 +242,6 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                         <>
                           <option value='Monta'>Monta</option>
                           <option value='Inseminacion'>Inseminación</option>
-                          <option value='Aborto'>Aborto</option>
                         </>
                         :
                         <>
@@ -250,6 +249,11 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                           isSecado ?
                           <>
                             <option value='Secado'>Secado</option>
+                          </>
+                          :
+                          isAborto ?
+                          <>
+                            <option value='Aborto'>Aborto</option>
                           </>
                           :
                           <>
@@ -295,7 +299,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                   <>
                     <div className="field-modal">
                       <label>Fecha Parto</label>
-                      <input value={values.FechaParto || ''} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
+                      <input value={values.FechaParto || ''} disabled={isEdit} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
                     </div>
                     { isMonta &&
                       <div className="field-modal">
@@ -381,5 +385,6 @@ ModalServicios.propTypes = {
   isSecado: PropTypes.bool,
   previewData: PropTypes.object,
   listTipos: PropTypes.array,
-  fetch: PropTypes.func
+  fetch: PropTypes.func,
+  isAborto: PropTypes.bool
 }
