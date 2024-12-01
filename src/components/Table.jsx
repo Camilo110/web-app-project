@@ -19,7 +19,7 @@ export const Table = (props) => {
   const [numRows, setNumRows] = useState(10)
   const [limit, setLimit] = useState({ inf: 0, sup: 10 })
   const [datos, setDatos] = useState([])
-  const [fieldFilter, setFieldFilter] = useState({text: '', value: ''})
+  const [fieldFilter, setFieldFilter] = useState({value: keyList[0]})
 
   useEffect (() => {
     setDatos(data)
@@ -74,9 +74,9 @@ export const Table = (props) => {
     const reference = useRef();
 
     const selectFieldFilter = (e) => {
-      const value = e
-      const {ariaLabel, innerText} = value.target
-      setFieldFilter({text: `Buscando por ${innerText}`, value: ariaLabel})
+
+      const {value} = e.target
+      setFieldFilter({value})
       reference.current.select(); 
     }
 
@@ -88,14 +88,19 @@ export const Table = (props) => {
 
       {filtrar &&
         <div className="table-search"> 
-          <h3>Filtrar: </h3>
+          <h3>Buscar:</h3>
           <input 
             ref={reference}
             type="text" 
             placeholder="" 
             onChange={onChangeFilter}
           />
-          <span style={{color: 'red'}}>{fieldFilter.text}</span>
+          <span>por:</span>
+          <select onChange={selectFieldFilter}>
+            {keyList.map((key, index) => (
+              <option key={key} aria-label={key}>{HeaderList[index]}</option>
+            ))}
+          </select>
         </div>
       }
 
@@ -106,8 +111,8 @@ export const Table = (props) => {
 
           <thead>
             <tr>
-              {HeaderList.map((header, index) => (
-                <th key={header} aria-label={keyList[index]} onClick={selectFieldFilter}>{header}</th>
+              {HeaderList.map((header) => (
+                <th key={header}>{header}</th>
               ))}
 
             { 
@@ -126,13 +131,17 @@ export const Table = (props) => {
                 ))}
                 {
                   (edit || enableDelete) &&
-                  <td>
+                  <td className="acciones-tabla">
                     {edit &&
-                      <span onClick={() => onEdit(registro.ID)}>Editar </span>
+                      <span onClick={() => onEdit(registro.ID)}>
+                        <img className='icono-tabla' src="src\assets\img\icons\editar.png" alt="Editar" />
+                      </span>
                     }
                     {
                       enableDelete &&
-                      <span onClick={() => onDelete(registro.ID)}>Eliminar</span>
+                      <span onClick={() => onDelete(registro.ID)}>
+                        <img className='icono-tabla' src="src\assets\img\icons\borrar.png" alt="Elimnar" />
+                      </span>
                     }
                   </td>
                 }
