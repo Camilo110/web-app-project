@@ -31,6 +31,7 @@ export const Produccion = () => {
   const [isLoading2, setIsLoading2] = useState(true)
 
   const [values, setValues] = useState({ Fecha: Today(), ResID: [], Cantidad: 0, Tipo: 'Leche'})
+  const [numSelected, setNumSelected] = useState([])
   
   const [listRes, setListRes] = useState([])
   const [filterRes, setFilterRes] = useState([])
@@ -90,19 +91,23 @@ export const Produccion = () => {
 
   const OnChangeSelectRes = (ID) => {
     let OldResID = values.ResID
+    let oldNumSelected = numSelected
     
     listRes.map((res) => {
       if (res.ID === ID) {
         res.selected = !res.selected
         if (res.selected) {
           OldResID.push(res.ID)
+          oldNumSelected.push(res.Numero)
         } else {
           OldResID = OldResID.filter((id) => id !== res.ID)
+          oldNumSelected = oldNumSelected.filter((num) => num !== res.Numero)
         }
       }
     })
 
     setValues({ ...values, ResID: OldResID })
+    setNumSelected(oldNumSelected)
   }
 
   const Submit = async(values) => {
@@ -124,9 +129,7 @@ export const Produccion = () => {
   }
 
   const HandleDelete = (id) => {
-    DeleteProduccionIndividual(id).then((resp) => {
-      console.log('Respuesta', resp)
-    })
+    ConfirmAlert(DeleteProduccionIndividual, fetchProduccion, id)
   }
   return (
     <div>
@@ -142,7 +145,6 @@ export const Produccion = () => {
           <table>
             <thead>
               <tr>
-                <th> </th>
                 <th>Nombre</th>
                 <th>N°</th>
               </tr>
@@ -162,10 +164,8 @@ export const Produccion = () => {
               
                 <tbody >
                 {filterRes.map((res) => (
-                  <tr key={res.ID} onClick={() => { OnChangeSelectRes(res.ID) }}>
-                    <td>
-                      <input type="checkbox" checked={res.selected} readOnly />
-                    </td>
+                  <tr key={res.ID} style={{backgroundColor: res.selected ? 'lightgray' : 'white' , cursor: 'pointer'}} onClick={() =>OnChangeSelectRes(res.ID)}>
+                   
                     <td>
                       <label>{res.Nombre}</label>
                     </td>
@@ -186,7 +186,7 @@ export const Produccion = () => {
 
           <div className='field'>
             <label> Número o Nombre del Animal(es)</label>
-            <input type="text" value={values.ResID} disabled onChange={(e) => HandleChange(e, 'ResID')} />
+            <input type="text" value={numSelected} disabled/>
           </div>
 
 
