@@ -18,8 +18,10 @@ export const uploadImage = async (id, files, key) => {
   });
   const resp = await response.json()
   console.log(resp)
-  if (resp.status == 200) {
-      return 'OK'
+  if (resp.status === 200) {
+    return true;
+  }else{
+    return Promise.reject('Failed to create record');
   }
 }
 

@@ -14,9 +14,11 @@ export const CreateProduccionIndividual = async (data) => {
     },
     body: JSON.stringify(data)
     })
-  
-  const {body} = await resp.json()
-  return body
+    if (resp.status === 200) {
+      return true;
+    }else{
+      return Promise.reject('Failed to create record');
+    }
 }
 
 export const EditProduccionIndividual = async (data, id) => {
@@ -27,9 +29,11 @@ export const EditProduccionIndividual = async (data, id) => {
     },
     body: JSON.stringify(data)
   })
-
-  const {body} = await resp.json()
-  return body
+  if (resp.status === 200) {
+    return true;
+  }else{
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const DeleteProduccionIndividual = async (id) => {

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ItemRegistro } from './Components/ItemRegistro';
 import { Table } from '../../components/Table';
 import { getProductos } from '../../services/producto';
+import { ConfirmAlert } from '../../utils/ConfirmAlert';
 
 const fields = {
   Fecha: { label: 'Fecha', type: 'date', value: '' },
@@ -104,16 +105,13 @@ export const Produccion = () => {
     setValues({ ...values, ResID: OldResID })
   }
 
-  const Submit = (values) => {
-    CreateProduccionIndividual(values).then((resp) => {
-      console.log('Respuesta', resp)
-    })
+  const Submit = async(values) => {
+    ConfirmAlert(CreateProduccionIndividual, fetchProduccion, values)
   }
 
-  const SubmitEdit = (values, id) => {
-    EditProduccionIndividual(values, id).then((resp) => {
-      console.log('Respuesta', resp)
-    })
+  const SubmitEdit = async (values, id) => {
+    await ConfirmAlert(()=>EditProduccionIndividual(values, id),fetchProduccion)
+    setOpenModal(false)
   }
 
   const HandleEdit = (id) => {

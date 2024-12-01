@@ -71,8 +71,11 @@ export const updateServicio = async (id, body) => {
     },
     body: JSON.stringify(body)
   });
-  const { body: data } = await resp.json();
-  return data;
+  if (resp.status === 200) {
+    return true;
+  }else{
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const createServicio = async (body) => {
@@ -83,15 +86,17 @@ export const createServicio = async (body) => {
     },
     body: JSON.stringify(body)
   });
-  const { body: data } = await resp.json();
-  return data;
+  if (resp.status === 200) {
+    return true;
+  }else{
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const deleteServicio = async (id) => {
   const resp = await fetch(`http://localhost:4000/servicio/${id}`, {
     method: 'DELETE'
   });
-  const { body } = await resp.json();
-  return body;
+  return resp
 }
 

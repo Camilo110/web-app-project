@@ -1,8 +1,25 @@
 import { CardDashboard } from "../../components/CardDashboard";
 import {ProductionChart} from  "./Componentes/ProduccionGrafico";
 import { GraficoTorta } from "./Componentes/GraficoTorta";
+import { InformeFinanzas } from "./Componentes/InformeFinanzas";
+import { useState } from "react";
 
 export function Dashboard() {
+  const [dateRange, setDateRange] = useState(
+    {
+      start: new Date().toISOString().split('T')[0], 
+      end: () => {
+        const date = new Date();
+        date.setMonth(date.getMonth() - 1);
+        return date.toISOString().split('T')[0];
+      }
+    });
+
+  const onSetDate = (e, key) => {
+    const { value } = e.target;
+    setDateRange({...dateRange, [key]: value});
+  }
+
   return (
     <div className="dashboardMain">
       <div className="header">
@@ -10,11 +27,11 @@ export function Dashboard() {
         <div className="fechas">
           <div className="inicio">
             <p>Inicio</p>
-            <input type="date" id="start" name="start" />
+            <input type="date" value={dateRange.start} onChange={(e) => onSetDate(e,'start')}/>
           </div>
           <div className="fin">
             <p>Fin</p>
-            <input type="date" id="end" name="end" />
+            <input type="date" value={dateRange.end} onChange={(e) => onSetDate(e,'end')}/>
           </div>
         </div>
       </div>
@@ -27,7 +44,7 @@ export function Dashboard() {
         </div>
         <div className="graficas">
           <ProductionChart/>
-          <ProductionChart/>
+          <InformeFinanzas startDate={dateRange.start} endDate={dateRange.end}/>
         </div>
         <div className="graficos-torta">
           <GraficoTorta/>

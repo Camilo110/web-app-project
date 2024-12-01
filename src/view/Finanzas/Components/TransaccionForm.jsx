@@ -222,7 +222,12 @@ export const TransaccionForm = () => {
             </div>
 
             <div className='Fields-modal-dos'>
-              <h3>Incluir Insumos</h3>
+              {
+                values.Tipo === 'Ingreso' ?
+                  <h3>Incluir Productos</h3>
+                  :
+                  <h3>Incluir Insumos</h3>
+              }
 
               <div className="incluir-insumos">
                 <div className='fields'>

@@ -19,6 +19,7 @@ import { ModalServicios } from '../../components/ModalServicios'
 import { NumeroRes } from '../../components/NumeroRes'
 import { daysToYearsandMonths } from '../../utils/DaysToYearsandMonths'
 import { DeleteAlert } from '../../utils/DeleteAlert'
+import { ConfirmAlert } from '../../utils/ConfirmAlert'
 
 const camposRes = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -154,8 +155,7 @@ export function ResIndividual() {
   }
 
   const handleUpload = async (imageSelect) => {
-    await uploadImage(res.ID, imageSelect, 'images')
-    fetchImages()
+    await ConfirmAlert((id)=>uploadImage(id, imageSelect, 'images'), fetchImages, res.ID)
     setModalUpload(false)
   }
 
@@ -183,19 +183,12 @@ export function ResIndividual() {
   }
 
   const ModalSubmitEdit = async (body, idRes) => {
-    if (Object.keys(body).length > 0) {
-      const resp = await updateRes(idRes, body)
-      console.log('Respuesta Update', resp)
-      FetchRes()
-      setEditModalRes(false)
-    } else {
-      console.log('Error al editar')
-    }
+    await ConfirmAlert(({id,body})=>updateRes(id,body), FetchRes, { id: idRes, body })
+    setEditModalRes(false)
   }
 
   const HandleDeleteServicio = async (id) => {
-    await deleteServicio(id)
-    fetchServicios()
+    await DeleteAlert(deleteServicio, fetchServicios, id)
   }
 
   const BackPage = () => {
@@ -438,7 +431,9 @@ export function ResIndividual() {
           previewData={previewDataModal}
           isInseminacion={isInseminacionOSecado.inseminacion}
           isSecado={isInseminacionOSecado.secado}
-          setOpenModal={setOpenModalCreateServicio} />
+          setOpenModal={setOpenModalCreateServicio} 
+          fetch={fetchServicios}
+          />
       }
 
 
@@ -458,7 +453,9 @@ export function ResIndividual() {
         <ModalServicios 
           isEdit={true}
           setOpenModal={setOpenModalEdit}
-          idServicio={idServicioOnEdit} />
+          idServicio={idServicioOnEdit} 
+          fetch={fetchServicios}
+          />
         }
 
     </>
