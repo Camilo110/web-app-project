@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import '../../styles/Login.css';
 import { useState } from "react"
+
 
 export const Login = () => {
   const [email, setEmail] = useState('')
@@ -7,6 +9,7 @@ export const Login = () => {
 
   const onSubmit = () => {
     console.log({ email, password })
+    
   }
 
   return (
@@ -25,7 +28,9 @@ export const Login = () => {
             <p>Contraseña</p>
             <input type="password" placeholder="Contraseña" onChange={(e) => setPassword(e.target.value)} />
           </div>
-          <button onClick={onSubmit}>Iniciar Sesión</button>
+          <Link to={`/`}>
+            <button onClick={onSubmit}>Iniciar Sesión</button>
+          </Link>
         </div>
         <p>
           No tienes una cuenta? <a href="/register">Regístrate</a>
