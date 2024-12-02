@@ -5,7 +5,7 @@ export const CardDashboard = ({ title, info }) => {
   return (
     <div className="card-dashboard">
       <div className="title">
-        <img src="https://img.icons8.com/ios/452/cow.png" alt="icon"/>
+        <img src="src/assets/img/icons/animales.png" alt="icon"/>
         <h3>{title}</h3>
       </div>      
       <h2>{info}</h2>
