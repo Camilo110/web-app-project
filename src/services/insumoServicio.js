@@ -17,9 +17,7 @@ export const updateInsumoServicio = async (insumo) => {
     },
     body: JSON.stringify(insumo)
   })
-  console.log(resp)
-  const {body} = await resp.json()
-  return body
+  return resp
 }
 
 export const deleteInsumoServicio = async (data) => {

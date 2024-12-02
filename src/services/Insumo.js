@@ -38,6 +38,9 @@ export const updateInsumo = async (id, data) => {
     },
     body: JSON.stringify(data)
   })
-  const {body} = await resp.json()
-  return body
+  if (resp.status === 200) {
+    return { status: 200 };  
+  }else{
+    return Promise.reject('Error al Actualizar');
+  }
 }

@@ -30,8 +30,11 @@ export const updateRes = async (id, bodys) => {
     },
     body: JSON.stringify(bodys)
   });
-  const {body} = await resp.json();
-  return body;
+  if (resp.status === 200) {
+    return true;
+  }else{
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const createRes = async (res) => {
@@ -42,8 +45,11 @@ export const createRes = async (res) => {
     },
     body: JSON.stringify(res)
   });
-  const {body} = await resp.json();
-  return body;
+  if (resp.status === 200) {
+    return true;
+  }else{
+    return Promise.reject('Failed to create record');
+  }
 }
 
 export const getProduccionPorResFechas = async (id, startDate, endDate) => {

@@ -76,10 +76,34 @@ th {
 
 .table-search {
   display: flex;
-  flex-direction: row;
-  justify-content: start;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
+  gap: .7rem;
+  width: 100%;
+}
+
+.table-search .buscar{
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+}
+
+.table-search .filtro{
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+}
+
+.icono-tabla{
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.acciones-tabla{
+  display: flex;
+  justify-content: center;
+  flex-direction: 'row';
+  gap: .5rem;
 }
 
 @media screen and (max-width: 768px) {

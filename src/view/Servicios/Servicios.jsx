@@ -64,7 +64,9 @@ export const Servicios = () => {
       {
         openModalCreate &&
         <ModalServicios 
-          setOpenModal={setOpenModalCreate} />
+          setOpenModal={setOpenModalCreate} 
+          fetch={getAll}
+        />
       }
 
 {
@@ -72,7 +74,9 @@ export const Servicios = () => {
         <ModalServicios 
           isEdit={true}
           setOpenModal={setOpenModalEdit}
-          idServicio={idToEdit} />
+          idServicio={idToEdit} 
+          fetch={getAll}
+          />
       }
 
     </section>

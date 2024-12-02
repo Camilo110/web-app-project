@@ -46,6 +46,5 @@ export const deleteFinca = async (id) => {
     method: 'DELETE'
   });
   console.log('melo')
-  const {body} = await resp.json();
-  return body;
+  return resp
 }

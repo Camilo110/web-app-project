@@ -4,6 +4,7 @@ import { createRes, getRes } from "../../services/res"
 import { getResModal } from "../../services/forms"
 import '../../styles/ResList.css'
 import { Modal } from "../../components/Modal"
+import { ConfirmAlert } from "../../utils/ConfirmAlert"
 
 const campos = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -95,14 +96,9 @@ export function ResList() {
   }
 
   const ModalSubmitCreate = async (values) => {
-    console.log('Submit', values)
-    
-    const resp = await createRes(values)
-    
-    console.log('Respuesta', resp)
-    setCreateModal(false)
-    fetchRes()
+    await ConfirmAlert(createRes, fetchRes, values )
     setLimit({ inf: 0, sup: 15 })
+    setCreateModal(false)
   }
 
   return (

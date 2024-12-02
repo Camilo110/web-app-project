@@ -47,7 +47,8 @@ export const Insumos = () => {
   }
 
   const onSubmitEdit = async (data, id) => {
-    await updateInsumo(id, data)
+    await ConfirmAlert((d)=>updateInsumo(id, d), fetchData, data)
+    setOpenModalEdit(false)
   }
 
   return (

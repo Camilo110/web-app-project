@@ -6,9 +6,10 @@ import { getServiciosModal } from '../services/forms'
 import PropTypes from 'prop-types'
 import { createServicio, getServicioById, getServicioWithInseminacionById, updateServicio } from '../services/servicio'
 import { deleteInsumoServicio, getInsumoServicio, updateInsumoServicio } from '../services/insumoServicio'
+import { ConfirmAlert } from '../utils/ConfirmAlert'
 
 
-export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecado = false, idServicio, setOpenModal, previewData = {}}) => {
+export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecado = false, isAborto=false, idServicio, setOpenModal, previewData = {}, fetch=()=>{}}) => {
 
   const [insumos, setInsumos] = useState([])
 
@@ -168,6 +169,10 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
     setValuesToSend({ ...valuesToSend, [key]: value })
   }
 
+  const aux = async(f) => {
+    return f ? true : new Promise.reject('Failed to create record')
+  }
+
   const onSubmit = async () => {
     let listInsumosFinal = []
     listInsumosToSend.map((insumo) => {
@@ -178,24 +183,32 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
       const listInsumosToDeleteFinal = listInsumosToDelete.filter((id) => !listInsumosFinal.map((insumo) => insumo.InsumoID).includes(id))
       console.log(listInsumosToDeleteFinal, 'Delete') 
 
+      let flag = true
       for (const id of listInsumosToDeleteFinal) {
-        await deleteInsumoServicio({ InsumoID: id, ServicioID: idServicio })
+        const response = await deleteInsumoServicio({ InsumoID: id, ServicioID: idServicio })
+        if (response.status !== 200) {
+          flag = false
+        }
       }
 
+      if (listInsumosFinal.length > 0) {
+        const response = await updateInsumoServicio(listInsumosFinal) 
+        if (response.status !== 200) {
+          flag = false
+        }
+      }
+      
       if (Object.keys(valuesToSend).length > 0) {
         const resp = await updateServicio(values.ID, { ...valuesToSend })
-        console.log(resp, 'Update')
+        if (resp.status !== 200) {
+          flag = false
+        }
       }
 
-      if (listInsumosFinal.length > 0) await updateInsumoServicio(listInsumosFinal) 
-
-      console.log(idServicio, { ...valuesToSend, listInsumosFinal }, 'Edit')
+      await ConfirmAlert(aux, fetch, flag)
     } else {
-      const resp = await createServicio({ ...valuesToSend, listInsumos: listInsumosFinal })
-      console.log(resp)
-      console.log({ ...valuesToSend, listInsumosFinal }, 'Create')
+      await ConfirmAlert(createServicio, fetch, { ...valuesToSend, listInsumos: listInsumosFinal })
     }
-    
     setOpenModal(false)
   }
 
@@ -229,7 +242,6 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                         <>
                           <option value='Monta'>Monta</option>
                           <option value='Inseminacion'>Inseminación</option>
-                          <option value='Aborto'>Aborto</option>
                         </>
                         :
                         <>
@@ -237,6 +249,11 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                           isSecado ?
                           <>
                             <option value='Secado'>Secado</option>
+                          </>
+                          :
+                          isAborto ?
+                          <>
+                            <option value='Aborto'>Aborto</option>
                           </>
                           :
                           <>
@@ -282,7 +299,7 @@ export const ModalServicios = ({ isEdit = false, isInseminacion = false, isSecad
                   <>
                     <div className="field-modal">
                       <label>Fecha Parto</label>
-                      <input value={values.FechaParto || ''} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
+                      <input value={values.FechaParto || ''} disabled={isEdit} onChange={(e) => handleChangeValues(e, 'FechaParto')} type='date' />
                     </div>
                     { isMonta &&
                       <div className="field-modal">
@@ -367,5 +384,7 @@ ModalServicios.propTypes = {
   isInseminacion: PropTypes.bool,
   isSecado: PropTypes.bool,
   previewData: PropTypes.object,
-  listTipos: PropTypes.array
+  listTipos: PropTypes.array,
+  fetch: PropTypes.func,
+  isAborto: PropTypes.bool
 }

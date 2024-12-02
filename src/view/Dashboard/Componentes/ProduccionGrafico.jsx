@@ -49,6 +49,7 @@ export const ProductionChart = () => {
         },
       },
       y: {
+        beginAtZero: true,
         title: {
           display: true,
           text: 'Producción',
