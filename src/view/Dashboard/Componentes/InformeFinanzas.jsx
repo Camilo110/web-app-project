@@ -77,6 +77,7 @@ export const InformeFinanzas = ({startDate, endDate}) => {
         },
       },
       y: {
+        beginAtZero: true,
         title: {
           display: true,
           text: 'Balance',
