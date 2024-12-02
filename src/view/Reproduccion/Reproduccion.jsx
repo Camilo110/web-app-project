@@ -66,7 +66,6 @@ export const Reproduccion = () => {
 
   useEffect(() => {
     fetchData()
-    fetchRegistros()
   }
   , [])
   
@@ -82,9 +81,7 @@ export const Reproduccion = () => {
 
     const InseminacionPorConfirmar = await getInseminacionPorConfirmar()
     setDataInseminacionPorConfirmar(InseminacionPorConfirmar)
-  }
 
-  const fetchRegistros = async () => {
     const servicios = await getAllServicioWithInseminacion()
     setDataServicio(servicios)
 
@@ -110,7 +107,7 @@ export const Reproduccion = () => {
         Padre: { label: 'Padre', type: 'select', value: padres }
     })
 
-    setValuesOnAddParto({Madre: data.ResID, FechaNacimiento: new Date().toISOString().split('T')[0], Padre:data.ToroID})
+    setValuesOnAddParto({Madre: data.ResID, FechaNacimiento: new Date().toISOString().split('T')[0]})
     setOpenModalCreateRes(true)
     
   }
@@ -140,8 +137,8 @@ export const Reproduccion = () => {
 
 
   const ModalSubmitCreateRes = async (values) => {
-    await ConfirmAlert(createRes, fetchData, values)
-    setOpenModalCreateRes(false)
+    await ConfirmAlert(createRes, ()=> {fetchData(), setOpenModalCreateRes(false)}, values)
+    
   }
 
   const onAddInseminacion = (data) => {
@@ -341,7 +338,7 @@ export const Reproduccion = () => {
             setOpenModal={setOpenModalCreateRes}
             includeDataInSubmit={true}
           >
-            <h3>Editar Res</h3>
+            <h3>Crear Res</h3>
          </Modal>}
       
     </div>

@@ -28,9 +28,9 @@ export async function ConfirmarInseminacion(id){
 
   if (resp.status === 200) {
     return true
+  }else{
+    return Promise.reject('Failed to create record');
   }
-
-  return false
 }
 export async function inseminacionFallida(id){
   const resp = await fetch(`http://localhost:4000/reproduccion/inseminacionfallida/${id}`, {
@@ -42,8 +42,9 @@ export async function inseminacionFallida(id){
 
   if (resp.status === 200) {
     return true
+  }else{
+    return Promise.reject('Failed to create record');
   }
-  return false
 }
 
 export async function getPartos(){

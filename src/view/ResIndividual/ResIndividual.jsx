@@ -252,6 +252,24 @@ export function ResIndividual() {
     ],
   };
 
+  const options = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Fecha',
+        },
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Producción',
+        },
+      },
+    },
+  };
+
   return (
 
     <>
@@ -264,7 +282,7 @@ export function ResIndividual() {
             <div className='SectionOne'>
               <div className='LineOne'>
                 <div>
-                  <NumeroRes id={res.ID} numero={res.Numero} tipo={res.Tipo} />
+                  <NumeroRes id={id} />
                   <h2>{res.Nombre}</h2>
                 </div>
               </div>
@@ -352,7 +370,7 @@ export function ResIndividual() {
               </div>
             </div>
 
-            { (res.Tipo === 'Leche' || res.Tipo === 'Doble Proposito') && (
+        { (res.Tipo !== 'Carne' && res.Sexo !== 'M') && (
         <div className='registrosReproduccion'>
           <h2>Registros de Producción</h2>
           <div className='fechas'>
@@ -365,7 +383,7 @@ export function ResIndividual() {
               <input type="date" value={endDate} onChange={handleEndDateChange} />
             </label>
           </div>
-          <Line data={data} />
+          <Line data={data} options={options} />
         </div>
       )}
 

@@ -3,13 +3,14 @@ import Swal from 'sweetalert2';
 export const DeleteAlert = async (onSubmit, fetch, data) => {
   try {
     const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "¿Está Seguro?",
+      text: "Esta acción no se puede deshacer.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Sí, Eliminar",
+      cancelButtonText: "Cancelar"
     });
 
     if (result.isConfirmed) {
@@ -18,14 +19,14 @@ export const DeleteAlert = async (onSubmit, fetch, data) => {
         await new Promise(resolve => setTimeout(resolve, 50));
         await fetch(); // Espera a que se actualice la lista
         Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
+          title: "Eliminado!",
+          text: "El registro fue eliminado exitosamente.",
           icon: "success"
         });
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Your file has not been deleted.",
+          text: "El registro NO fue eliminado.",
           icon: "error"
         });
       }
@@ -34,7 +35,7 @@ export const DeleteAlert = async (onSubmit, fetch, data) => {
     // Maneja errores globales
     Swal.fire({
       title: "Error!",
-      text: "Something went wrong. Please try again later.",
+      text: "Algo está mal, Por favor intente de nuevo.",
       icon: "error"
     });
     console.error("DeleteAlert error:", error);

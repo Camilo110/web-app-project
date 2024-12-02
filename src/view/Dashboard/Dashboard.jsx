@@ -8,12 +8,9 @@ export function Dashboard() {
   const [dateRange, setDateRange] = useState(
     {
       start: new Date().toISOString().split('T')[0], 
-      end: () => {
-        const date = new Date();
-        date.setMonth(date.getMonth() - 1);
-        return date.toISOString().split('T')[0];
-      }
-    });
+      end: '2024-11-01'
+    }
+  )
 
   const onSetDate = (e, key) => {
     const { value } = e.target;

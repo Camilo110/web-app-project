@@ -3,9 +3,9 @@ import toast from 'react-hot-toast';
 export const ConfirmAlert = async (onSubmit, fetch, data) => {
 
   const messages ={
-    loading: "Creating record...",
-    success: "Record created successfully!",
-    error: "Failed to create record. Please try again."
+    loading: "Creando",
+    success: "Registro creado exitosamente.",
+    error: "Error al crear el registro."
   }
 
  

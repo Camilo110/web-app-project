@@ -38,6 +38,7 @@ export const updateRes = async (id, bodys) => {
 }
 
 export const createRes = async (res) => {
+  console.log(res, "RES")
   const resp = await fetch('http://localhost:4000/res', {
     method: 'POST',
     headers: {
@@ -48,6 +49,8 @@ export const createRes = async (res) => {
   if (resp.status === 200) {
     return true;
   }else{
+    const {body} = await resp.json();
+    console.log(body);
     return Promise.reject('Failed to create record');
   }
 }

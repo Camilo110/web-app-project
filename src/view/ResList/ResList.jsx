@@ -109,7 +109,7 @@ export function ResList() {
         <h3>Buscar</h3>
         <input
           type="search"
-          placeholder="Ingrese el Id o el Nombre"
+          placeholder="Ingrese el número o el nombre"
           value={inputValue}
           onChange={handleInputChange} />
         <button onClick={HandleAdd}> Agregar </button>
