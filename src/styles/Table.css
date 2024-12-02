@@ -75,9 +75,23 @@ th {
 }
 
 .table-search {
-  display: flex-grap;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: .7rem;
   width: 100%;
+}
+
+.table-search .buscar{
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+}
+
+.table-search .filtro{
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
 }
 
 .icono-tabla{

@@ -87,20 +87,24 @@ export const Table = (props) => {
     <div className="table-main">
 
       {filtrar &&
-        <div className="table-search"> 
-          <h3>Buscar:</h3>
-          <input 
-            ref={reference}
-            type="text" 
-            placeholder="" 
-            onChange={onChangeFilter}
-          />
-          <span>por:</span>
-          <select onChange={selectFieldFilter}>
-            {keyList.map((key, index) => (
-              <option key={key} aria-label={key}>{HeaderList[index]}</option>
-            ))}
-          </select>
+        <div className="table-search">
+          <div className="buscar">
+            <h3>Buscar:</h3>
+            <input 
+              ref={reference}
+              type="text" 
+              placeholder="" 
+              onChange={onChangeFilter}
+            />
+          </div> 
+          <div className="filtro">
+            <span>por:</span>
+            <select onChange={selectFieldFilter}>
+              {keyList.map((key, index) => (
+                <option key={key} aria-label={key}>{HeaderList[index]}</option>
+              ))}
+            </select>
+          </div>
         </div>
       }
 
