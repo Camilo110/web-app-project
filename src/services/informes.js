@@ -1,7 +1,7 @@
 /* sección inicial */
 
 export const getNumeroResesPorFecha = async (fechaInicio, fechaFin) => {
-  const response = await fetch(`http://localhost:4000/informes/getResesPorFecha/${fechaInicio}/${fechaFin}`);
+  const response = await fetch(`http://localhost:4000/informes/getNumeroResesPorFecha/${fechaInicio}/${fechaFin}`);
   return response;
 };
 

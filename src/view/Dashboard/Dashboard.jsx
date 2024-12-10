@@ -3,7 +3,9 @@ import {ProductionChart} from  "./Componentes/ProduccionGrafico";
 import { GraficoTorta } from "./Componentes/GraficoTorta";
 import { InformeFinanzas } from "./Componentes/InformeFinanzas";
 import { useState, useEffect } from "react";
-import { getDistribucionPorSexo, getDistribucionPorTipo, getDistribucionPorRaza, getDistribucionPorEdad } from "../../services/informes";
+import { getDistribucionPorSexo, getDistribucionPorTipo, getDistribucionPorRaza, getDistribucionPorEdad, 
+  getProduccionTotalPorTipo, getNumeroNacimientosPorFecha, getNumeroResesPorFecha
+} from "../../services/informes";
 
 export function Dashboard() {
   /* ajuste fecha inicial */
@@ -26,7 +28,93 @@ export function Dashboard() {
     setFechaFinal(e.target.value);
   };
 
-  
+  /* total de animales */
+  const [totalAnimales, setTotalAnimales] = useState(0);
+  useEffect(() => {
+    const fetchTotalAnimales = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getNumeroResesPorFecha( fechaInicial, fechaFinal);
+          if(response.ok) {
+            const data = await response.json();
+            setTotalAnimales(data.body[0].numeroReses);
+          } else {
+            setTotalAnimales(0);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
+      }
+    };
+
+    fetchTotalAnimales();
+  }, [fechaInicial, fechaFinal]);
+
+  /* total de partos */
+  const [totalPartos, setTotalPartos] = useState(0);
+  useEffect(() => {
+    const fetchTotalPartos = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getNumeroNacimientosPorFecha( fechaInicial, fechaFinal);
+          if(response.ok) {
+            const data = await response.json();
+            setTotalPartos(data.body[0].numeroNacimientos);
+          } else {
+            setTotalPartos(0);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
+      }
+    };
+
+    fetchTotalPartos();
+  }, [fechaInicial, fechaFinal]);
+
+  /* total de leche */
+  const [totalLeche, setTotalLeche] = useState(0);
+  useEffect(() => {
+    const fetchTotalLeche = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getProduccionTotalPorTipo( fechaInicial, fechaFinal, "Leche");
+          if(response.ok) {
+            const data = await response.json();
+            setTotalLeche(data.body[0].produccionTotal);
+          } else {
+            setTotalLeche(0);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
+      }
+    };
+
+    fetchTotalLeche();
+  }, [fechaInicial, fechaFinal]);
+
+  /* total de carne */
+  const [totalCarne, setTotalCarne] = useState(0);
+  useEffect(() => {
+    const fetchTotalCarne = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getProduccionTotalPorTipo( fechaInicial, fechaFinal, "Carne");
+          if(response.ok) {
+            const data = await response.json();
+            setTotalCarne(data.body[0].produccionTotal);
+          } else {
+            setTotalCarne(0);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
+      }
+    };
+
+    fetchTotalCarne();
+  }, [fechaInicial, fechaFinal]);
 
   /* distribucion por sexo */
   const [distribucionPorSexo, setDistribucionPorSexo] = useState([]);
@@ -220,10 +308,11 @@ export function Dashboard() {
       </div>
       <div className="dashboard">
         <div className="cards">
-          <CardDashboard title="Total de animales" info="42" />
-          <CardDashboard title="Total de partos" info="2" />
-          <CardDashboard title="Total de leche(lts)" info="641" />
-          <CardDashboard title="Total de carne(kg)" info="859" />
+          {console.log(totalAnimales)}
+          <CardDashboard title="Total de animales" info={totalAnimales} />
+          <CardDashboard title="Total de partos" info={totalPartos} />
+          <CardDashboard title="Total de leche(lts)" info={totalLeche} />
+          <CardDashboard title="Total de carne(kg)" info={totalCarne} />
         </div>
         <div className="graficas">
           <ProductionChart/>
