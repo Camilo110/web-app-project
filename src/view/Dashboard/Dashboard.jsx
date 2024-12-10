@@ -2,31 +2,60 @@ import { CardDashboard } from "./Componentes/CardDashboard";
 import {ProductionChart} from  "./Componentes/ProduccionGrafico";
 import { GraficoTorta } from "./Componentes/GraficoTorta";
 import { InformeFinanzas } from "./Componentes/InformeFinanzas";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getDistribucionPorSexo, getDistribucionPorTipo, getDistribucionPorRaza, getDistribucionPorEdad } from "../../services/informes";
 
 export function Dashboard() {
-  const [dateRange, setDateRange] = useState(
-    {
-      start: new Date().toISOString().split('T')[0], 
-      end: () => {
-        const date = new Date();
-        date.setMonth(date.getMonth() - 1);
-        return date.toISOString().split('T')[0];
+  /* ajuste fecha inicial */
+  const [fechaInicial, setFechaInicial] = useState('');
+  const [fechaFinal, setFechaFinal] = useState('');
+  useEffect(() => {
+    const today = new Date();
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(today.getMonth() - 1);
+
+    setFechaFinal(today.toISOString().split('T')[0]);
+    setFechaInicial(oneMonthAgo.toISOString().split('T')[0]);
+  }, []);
+
+  const handleStartDateChange = (e) => {
+    setFechaInicial(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setFechaFinal(e.target.value);
+  };
+
+  
+
+  /* distribucion por sexo */
+  const [distribucionPorSexo, setDistribucionPorSexo] = useState([]);
+  useEffect(() => {
+    const fetchDistribucionPorSexo = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getDistribucionPorSexo( fechaInicial, fechaFinal);
+          if(response.ok) {
+            const data = await response.json();
+            setDistribucionPorSexo(data.body);
+          } else {
+            setDistribucionPorSexo([]);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
       }
-    });
+    };
 
-  const onSetDate = (e, key) => {
-    const { value } = e.target;
-    setDateRange({...dateRange, [key]: value});
-  }
+    fetchDistribucionPorSexo();
+  }, [fechaInicial, fechaFinal]);
 
-  /* data de prueba antes del fetch */
   const DataHebrasMachos = {
-    labels: ['Hembras', 'Machos'],
+    labels: ['Machos', 'Hembras'],
     datasets: [
       {
-        label: 'Distribución de Animales',
-        data: [31, 11], // Datos de ejemplo
+        label: 'N° de Reses',
+        data: distribucionPorSexo.map((d) => d.numeroReses),
         backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)'],
         borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
         borderWidth: 1,
@@ -34,12 +63,34 @@ export function Dashboard() {
     ],
   };
 
+  /* distribucion por sexo */
+  const [distribucionPorTipo, setDistribucionPorTipo] = useState([]);
+  useEffect(() => {
+    const fetchDistribucionPorTipo = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getDistribucionPorTipo( fechaInicial, fechaFinal);
+          if(response.ok) {
+            const data = await response.json();
+            setDistribucionPorTipo(data.body);
+          } else {
+            setDistribucionPorTipo([]);
+          }
+        } catch (error) {
+          console.error('Error fetching production data:', error);
+        }
+      }
+    };
+
+    fetchDistribucionPorTipo();
+  }, [fechaInicial, fechaFinal]);
+
   const DataTiposAnimales = {
-    labels: ['Leche', 'Carne', 'Doble Propósito'],
+    labels: distribucionPorTipo.map((d) => d.Tipo),
     datasets: [
       {
-        label: 'Distribución por Tipo de Animales',
-        data: [25, 12, 5], // Datos de ejemplo
+        label: 'N° de Reses',
+        data: distribucionPorTipo.map((d) => d.numeroReses),
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)', 
           'rgba(255, 99, 132, 0.6)', 
@@ -55,13 +106,34 @@ export function Dashboard() {
     ],
   };
  
+    /* distribucion por raza */
+    const [distribucionPorRaza, setDistribucionPorRaza] = useState([]);
+    useEffect(() => {
+      const fetchDistribucionPorRaza = async () => {
+        if (fechaInicial && fechaFinal) {
+          try {
+            const response = await getDistribucionPorRaza( fechaInicial, fechaFinal);
+            if(response.ok) {
+              const data = await response.json();
+              setDistribucionPorRaza(data.body);
+            } else {
+              setDistribucionPorRaza([]);
+            }
+          } catch (error) {
+            console.error('Error fetching production data:', error);
+          }
+        }
+      };
+  
+      fetchDistribucionPorRaza();
+    }, [fechaInicial, fechaFinal]);
 
   const DataRazas = {
-    labels: ['Holstein', 'Jersey', 'Normando', 'Otros'],
+    labels: distribucionPorRaza.map((d) => d.Raza),
     datasets: [
       {
-        label: 'Distribución de Razas',
-        data: [18, 10, 10, 4], // Datos de ejemplo
+        label: 'N° de Reses',
+        data: distribucionPorRaza.map((d) => d.numeroReses),
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)', 
           'rgba(255, 99, 132, 0.6)', 
@@ -78,21 +150,35 @@ export function Dashboard() {
       },
     ],
   };
+
+      /* distribucion por edad */
+      const [distribucionPorEdad, setDistribucionPorEdad] = useState([]);
+      useEffect(() => {
+        const fetchDistribucionPorEdad = async () => {
+          if (fechaInicial && fechaFinal) {
+            try {
+              const response = await getDistribucionPorEdad( fechaInicial, fechaFinal);
+              if(response.ok) {
+                const data = await response.json();
+                setDistribucionPorEdad(data.body);
+              } else {
+                setDistribucionPorEdad([]);
+              }
+            } catch (error) {
+              console.error('Error fetching production data:', error);
+            }
+          }
+        };
+    
+        fetchDistribucionPorEdad();
+      }, [fechaInicial, fechaFinal]);
   
   const DataEdadesAnimales = {
-    labels: [
-      '0 a 3 meses', 
-      '3 a 9 meses', 
-      '9 a 12 meses', 
-      '1 a 2 años', 
-      '2 a 3 años', 
-      '3 a 5 años', 
-      'Mayores de 5 años'
-    ],
+    labels: distribucionPorEdad.map((d) => d.rangoEdad),
     datasets: [
       {
-        label: 'Distribución por Edades',
-        data: [5, 8, 4, 10, 7, 5, 3], // Datos de ejemplo que suman 42
+        label: 'N° de Reses',
+        data: distribucionPorEdad.map((d) => d.numeroReses),
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)', 
           'rgba(255, 99, 132, 0.6)', 
@@ -124,11 +210,11 @@ export function Dashboard() {
         <div className="fechas">
           <div className="inicio">
             <p>Inicio</p>
-            <input type="date" value={dateRange.start} onChange={(e) => onSetDate(e,'start')}/>
+            <input type="date" value={fechaInicial} onChange={handleStartDateChange} />
           </div>
           <div className="fin">
             <p>Fin</p>
-            <input type="date" value={dateRange.end} onChange={(e) => onSetDate(e,'end')}/>
+            <input type="date" value={fechaFinal} onChange={handleEndDateChange} />
           </div>
         </div>
       </div>
@@ -141,13 +227,13 @@ export function Dashboard() {
         </div>
         <div className="graficas">
           <ProductionChart/>
-          <InformeFinanzas startDate={dateRange.start} endDate={dateRange.end}/>
+          <InformeFinanzas startDate={fechaInicial} endDate={fechaFinal}/>
         </div>
         <div className="graficos-torta">
-        <GraficoTorta data={DataHebrasMachos} title="Distribución de Animales" />
-        <GraficoTorta data={DataTiposAnimales} title="Distribución de Animales" />
-        <GraficoTorta data={DataRazas} title="Distribución de Animales" />
-        <GraficoTorta data={DataEdadesAnimales} title="Distribución de Animales" />
+        <GraficoTorta data={DataHebrasMachos} title="Distribución por sexo" />
+        <GraficoTorta data={DataTiposAnimales} title="Distribución por tipo" />
+        <GraficoTorta data={DataRazas} title="Distribución por raza" />
+        <GraficoTorta data={DataEdadesAnimales} title="Distribución por edad" />
         </div>
       </div>
     </div>
