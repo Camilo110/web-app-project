@@ -1,66 +1,38 @@
-import { balanceTransacciones } from "../../../services/transaccion"
 import { useEffect, useState } from "react"
 import { Line } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
+import { getBalancePorFecha } from "../../../services/informes.js";
 
-export const InformeFinanzas = ({startDate, endDate}) => {
+export const InformeFinanzas = ({fechaInicial, fechaFinal}) => {
+  const [financialData, setFinancialData] = useState([]);
   
-  const [financialData, setFinancialData] = useState([
-    { date: '2023-01-01', balance: 10 },
-    { date: '2023-01-02', balance: 15 },
-    { date: '2023-01-03', balance: 12 },
-    { date: '2023-01-04', balance: 8 },
-    { date: '2023-01-05', balance: 20 },
-  ]);
-
-  // useEffect(() => {
-    // const fetchFinancialData = async () => {
-    //   if (startDate && endDate) {
-    //     try {
-    //       const response = await balanceTransacciones(startDate, endDate);
-    //       if(response.ok) {
-    //         const data = await response.json();
-    //         const processedData = processFinancialData(data.body)
-    //         setFinancialData(processedData);
-    //         calculateResumen(processedData);
-    //       } else {
-    //         setFinancialData([]);
-    //       }
-    //       setFinancialData(data);
-    //     } catch (error) {
-    //       console.error('Error fetching financial data:', error);
-    //     }
-    //   }
-  //   };
-
-  //   fetchFinancialData();
-  // }, [startDate, endDate]);
-
-  const processFinancialData = (data) => {
-    const result = [];
-    let balance = 0;
-
-    data.forEach((item) => {
-      const date = item.Fecha;
-      const value = parseFloat(item.Valor);
-      if (item.Tipo === 'Ingreso') {
-        balance += value;
-      } else if (item.Tipo === 'Egreso') {
-        balance -= value;
+  useEffect(() => {
+    const fetchFinancialData = async () => {
+      if (fechaInicial && fechaFinal) {
+        try {
+          const response = await getBalancePorFecha(fechaInicial, fechaFinal);
+          if (response.ok) {
+            const data = await response.json();
+            setFinancialData(data.body);
+          } else {
+            setFinancialData([]);
+          }
+        } catch (error) {
+          console.error('Error fetching financial data:', error);
+        }
       }
-      result.push({ date, balance });
-    });
-    console.log('result', result);
-    return result;
-  };
+    };
+  
+    fetchFinancialData();
+  }, [fechaInicial, fechaFinal]);
   
 
   const data = {
-    labels: financialData.map((d) => d.date),
+    labels: financialData.map((d) => new Date(d.Fecha).toISOString().split('T')[0]),
     datasets: [
       {
         label: 'Balance',
-        data: financialData.map((d) => d.balance),
+        data: financialData.map((d) => d.Balance),
         fill: false,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
@@ -92,6 +64,6 @@ export const InformeFinanzas = ({startDate, endDate}) => {
 }
 
 InformeFinanzas.propTypes = {
-  startDate: PropTypes.string,
-  endDate: PropTypes.string
+  fechaInicial: PropTypes.string,
+  fechaFinal: PropTypes.string
 }

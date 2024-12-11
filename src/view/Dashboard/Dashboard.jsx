@@ -1,11 +1,9 @@
 import { CardDashboard } from "./Componentes/CardDashboard";
-import {ProductionChart} from  "./Componentes/ProduccionGrafico";
+import { InformeProduccion } from  "./Componentes/ProduccionGrafico";
 import { GraficoTorta } from "./Componentes/GraficoTorta";
 import { InformeFinanzas } from "./Componentes/InformeFinanzas";
 import { useState, useEffect } from "react";
-import { getDistribucionPorSexo, getDistribucionPorTipo, getDistribucionPorRaza, getDistribucionPorEdad, 
-  getProduccionTotalPorTipo, getNumeroNacimientosPorFecha, getNumeroResesPorFecha
-} from "../../services/informes";
+import { getDistribucionPorSexo, getDistribucionPorTipo, getDistribucionPorRaza, getDistribucionPorEdad, getProduccionTotalPorTipo, getNumeroNacimientosPorFecha, getNumeroResesPorFecha } from "../../services/informes";
 
 export function Dashboard() {
   /* ajuste fecha inicial */
@@ -308,15 +306,14 @@ export function Dashboard() {
       </div>
       <div className="dashboard">
         <div className="cards">
-          {console.log(totalAnimales)}
           <CardDashboard title="Total de animales" info={totalAnimales} />
           <CardDashboard title="Total de partos" info={totalPartos} />
           <CardDashboard title="Total de leche(lts)" info={totalLeche} />
           <CardDashboard title="Total de carne(kg)" info={totalCarne} />
         </div>
         <div className="graficas">
-          <ProductionChart/>
-          <InformeFinanzas startDate={fechaInicial} endDate={fechaFinal}/>
+          <InformeProduccion fechaInicial={fechaInicial} fechaFinal={fechaFinal}/>
+          <InformeFinanzas fechaInicial={fechaInicial} fechaFinal={fechaFinal}/>
         </div>
         <div className="graficos-torta">
         <GraficoTorta data={DataHebrasMachos} title="Distribución por sexo" />

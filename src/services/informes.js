@@ -16,7 +16,15 @@ export const getProduccionTotalPorTipo = async (fechaInicio, fechaFin, tipo) => 
 };
 
 /* graficas */
+export const getProduccionLechePorFecha = async (fechaInicio, fechaFin) => {
+  const response = await fetch(`http://localhost:4000/informes/getProduccionLechePorFecha/${fechaInicio}/${fechaFin}`);
+  return response;
+};
 
+export const getBalancePorFecha = async (fechaInicio, fechaFin) => {
+  const response = await fetch(`http://localhost:4000/informes/getBalancePorFecha/${fechaInicio}/${fechaFin}`);
+  return response;
+};
 
 /* sección final */
 export const getDistribucionPorSexo = async (fechaInicio, fechaFin) => {
