@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { NumeroRes } from '../../../components/NumeroRes'
+import API from "../../../config";
 
 export function TarjetaLinaje({ id, nombre, familiaridad }) {
   return (
@@ -8,7 +9,7 @@ export function TarjetaLinaje({ id, nombre, familiaridad }) {
       <Link to={`/res/${id}`} className="link">
         <div className="image-container">
           <img
-            src={`http://localhost:4000/imagen/id/${id}`}
+            src={`${API}/imagen/id/${id}`}
             alt="Cow Image"
           />
           <p className="familiaridad">{familiaridad}</p>

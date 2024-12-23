@@ -1,13 +1,14 @@
+import API from "../config";
 
 export const getProduccion = async () => {
-  const resp = await fetch('http://localhost:4000/produccionindividual')
+  const resp = await fetch(`${API}/produccionindividual`)
   const {body} = await resp.json()
   return body
 }
 
 export const CreateProduccionIndividual = async (data) => {
 
-  const resp = await fetch('http://localhost:4000/produccionindividual', {
+  const resp = await fetch(`${API}/produccionindividual`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -22,7 +23,7 @@ export const CreateProduccionIndividual = async (data) => {
 }
 
 export const EditProduccionIndividual = async (data, id) => {
-  const resp = await fetch(`http://localhost:4000/produccionindividual/${id}`, {
+  const resp = await fetch(`${API}/produccionindividual/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ export const EditProduccionIndividual = async (data, id) => {
 }
 
 export const DeleteProduccionIndividual = async (id) => {
-  const resp = await fetch(`http://localhost:4000/produccionindividual/${id}`, {
+  const resp = await fetch(`${API}/produccionindividual/${id}`, {
     method: 'DELETE'
   })
 

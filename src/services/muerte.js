@@ -1,6 +1,7 @@
+import API from "../config";
 
 export const createMuerte = async (muerte) => {
-  const resp = await fetch('http://localhost:4000/muerte', {
+  const resp = await fetch(`${API}/muerte`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

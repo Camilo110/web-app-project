@@ -20,6 +20,7 @@ import { NumeroRes } from '../../components/NumeroRes'
 import { daysToYearsandMonths } from '../../utils/DaysToYearsandMonths'
 import { DeleteAlert } from '../../utils/DeleteAlert'
 import { ConfirmAlert } from '../../utils/ConfirmAlert'
+import API from "../../config";
 
 const camposRes = {
   Numero: { label: 'Número', type: 'number', value: 0 },
@@ -286,7 +287,7 @@ export function ResIndividual() {
               <div className='galeria'>
                 <div className='imagenPrincipalMain'>
                   <img className='imagenPrincipal'
-                    src={`http://localhost:4000/imagen/img/${imageMain?.URL}`}
+                    src={`${API}/imagen/img/${imageMain?.URL}`}
                     alt="Cow Image" />
                   <p style={{ cursor: 'pointer' }} onClick={onDeleteImage}>
                     Eliminar 
@@ -297,7 +298,7 @@ export function ResIndividual() {
                   {images?.map((item) => (
                     <img
                       key={item.ID}
-                      src={`http://localhost:4000/imagen/img/${item?.URL}`}
+                      src={`${API}/imagen/img/${item?.URL}`}
                       alt="Cow Image"
                       onClick={() => setImageMain(item)}
                     />

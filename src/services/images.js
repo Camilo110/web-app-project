@@ -1,5 +1,7 @@
+import API from "../config";
+
 export const getImages = async (id) => {
-  const response = await fetch(`http://localhost:4000/imagen/${id}`);
+  const response = await fetch(`${API}/imagen/${id}`);
   const {body} = await response.json()
   return body
 }
@@ -12,7 +14,7 @@ export const uploadImage = async (id, files, key) => {
   }
   formData.append('resID', id)
 
-  const response = await fetch('http://localhost:4000/imagen', {
+  const response = await fetch(`${API}/imagen`, {
       method: 'POST',
       body: formData,
   });
@@ -26,7 +28,7 @@ export const uploadImage = async (id, files, key) => {
 }
 
 export const deleteImage = async (id) => {
-  const response = await fetch(`http://localhost:4000/imagen/${id}`, {
+  const response = await fetch(`${API}/imagen/${id}`, {
       method: 'DELETE',
   });
   return response

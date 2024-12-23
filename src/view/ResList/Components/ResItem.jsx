@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { NumeroRes } from '../../../components/NumeroRes';
 import { daysToYearsandMonths } from "../../../utils/DaysToYearsandMonths";
 import PropTypes from 'prop-types'
+import API from "../../../config.js";
 
 export function ResItem({res : {ID: id, Numero, Nombre, Tipo, Edad, NumeroCrias, FincaNombre}}) {
 
@@ -13,7 +14,7 @@ export function ResItem({res : {ID: id, Numero, Nombre, Tipo, Edad, NumeroCrias,
   <div className="card">
         
         <Link to={`/res/${id}`}>
-          <img  style={{width:'300px', height:'180px'}} src={`http://localhost:4000/imagen/id/${id}`} alt="Cow Image"/>
+          <img  style={{width:'300px', height:'180px'}} src={`${API}/imagen/id/${id}`} alt="Cow Image"/>
         </Link>
        
 
