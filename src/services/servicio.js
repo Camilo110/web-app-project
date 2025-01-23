@@ -1,20 +1,27 @@
 import API from "../config";
+import { getHeadersAutorization } from '../utils/getHeaders.js';
 
 export const getServicio = async () => {
-  const resp = await fetch(`${API}/servicio`);
+  const resp = await fetch(`${API}/servicio`,{
+    headers: getHeadersAutorization()}
+  );
   const { body } = await resp.json();
   return body;
 }
 
 export const getServicioById = async (id) => {
-  const resp = await fetch (`${API}/servicio/${id}`);
+  const resp = await fetch (`${API}/servicio/${id}`,{
+    headers: getHeadersAutorization()}
+  );
   const { body } = await resp.json();
   const servicio = body;
   return servicio;
 }
 
 export const getServicioByIdRes = async (id) => {
-  const resp = await fetch (`${API}/servicio/res/${id}`);
+  const resp = await fetch (`${API}/servicio/res/${id}`,{
+    headers: getHeadersAutorization()}
+  );
   if (resp.status === 200) {
     const { body } = await resp.json();
     return body;
@@ -22,7 +29,9 @@ export const getServicioByIdRes = async (id) => {
 }
 
 export const getAllServicioWithInseminacion = async () => {
-  const resp = await fetch (`${API}/servicio/InseminacionOmonta`);
+  const resp = await fetch (`${API}/servicio/InseminacionOmonta`,{
+    headers: getHeadersAutorization()}
+  );
   if (resp.status === 200) {
     const { body } = await resp.json();
     return body;
@@ -31,7 +40,9 @@ export const getAllServicioWithInseminacion = async () => {
 }
 
 export const getServicioWithInseminacionById = async (id) => {
-  const resp = await fetch (`${API}/servicio/InseminacionOmonta/${id}`);
+  const resp = await fetch (`${API}/servicio/InseminacionOmonta/${id}`,{
+    headers: getHeadersAutorization()}
+  );
   if (resp.status === 200) {
     const { body } = await resp.json();
     return body;
@@ -39,7 +50,9 @@ export const getServicioWithInseminacionById = async (id) => {
 }
 
 export const getServicioWithInseminacionByIdRes = async (id) => {
-  const resp = await fetch (`${API}/servicio/res/InseminacionOmonta/${id}`);
+  const resp = await fetch (`${API}/servicio/res/InseminacionOmonta/${id}`,{
+    headers: getHeadersAutorization()}
+  );
   if (resp.status === 200) {
     const { body } = await resp.json();
     return body;
@@ -47,7 +60,9 @@ export const getServicioWithInseminacionByIdRes = async (id) => {
 }
 
 export const getAllSecado = async () => {
-  const resp = await fetch (`${API}/servicio/secado`);
+  const resp = await fetch (`${API}/servicio/secado`,{
+    headers: getHeadersAutorization()}
+  );
   if (resp.status === 200) {
     const { body } = await resp.json();
     return body;
@@ -56,7 +71,9 @@ export const getAllSecado = async () => {
 }
 
 export const getSecadoByIdRes = async (id) => {
-  const resp = await fetch (`${API}/servicio/res/secado/${id}`);
+  const resp = await fetch (`${API}/servicio/res/secado/${id}`,{
+    headers: getHeadersAutorization()}
+  );
   if (resp.status === 200){
     const { body } = await resp.json();
     return body;
@@ -67,9 +84,7 @@ export const updateServicio = async (id, body) => {
   console.log('body', body)
   const resp = await fetch(`${API}/servicio/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     body: JSON.stringify(body)
   });
   return resp
@@ -78,9 +93,7 @@ export const updateServicio = async (id, body) => {
 export const createServicio = async (body) => {
   const resp = await fetch(`${API}/servicio`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     body: JSON.stringify(body)
   });
   if (resp.status === 200) {
@@ -91,7 +104,8 @@ export const createServicio = async (body) => {
 }
 
 export const deleteServicio = async (id) => {
-  const resp = await fetch(`${API}/servicio/${id}`, {
+  const resp = await fetch(`${API}/servicio/${id}`,{
+    headers: getHeadersAutorization()}, {
     method: 'DELETE'
   });
   return resp

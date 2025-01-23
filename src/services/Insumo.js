@@ -1,13 +1,18 @@
 import API from "../config";
+import { getHeadersAutorization } from '../utils/getHeaders.js';
 
 export const getInsumo = async () => {
-  const resp = await fetch(`${API}/insumo`)
+  const resp = await fetch(`${API}/insumo`,{
+    headers: getHeadersAutorization()}
+  )
   const {body} = await resp.json()
   return body
 }
 
 export const getInsumoById = async (id) => {
-  const resp = await fetch(`${API}/insumo/${id}`)
+  const resp = await fetch(`${API}/insumo/${id}`,{
+    headers: getHeadersAutorization()}
+  )
   const {body} = await resp.json()
   return body
 }
@@ -15,9 +20,7 @@ export const getInsumoById = async (id) => {
 export const createInsumo = async (data) => {
     const resp = await fetch(`${API}/insumo`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: getHeadersAutorization(),
       body: JSON.stringify(data)
     });
     
@@ -34,9 +37,7 @@ export const createInsumo = async (data) => {
 export const updateInsumo = async (id, data) => {
   const resp = await fetch(`${API}/insumo/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     body: JSON.stringify(data)
   })
   if (resp.status === 200) {

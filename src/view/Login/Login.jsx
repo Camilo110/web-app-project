@@ -1,13 +1,34 @@
 import '../../styles/Login.css';
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
-  const onSubmit = () => {
-    console.log({ email, password })
-  }
+  const onSubmit = async () => {
+    console.log("user", email, password)
+    try {
+      const response = await fetch('http://localhost:4000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Email: email, Contrasena: password }),
+      });
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        navigate('/');
+      } else {
+        alert('Error de autenticación');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert('Error de autenticación');
+    }
+  };
 
   return (
     <div className="login">

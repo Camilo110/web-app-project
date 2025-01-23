@@ -1,6 +1,14 @@
 import '../../styles/User.css'
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../services/auth';
 
 export const User = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const onClickManual = () => {
     window.location.href = '/manual'
@@ -21,7 +29,10 @@ export const User = () => {
           <p><strong>Email:</strong> juan@gmail.com</p>
           <p><strong>Teléfono:</strong> 3204789564</p>
         </div>
-        <button> Editar </button>
+        <div className="opciones">
+          <button> Editar </button>
+          <button onClick={handleLogout}>Cerrar sesión</button>
+        </div>
       </div>
       <div className="manual-usuario">
       <button onClick={onClickManual}> Manual de Usuario </button>

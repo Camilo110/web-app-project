@@ -1,7 +1,10 @@
 import API from "../config";
+import { getHeadersAutorization } from '../utils/getHeaders.js';
 
 export const getProduccion = async () => {
-  const resp = await fetch(`${API}/produccionindividual`)
+  const resp = await fetch(`${API}/produccionindividual`,{
+    headers: getHeadersAutorization()}
+  )
   const {body} = await resp.json()
   return body
 }
@@ -10,9 +13,7 @@ export const CreateProduccionIndividual = async (data) => {
 
   const resp = await fetch(`${API}/produccionindividual`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     body: JSON.stringify(data)
     })
     if (resp.status === 200) {
@@ -25,9 +26,7 @@ export const CreateProduccionIndividual = async (data) => {
 export const EditProduccionIndividual = async (data, id) => {
   const resp = await fetch(`${API}/produccionindividual/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     body: JSON.stringify(data)
   })
   if (resp.status === 200) {
@@ -39,7 +38,8 @@ export const EditProduccionIndividual = async (data, id) => {
 
 export const DeleteProduccionIndividual = async (id) => {
   const resp = await fetch(`${API}/produccionindividual/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: getHeadersAutorization()
   })
 
   return resp

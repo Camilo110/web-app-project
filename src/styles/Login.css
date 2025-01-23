@@ -1,3 +1,9 @@
+.no-aside-container .containerMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .no-aside-container .containerMain .login {
   display: flex;
   flex-direction: column;

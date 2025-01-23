@@ -1,12 +1,17 @@
 import API from "../config";
+import { getHeadersAutorization } from '../utils/getHeaders.js';
 
 export const getResModal = async () => {
-  const resp= await fetch(`${API}/finca`);
+  const resp= await fetch(`${API}/finca`,{
+    headers: getHeadersAutorization()}
+  );
   console.log("CUIDADO")
   const {body} = await resp.json();
   const fincas = body.map(({ID, Nombre}) => ({ID, value: Nombre}));
 
-  const response= await fetch(`${API}/res`);
+  const response= await fetch(`${API}/res`,{
+    headers: getHeadersAutorization()}
+  );
   const {body: reses} = await response.json();
   const madres = reses.filter(({Sexo}) => Sexo === 'F').map(({ID, Nombre}) => ({ID, value: Nombre}))
   const padres = reses.filter(({Sexo}) => Sexo === 'M').map(({ID, Nombre}) => ({ID, value: Nombre}))
@@ -15,7 +20,9 @@ export const getResModal = async () => {
  }
 
  export const getProduccionModal = async () => {
-  const response= await fetch(`${API}/res`);
+  const response= await fetch(`${API}/res`,{
+    headers: getHeadersAutorization()}
+  );
   const {body: reses} = await response.json();
   const res = reses.map(({ID, Numero, Nombre, Sexo}) => ({ID, Numero, Nombre, Sexo, selected: false}))
 
@@ -23,21 +30,27 @@ export const getResModal = async () => {
  }
 
  export const getServiciosModal = async () => {
-  const response = await fetch(`${API}/res`);
+  const response = await fetch(`${API}/res`,{
+    headers: getHeadersAutorization()}
+  );
   const {body} = await response.json();
   const reses = body.map(({ID, Nombre}) => ({ID, value: Nombre}))
   return reses
  }
 
  export const getProveedor = async () => {
-  const response = await fetch(`${API}/proveedor`);
+  const response = await fetch(`${API}/proveedor`,{
+    headers: getHeadersAutorization()}
+  );
   const {body} = await response.json();
   const proveedores = body.map(({ID, Nombre}) => ({ID, value: Nombre}))
   return proveedores
  }
 
  export const getCliente = async () => {
-  const response = await fetch(`${API}/cliente`);
+  const response = await fetch(`${API}/cliente`,{
+    headers: getHeadersAutorization()}
+  );
   const {body} = await response.json();
   const clientes = body.map(({ID, Nombre}) => ({ID, value: Nombre}))
   return clientes

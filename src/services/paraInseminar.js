@@ -1,7 +1,10 @@
 import API from "../config";
+import { getHeadersAutorization } from '../utils/getHeaders.js';
  
  export const getAllParaInseminar = async () => {
-  const resp = await fetch(`${API}/paraInseminar`)
+  const resp = await fetch(`${API}/paraInseminar`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const {body} = await resp.json()
     return body
@@ -10,7 +13,9 @@ import API from "../config";
 }
 
 export const getParaInseminarbyId = async (id) => {
-  const resp = await fetch(`${API}/paraInseminar/${id}`)
+  const resp = await fetch(`${API}/paraInseminar/${id}`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const {body} = await resp.json()
     return body
@@ -19,7 +24,9 @@ export const getParaInseminarbyId = async (id) => {
 }
 
 export const getParaInseminarSugeridos = async () => {
-  const resp = await fetch(`${API}/paraInseminar/sugeridos`)
+  const resp = await fetch(`${API}/paraInseminar/sugeridos`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const {body} = await resp.json()
     return body
@@ -31,9 +38,7 @@ export const getParaInseminarSugeridos = async () => {
 export const createParaInseminar = async (paraInseminar) => {
   const resp = await fetch(`${API}/paraInseminar`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     body: JSON.stringify(paraInseminar)
   })
   const {body} = await resp.json()
@@ -43,9 +48,7 @@ export const createParaInseminar = async (paraInseminar) => {
 export const updateParaInseminar = async (id) => {
   const resp = await fetch(`${API}/paraInseminar/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers: getHeadersAutorization()
   })
   const {body} = await resp.json()
   return body

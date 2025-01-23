@@ -1,8 +1,10 @@
 import API from "../config";
+import { getHeadersAutorization } from '../utils/getHeaders.js';
 
 export async function getEnGestacion(){
-  const resp = await fetch(`${API}/reproduccion/engestacion`)
-
+  const resp = await fetch(`${API}/reproduccion/engestacion`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const { body } = await resp.json()
     return body
@@ -12,7 +14,9 @@ export async function getEnGestacion(){
 }
 
 export async function getInseminacionPorConfirmar(){
-  const resp = await fetch(`${API}/reproduccion/porconfirmar`)
+  const resp = await fetch(`${API}/reproduccion/porconfirmar`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const { body } = await resp.json()
     return body
@@ -22,9 +26,7 @@ export async function getInseminacionPorConfirmar(){
 
 export async function ConfirmarInseminacion(id){
   const resp = await fetch(`${API}/reproduccion/confirmarinseminacion/${id}`, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     method: 'PUT'
   })
 
@@ -36,9 +38,7 @@ export async function ConfirmarInseminacion(id){
 }
 export async function inseminacionFallida(id){
   const resp = await fetch(`${API}/reproduccion/inseminacionfallida/${id}`, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeadersAutorization(),
     method: 'PUT'
   })
 
@@ -49,8 +49,9 @@ export async function inseminacionFallida(id){
 }
 
 export async function getPartos(){
-  const resp = await fetch(`${API}/reproduccion/partos`)
-
+  const resp = await fetch(`${API}/reproduccion/partos`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const { body } = await resp.json()
     return body
@@ -60,8 +61,9 @@ export async function getPartos(){
 }
 
 export async function getParaSecado(){
-  const resp = await fetch(`${API}/reproduccion/parasecado`)
-
+  const resp = await fetch(`${API}/reproduccion/parasecado`,{
+    headers: getHeadersAutorization()}
+  )
   if (resp.status === 200) {
     const { body } = await resp.json()
     return body
