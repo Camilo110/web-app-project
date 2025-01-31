@@ -17,6 +17,8 @@
   box-shadow: var(--box-shadow);
   min-width: 300px;
   gap: 1rem;
+  background-color: var(--color-white
+);
 }
 
 .containerMain .user .user-content .user-image {
